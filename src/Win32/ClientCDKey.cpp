@@ -68,7 +68,7 @@ ClientCDKey::ClientCDKey(const ClientCDKey& theKeyR) :
 	mBinKey(theKeyR.mBinKey)
 {}
 
-	
+
 // Destructor
 ClientCDKey::~ClientCDKey()
 {}
@@ -512,7 +512,7 @@ ClientCDKey::DecryptKey(__int64& theBufR)
 		// Decrypt the key
 		WDBG_LL("ClientCDKey::DecryptKey Decrypting CDKey.");
 		BFSymmetricKey::CryptReturn aDecrypt(aSymKey.Decrypt(mBinKey.data(), mBinKey.size()));
-		auto_ptr<unsigned char>     aDelP(aDecrypt.first);
+		unique_ptr<unsigned char>     aDelP(aDecrypt.first);
 		if (aDecrypt.second != sizeof(theBufR))
 		{
 			WDBG_LM("ClientCDKey::DecryptKey Decrypt of key has bad length.");
@@ -549,7 +549,7 @@ ClientCDKey::EncryptKey(const __int64& theBufR) const
 		// Decrypt the key
 		WDBG_LL("ClientCDKey::EncryptKey Encrypting CDKey.");
 		BFSymmetricKey::CryptReturn anEncrypt(aSymKey.Encrypt(reinterpret_cast<const unsigned char*>(&theBufR), sizeof(theBufR)));
-		auto_ptr<unsigned char>     aDelP(anEncrypt.first);
+		unique_ptr<unsigned char>     aDelP(anEncrypt.first);
 		if (anEncrypt.second != BINARYKEY_LEN)
 		{
 			WDBG_LM("ClientCDKey::EncryptKey Encrypt of key has bad length.");

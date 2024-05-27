@@ -60,6 +60,9 @@
 #include "EasySocket/SocketPipe.h"
 #include "EasySocket/PipeCmd.h"
 #include "TitanInterface.h"
+
+#include <array>
+
 #include "ClientCDKey.h"
 #include "wassert.h"
 #include <crtdbg.h>
@@ -79,7 +82,7 @@ extern "C"
     void mgStartGameCB(void);
     void mgDisplayMsgBox(void);
     void mgDisplayMessage(char *message);
-    void clCommandMessage(char *msg);
+    void clCommandMessage(const char *msg);
     void LockMutex(void *mutex);
     void UnLockMutex(void *mutex);
 }
@@ -104,8 +107,8 @@ namespace {
     using WONMsg::BaseMessage;
     using WONMsg::MiniMessage;
     using WONMsg::SmallMessage;
-    using WONMsg::MMsgRoutingPeerDataMultiple::PeerDataMessage;
-    using WONMsg::MMsgRoutingReadDataObjectReply::DataObjectWithIds;
+    using WONMsg::MMsgRoutingPeerDataMultiple;
+    using WONMsg::MMsgRoutingReadDataObjectReply;
     using WONMisc::EasySocketEngine;
     using WONMisc::EasySocket;
     using WONMisc::ES_ErrorType;
@@ -137,15 +140,15 @@ namespace {
     const wchar_t* FACTORY_SERV  = L"TitanFactoryServer"; // Service name for factory servers
     const wchar_t* FIREWALL_SERV = L"TitanFirewallDetector"; // Service name for firewall servers
     const wchar_t* EVENT_SERV    = L"TitanEventServer"; // Service name for event servers
-    const WONCommon::RawBuffer VALIDVERSIONS_OBJ(reinterpret_cast<unsigned char*>("HomeworldValidVersions")); // Data object that contains valid Homeworld version strings    (attached to TitanServers dir)
-    const WONCommon::RawBuffer DESCRIPTION_OBJ(reinterpret_cast<unsigned char*>("Description")); // Data object that contains the HWDS server/chat room's description         (attached to Routing Server entries in Homeworld dir & Factory Server entries in the HWDS dir)
-    const WONCommon::RawBuffer ROOM_FLAGS_OBJ(reinterpret_cast<unsigned char*>("RoomFlags")); // Data object that contains the chat room flags                                (attached to Routing Server entries in Homeworld dir)
-    const WONCommon::RawBuffer ROOM_CLIENTCOUNT_OBJ(reinterpret_cast<unsigned char*>("__RSClientCount")); // Data object that contains some indication of a chat room's fullness (attached to Routing Server entries in Homeworld dir)
-    const WONCommon::RawBuffer FACT_CUR_SERVER_COUNT_OBJ(reinterpret_cast<unsigned char*>("__FactCur_RoutingServHWGame")); // Data object that contains the current number of game servers currently running on a particular machine/Factory Server (attached to Factory Server entries in HWDS dir)
-    const WONCommon::RawBuffer FACT_TOTAL_SERVER_COUNT_OBJ(reinterpret_cast<unsigned char*>("__FactTotal_RoutingServHWGame")); // Data object that contains the total number of game servers that have been run by a particular machine/Factory Server (attached to Factory Server entries in HWDS dir)
-    const WONCommon::RawBuffer SERVER_UPTIME_OBJ(reinterpret_cast<unsigned char*>("__ServerUptime")); // Data object that contains the number of seconds that a particular server has been up (attached to Factory Server entries in HWDS dir)
-    const unsigned char* gameTag = reinterpret_cast<unsigned char*>("HW"); // tag prepended to game names when creating Routing Server data types (game objects)
-    const unsigned char* keyTag  = reinterpret_cast<unsigned char*>("HK"); // tag prepended to game names when creating Routing Server data types (symmetric keys)
+    const WONCommon::RawBuffer VALIDVERSIONS_OBJ(reinterpret_cast<const unsigned char*>("HomeworldValidVersions")); // Data object that contains valid Homeworld version strings    (attached to TitanServers dir)
+    const WONCommon::RawBuffer DESCRIPTION_OBJ(reinterpret_cast<const unsigned char*>("Description")); // Data object that contains the HWDS server/chat room's description         (attached to Routing Server entries in Homeworld dir & Factory Server entries in the HWDS dir)
+    const WONCommon::RawBuffer ROOM_FLAGS_OBJ(reinterpret_cast<const unsigned char*>("RoomFlags")); // Data object that contains the chat room flags                                (attached to Routing Server entries in Homeworld dir)
+    const WONCommon::RawBuffer ROOM_CLIENTCOUNT_OBJ(reinterpret_cast<const unsigned char*>("__RSClientCount")); // Data object that contains some indication of a chat room's fullness (attached to Routing Server entries in Homeworld dir)
+    const WONCommon::RawBuffer FACT_CUR_SERVER_COUNT_OBJ(reinterpret_cast<const unsigned char*>("__FactCur_RoutingServHWGame")); // Data object that contains the current number of game servers currently running on a particular machine/Factory Server (attached to Factory Server entries in HWDS dir)
+    const WONCommon::RawBuffer FACT_TOTAL_SERVER_COUNT_OBJ(reinterpret_cast<const unsigned char*>("__FactTotal_RoutingServHWGame")); // Data object that contains the total number of game servers that have been run by a particular machine/Factory Server (attached to Factory Server entries in HWDS dir)
+    const WONCommon::RawBuffer SERVER_UPTIME_OBJ(reinterpret_cast<const unsigned char*>("__ServerUptime")); // Data object that contains the number of seconds that a particular server has been up (attached to Factory Server entries in HWDS dir)
+    const unsigned char* gameTag = reinterpret_cast<const unsigned char*>("HW"); // tag prepended to game names when creating Routing Server data types (game objects)
+    const unsigned char* keyTag  = reinterpret_cast<const unsigned char*>("HK"); // tag prepended to game names when creating Routing Server data types (symmetric keys)
     const char* ROUTINGSERV_CHAT = "RoutingServHWChat";
     const char* ROUTINGSERV_GAME = "RoutingServHWGame";
     const char* MEDIAMETRIX_URL = "http://homeworld.won.net";
@@ -154,7 +157,7 @@ namespace {
 
     const unsigned short CHAT_GROUP = 4;
 
-    char *VERIFIER_KEY_FILE_NAME = "kver.kp";       // took out const so C won't bitch
+    const char *VERIFIER_KEY_FILE_NAME = "kver.kp";       // took out const so C won't bitch
     const char *LOGIN_KEY_FILE_NAME = "login.ks";
 
     const unsigned char  LAN_GAMEKEY[GAMEKEY_SIZE] = {
@@ -1356,7 +1359,11 @@ SocketPipe* TitanInterface::ConnectTo(const Address& theDest, EasySocket::Socket
     if ( mIpType == ip )
         BuildAddress(reinterpret_cast<SOCKADDR_IN&>(anAddr), theDest.AddrPart.IP, theDest.Port);
     else
-        EasySocket::getSockAddrIpx(reinterpret_cast<SOCKADDR_IPX&>(anAddr), theDest.AddrPart.etherAddr, theDest.Port);
+    {
+        std::array<uint8_t, 6> buf{};
+        std::copy_n(&theDest.AddrPart.etherAddr[0], buf.size(), buf.begin());
+        EasySocket::getSockAddrIpx(reinterpret_cast<SOCKADDR_IPX&>(anAddr), buf, theDest.Port);
+    }
     return ConnectTo(anAddr, theType, thePrefixType);
 }
 
@@ -1388,7 +1395,11 @@ SocketPipe* TitanInterface::ConnectAndSend(const Address& theDest, const BaseMes
     if ( mIpType == ip )
         BuildAddress(reinterpret_cast<SOCKADDR_IN&>(anAddr), theDest.AddrPart.IP, theDest.Port);
     else
-        EasySocket::getSockAddrIpx(reinterpret_cast<SOCKADDR_IPX&>(anAddr), theDest.AddrPart.etherAddr, theDest.Port);
+    {
+        std::array<uint8_t, 6> buf{};
+        std::copy_n(&theDest.AddrPart.etherAddr[0], buf.size(), buf.begin());
+        EasySocket::getSockAddrIpx(reinterpret_cast<SOCKADDR_IPX&>(anAddr), buf, theDest.Port);
+    }
     return ConnectAndSend(anAddr, theMsgR, theType, thePrefixType);
 }
 SocketPipe* TitanInterface::ConnectAndSend(const SOCKADDR_IN& theDest, const BaseMessage& theMsgR, EasySocket::SocketType theType, WONMisc::RecvLengthPrefixType thePrefixType)
@@ -1815,7 +1826,8 @@ bool TitanInterface::ReadLoginKey(char *theKey) {
     aNum = fread(aKeyStruct,sizeof(LoginKeyStruct),aNum,aFile);
     fclose(aFile);
 
-    for(int n=0; n<aNum; n++) {
+    int n;
+    for(n=0; n<aNum; n++) {
         if((AUTHSERVER_ADDRESSES[mCurAuthServer].sin_addr.s_addr == aKeyStruct[n].authAddr) && (AUTHSERVER_ADDRESSES[mCurAuthServer].sin_port == aKeyStruct[n].authPort))
         {
             memcpy(theKey, aKeyStruct[n].loginKey, 8);
@@ -1842,8 +1854,8 @@ void TitanInterface::WriteLoginKey(char *theKey, bool useOldNewLoginKey) {
     LoginKeyStruct *aKeyStruct = NULL;
     LoginKeyStruct *aNewKeyStruct = new LoginKeyStruct[AUTHSERVER_NUM];
 
-    map<ClientNetAddr,unsigned char> anAddrMap;
-    map<ClientNetAddr,unsigned char>::iterator anItr;
+    std::map<ClientNetAddr,unsigned char> anAddrMap;
+    std::map<ClientNetAddr,unsigned char>::iterator anItr;
 
     if(aFile!=NULL) {
         aNum = fgetc(aFile);
@@ -2032,7 +2044,7 @@ void TitanInterface::AuthHandleChallenge(const WONMsg::TMessage &theMsgR) {
             return;
         }
 
-        auto_ptr<unsigned char> aDeleteCryptRet(aCryptRet.first);
+        unique_ptr<unsigned char> aDeleteCryptRet(aCryptRet.first);
 
         if(aCryptRet.second!=16) {
             titanDebug("FAIL: Challenge seed length != 16 bytes.");
@@ -2079,7 +2091,7 @@ void TitanInterface::AuthHandleChallenge(const WONMsg::TMessage &theMsgR) {
             return;
         }
 
-        auto_ptr<unsigned char> aDeleteReplyCrypt(aReplyCrypt.first);
+        unique_ptr<unsigned char> aDeleteReplyCrypt(aReplyCrypt.first);
 
         WONMsg::TMsgAuth1ConfirmHW aReply;
         aReply.SetRawBuf(aReplyCrypt.first,aReplyCrypt.second,true);
@@ -2236,7 +2248,7 @@ void TitanInterface::AuthHandleRefresh(void)
     CryptKeyBase::CryptReturn aCryptRet(NULL,0);
     aCryptRet = mPublicKeyBlock->EncryptRawBuffer((const unsigned char*)anEncryptBuf.GetDataPtr(),anEncryptBuf.GetDataLen());
 
-    auto_ptr<unsigned char> aDeleteCryptRet(aCryptRet.first);
+    unique_ptr<unsigned char> aDeleteCryptRet(aCryptRet.first);
 
     if(aCryptRet.first==NULL) {
         titanDebug("FAIL: Couldn't encrypt block with auth public key.");
@@ -2355,7 +2367,7 @@ void TitanInterface::PeerHandleChallenge(SocketPipe** thePipeP, const TMessage& 
 
         aCryptRet = mPrivateKey->Decrypt(aMsg.GetSecretB(),aMsg.GetSecretBLen());
 
-        auto_ptr<unsigned char> aDeleteCryptRet(aCryptRet.first);
+        unique_ptr<unsigned char> aDeleteCryptRet(aCryptRet.first);
 
         if(aCryptRet.second < 2 ||
             (*(unsigned short*)aCryptRet.first)!=aCryptRet.second - 2)
@@ -2386,7 +2398,8 @@ void TitanInterface::PeerHandleChallenge(SocketPipe** thePipeP, const TMessage& 
             aClientSecret = mFactClientSecret;
         }
         else {
-            for(int n=0; n<2; n++) {
+            int n;
+            for(n=0; n<2; n++) {
                 if(*thePipeP==mRoutePipe[n]) {
                     delete mRouteSessionKey[n]; delete mRouteClientSecret[n];
                     mRouteSessionKey[n] = new BFSymmetricKey(aCryptRet.second-2,aCryptRet.first+2);
@@ -2424,7 +2437,7 @@ void TitanInterface::PeerHandleChallenge(SocketPipe** thePipeP, const TMessage& 
         CryptKeyBase::CryptReturn aSecretCrypt(NULL, 0);
         aSecretCrypt = aCertificate.GetPubKey().Encrypt(aBuf.GetDataPtr(), aBuf.GetDataLen());
 
-        auto_ptr<unsigned char> aDeleteSecretCrypt(aSecretCrypt.first);
+        unique_ptr<unsigned char> aDeleteSecretCrypt(aSecretCrypt.first);
         if(aSecretCrypt.first==NULL) {
             titanDebug("FAIL: Unable to encrypt challenge2.");
 
@@ -2529,7 +2542,7 @@ void TitanInterface::PeerHandleComplete(SocketPipe** thePipeP, const TMessage& t
         CryptKeyBase::CryptReturn aCryptRet(NULL,0);
         aCryptRet = mPrivateKey->Decrypt(aMsg.GetRawBuf(),aMsg.GetRawBufLen());
 
-        auto_ptr<unsigned char> aDeleteCryptRet(aCryptRet.first);
+        unique_ptr<unsigned char> aDeleteCryptRet(aCryptRet.first);
 
         if(aCryptRet.second<2 ||
             (*(unsigned short*)aCryptRet.first != aCryptRet.second-2) ||
@@ -2695,7 +2708,7 @@ bool TitanInterface::EncryptNonTMessage(const BaseMessage &theInMsg, BaseMessage
         anEncryptSize+=2;
     }
 
-    auto_ptr<char> aDelBuf(aBuffer);
+    unique_ptr<char> aDelBuf(aBuffer);
 
     theOutMsg.ResetBuffer();
 
@@ -2715,7 +2728,7 @@ bool TitanInterface::EncryptNonTMessage(const BaseMessage &theInMsg, BaseMessage
     CryptKeyBase::CryptReturn aCryptRet(NULL,0);
     aCryptRet = theKey.Encrypt(aDataPtr,anEncryptSize);
 
-    auto_ptr<unsigned char> aDeleteCryptRet(aCryptRet.first);
+    unique_ptr<unsigned char> aDeleteCryptRet(aCryptRet.first);
 
     if(aCryptRet.first==NULL)
         return false;
@@ -2861,7 +2874,7 @@ bool TitanInterface::DecryptNonTMessage(const char *theBuf, unsigned long theLen
     else
         aCryptRet = mGameKey.Decrypt((const unsigned char*)aDataPtr,theLen - (aDataPtr - theBuf));
 
-    auto_ptr<unsigned char> aDeleteCryptRet(aCryptRet.first);
+    unique_ptr<unsigned char> aDeleteCryptRet(aCryptRet.first);
 
     if(aCryptRet.first==NULL) {
         titanDebug("FAIL: Unable to decrypt non-Tmessage.");
@@ -3647,7 +3660,7 @@ TitanInterface::SendPacketTo(Address* theAddressP, unsigned char titanMsgType,
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TitanInterface::threadProcess()
+int TitanInterface::threadProcess()
 {
     titanDebug("TitanInterface::threadProcess Starting up.");
 
@@ -3688,7 +3701,12 @@ TitanInterface::threadProcess()
 
         // get the local MAC address
         if ( mIpType == ipx )
-            mLanAdPipe->mEasySocketP->getLocalAddr(myAddress.AddrPart.etherAddr);
+        {
+            std::array<uint8_t, 6> addr{};
+            mLanAdPipe->mEasySocketP->getLocalAddr(addr);
+            std::copy_n(addr.begin(), addr.size(), &myAddress.AddrPart.etherAddr[0]);
+            // mLanAdPipe->mEasySocketP->getLocalAddr(myAddress.AddrPart.etherAddr);
+        }
         else
             myAddress.AddrPart.IP = GetLocalIPAddress();
         myAddress.Port = GAME_PORT;
@@ -3729,7 +3747,7 @@ TitanInterface::threadProcess()
                     titanDebug("TitanInterface::Out Queue too high at %d",numPendingOut);
                 }
 
-                auto_ptr<PipeCmd> aCmdP(aPipeP->RemoveCompletedCmd());
+                unique_ptr<PipeCmd> aCmdP(aPipeP->RemoveCompletedCmd());
                 if (aCmdP.get())
                 {
                     switch (aCmdP->GetType())
@@ -3831,7 +3849,7 @@ TitanInterface::HandleCloseCmd(SocketPipe* thePipeP)
     // Flush the pipe of any incoming recv commands
     while (thePipeP->HasCompletedIncomingCmds())
     {
-        auto_ptr<PipeCmd> aCmdP(thePipeP->RemoveCompletedIncomingCmd());
+        unique_ptr<PipeCmd> aCmdP(thePipeP->RemoveCompletedIncomingCmd());
         if (aCmdP->GetType() == WONMisc::pctRecvPrefixed)
             HandleRecvCmd(thePipeP, aCmdP.get(), true);
     }
@@ -4601,7 +4619,8 @@ void TitanInterface::HandleChannelList(WONMsg::DirEntityList& dirEntities)
 //    mRoutingAddrMap.clear();
 
     WONMsg::DirEntityList::iterator aEntityItr = dirEntities.begin();
-    for (int i=0; aEntityItr != dirEntities.end(); ++aEntityItr)
+    int i;
+    for (i=0; aEntityItr != dirEntities.end(); ++aEntityItr)
     {
         if (aEntityItr->mType == WONMsg::DirEntity::ET_SERVICE)
         {
@@ -5278,7 +5297,7 @@ TitanInterface::HandleRequestPackets(SocketPipe* thePipeP, const TitanPacketMsg&
         if(mSeqNum<=aPacket->lastPacket || aBeginPacket>aPacket->firstPacket)
             return;
 
-        std::list<basic_string<unsigned char> >::iterator anItr = mPacketList.begin();
+        std::list<std::basic_string<unsigned char> >::iterator anItr = mPacketList.begin();
         std::list<unsigned char>::iterator aTypeItr = mPacketTypeList.begin();
 
         while(aBeginPacket!=aPacket->firstPacket) {
@@ -6027,7 +6046,7 @@ void TitanInterface::HandleRoutingGetClientListReply(SocketPipe* thePipeP, const
     {
         WONMsg::MMsgRoutingGetClientListReply aGetClientListReply(theMsgR);
 
-        std::list<WONMsg::MMsgRoutingGetClientListReply::ClientData>::iterator itr = aGetClientListReply.GetClientList().begin();
+        std::list<WONMsg::MMsgRoutingGetClientListReply::ClientData>::const_iterator itr = aGetClientListReply.GetClientList().begin();
         for (; itr != aGetClientListReply.GetClientList().end(); itr++)
             OnNewRoutingServerClient(itr->mClientId, wstring(reinterpret_cast<const wchar_t*>(itr->mClientName.data()), itr->mClientName.size() / 2), itr->mIPAddress, theServer);
 
@@ -6131,7 +6150,7 @@ void TitanInterface::HandleRoutingPeerDataMultiple(SocketPipe* thePipeP, const M
     {
         WONMsg::MMsgRoutingPeerDataMultiple aPeerDataMultipleMsg(theMsgR);
 
-        std::list<PeerDataMessage>::iterator itr = aPeerDataMultipleMsg.GetMessageList().begin();
+        std::list<MMsgRoutingPeerDataMultiple::PeerDataMessage>::const_iterator itr = aPeerDataMultipleMsg.GetMessageList().begin();
         for (; itr != aPeerDataMultipleMsg.GetMessageList().end(); itr++)
             HandleRoutingPeerData(thePipeP, itr->mData, itr->mClientId, theServer);
     }

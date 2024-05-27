@@ -553,7 +553,7 @@ scriptEntry LanguageStrings[] =
     strEntry(strHOMEKEY),
     strEntry(strPAGEDOWNKEY),
     strEntry(strPAGEUPKEY),
-    strEntry(strBACKSLASHKEY,),
+    strEntry(strBACKSLASHKEY),
     strEntry(strPAUSEKEY),
     strEntry(strSCROLLKEY),
     strEntry(strPRINTKEY),
@@ -874,4 +874,3 @@ strGamesMessages strNameToEnum(char *string)
     }
     return(index);
 }
-

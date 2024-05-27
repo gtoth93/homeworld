@@ -139,7 +139,7 @@ public:
     void OnFinalLobbyExit(void);
     void OnCaptainStartedGame(void);
     void CreateMediaMetrixEditControl(void);
-    static bool TitanInterface::SaveWonstuff();
+    static bool SaveWonstuff();
 private:
     bool mUseRoutingServer; // Are we using a routing server for game communication?
     bool mUseOldScheme; // Old
@@ -401,8 +401,8 @@ private:
     void HandleRequestPackets(WONMisc::SocketPipe* thePipeP, const TitanPacketMsg& theMsgR);
 
     // Utility
-    ClientNetAddr TitanInterface::MakeClientNetAddr(Address* theAddressP);
-    void TitanInterface::InitDestAddress(Address* theAddressP, WONMisc::SocketPipe* thePipeP);
+    ClientNetAddr MakeClientNetAddr(Address* theAddressP);
+    void InitDestAddress(Address* theAddressP, WONMisc::SocketPipe* thePipeP);
     void BuildAddress(SOCKADDR_IN& theAddrR, long theIP, unsigned short thePort);
     void BuildAddress(SOCKADDR_IN& theAddrR, const WONCommon::RawBuffer& theSixBytes);
     void BuildAddress(SOCKADDR_IN& theAddrR, unsigned char buffer[]);
@@ -422,8 +422,8 @@ private:
     WONMisc::SocketPipe* ConnectAndSend(const Address& theDest, const WONMsg::BaseMessage& theMsgR, WONMisc::EasySocket::SocketType theType=WONMisc::EasySocket::TCP, WONMisc::RecvLengthPrefixType thePrefixType=WONMisc::ptUnsignedLong);
 
     static unsigned long GetHashSection(bool restart, unsigned char** theUnhashedBufP, unsigned char digest[MD5_HASH_SIZE]);
-    static void TitanInterface::ShortCircuitChallengeResponse(unsigned char* theSeed, unsigned char* theChallengeResponseP);
-    static bool TitanInterface::ReadFromWonstuff(bool restart, unsigned char* theBufferP);
+    static void ShortCircuitChallengeResponse(unsigned char* theSeed, unsigned char* theChallengeResponseP);
+    static bool ReadFromWonstuff(bool restart, unsigned char* theBufferP);
 };
 
 #endif // _TitanInterface_H

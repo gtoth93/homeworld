@@ -12,7 +12,7 @@
 #include "types.h"
 #include "commandlayer.h"
 
-void clCommandMessage(char CommandMessage[MAX_MESSAGE_LENGTH]);
+void clCommandMessage(const char CommandMessage[MAX_MESSAGE_LENGTH]);
 
 void clWrapMove(CommandLayer *comlayer,SelectCommand *selectcom,vector from,vector to);
 void clWrapAttack(CommandLayer *comlayer,SelectCommand *selectcom,AttackCommand *attackcom);

@@ -67,7 +67,7 @@ static real32 ACCELTHRESH = 8.0f;
 static real32 SIZE_MAJOR = 5.0f;
 static real32 SIZE_INC = 1.0f;
 static real32 SIZEINC_INC = 1.0f;
-static real32 SIZE_MAX = 42.0f;
+static real32 TRAILS_SIZE_MAX = 42.0f;
 static real32 XADJ = 8.0f;
 static real32 HALFWIDTH = 4.2f;
 static real32 HALFWIDTH_FALLOFF = 0.3f;
@@ -105,7 +105,7 @@ scriptEntry TrailTweaks[] =
     makeEntry(SIZE_MAJOR, scriptSetReal32CB),
     makeEntry(SIZE_INC, scriptSetReal32CB),
     makeEntry(SIZEINC_INC, scriptSetReal32CB),
-    makeEntry(SIZE_MAX, scriptSetReal32CB),
+    makeEntry(TRAILS_SIZE_MAX, scriptSetReal32CB),
     makeEntry(XADJ, scriptSetReal32CB),
     makeEntry(HALFWIDTH, scriptSetReal32CB),
     makeEntry(HALFWIDTH_FALLOFF, scriptSetReal32CB),
@@ -2451,4 +2451,3 @@ void trailMove(shiptrail* trail, vector *delta)
         segment->position[2] += delta->z;
     }
 }
-

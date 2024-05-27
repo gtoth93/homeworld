@@ -400,7 +400,7 @@ void mgGameListGameRemoved(tpscenario *thegame);
 void mgGameListGameChanged(tpscenario *thegame);
 void mgGameListNew(void);
 
-int titanLoadPublicKey(char *filename,unsigned char **buffer);
+int titanLoadPublicKey(const char *filename,unsigned char **buffer);
 
 int titanSaveWonstuff();
 
@@ -465,4 +465,3 @@ void titanWaitShutdown(void);
 void titanConnectingCancelHit(void);
 
 #endif
-

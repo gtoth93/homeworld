@@ -6593,7 +6593,7 @@ void chatReceiveUserJoinReply(short status, unsigned long userID)
             cNotifyChatBadResponse();
             return;
 
-        case StatusRouting_UserAlreadyExists:
+        // case StatusRouting_UserAlreadyExists:
         case StatusRouting_ClientAlreadyExists:
             mgDisplayMessage(strGetString(strErrorUserAlreadyExists));
             cNotifyChatBadResponse();
@@ -7035,7 +7035,7 @@ int authReceiveReply(sword status)
             break;
 
         case StatusAuth_DirtyWord:
-        case StatusAuth_InvalidName:
+        // case StatusAuth_InvalidName:
             mgDisplayMessage(strGetString(strInvalidName));
             mgDisplayMessage(strGetString(strHitCancelAgain));
             break;
@@ -7880,4 +7880,3 @@ void mgListOfServersInit(char *name, featom *atom)
         // add double click on server later    add later
     }
 }
-

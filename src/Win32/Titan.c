@@ -13,7 +13,7 @@
 
 //bool titanLogEnable = TRUE;
 
-void titanDebug(char *format, ...)
+void titanDebug(const char *format, ...)
 {
     if (logEnable)
     {
@@ -56,4 +56,3 @@ void titanLogFileClose(void)
 {
     ;
 }
-

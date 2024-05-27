@@ -9,9 +9,8 @@
 #ifndef ___TITAN_H
 #define ___TITAN_H
 
-void titanDebug(char *format, ...);
+void titanDebug(const char *format, ...);
 void titanLogFileOpen(void);
 void titanLogFileClose(void);
 
 #endif
-

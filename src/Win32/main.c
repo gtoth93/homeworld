@@ -311,8 +311,8 @@ char versionString[MAX_VERSION_STRING_LEN] = "";        // constructed at beginn
 
 
 //Windows-related handles
-HWND ghMainWindow;
-HINSTANCE ghInstance;
+void* ghMainWindow;
+void* ghInstance;
 UINT uHWCloseMsg;
 
 //location of window, for mouse movement and sizing
@@ -1284,7 +1284,7 @@ commandoption commandOptions[] =
     //entryVr("/captaincyLogOff",     captaincyLogEnable, FALSE,          " - turns off captaincy log file" ),
     //entryVr("/captaincyLogOn",      captaincyLogEnable, TRUE,           " - turns on captaincy log file" ),
     entryVr("/logOff",              logEnable, LOG_OFF,                 " - turns of network logging file"),
-    entryVr("/logOn",               logEnable, LOG_ON,,                 " - turns network logging file on"),
+    entryVr("/logOn",               logEnable, LOG_ON,                  " - turns network logging file on"),
     entryVr("/logOnVerbose",        logEnable, LOG_VERBOSE,             " - turns verbose network logging file on"),
     entryFnParam("/logFilePath",    SpecifyLogFilePath,                 "=filepath.txt"),
     entryFn("/debugSync",           EnableDebugSync,                    " autosaves game frequently, records packets, logonverbose" ),

@@ -830,7 +830,7 @@ void PrintAddressToString(char *buffer,Address *address)
     }
 }
 
-int titanLoadPublicKey(char *filename,unsigned char** buffer)
+int titanLoadPublicKey(const char *filename,unsigned char** buffer)
 {
     sdword fileLength = fileSizeGet(filename, 0);
     (*buffer) = (unsigned char*)malloc(fileLength);
@@ -919,4 +919,3 @@ void titanInvalidCDKeyCB(void)
     return;
 }
 #endif
-

@@ -130,7 +130,7 @@ set(Game_sources
         "${CMAKE_CURRENT_SOURCE_DIR}/autolod.c"
         "${CMAKE_CURRENT_SOURCE_DIR}/hash.c"
         "${CMAKE_CURRENT_SOURCE_DIR}/BitIO.c"
-        "${CMAKE_CURRENT_SOURCE_DIR}/LZSS.C"
+        "${CMAKE_CURRENT_SOURCE_DIR}/LZSS.c"
         "${CMAKE_CURRENT_SOURCE_DIR}/options.c"
         "${CMAKE_CURRENT_SOURCE_DIR}/bmp.c"
         "${CMAKE_CURRENT_SOURCE_DIR}/knitransform.cpp"

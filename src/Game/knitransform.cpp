@@ -129,38 +129,38 @@ static void kniTransGrowVertexLists(int n)
     Outputs     :
     Return      : 1 (supported) or 0 (not supported)
 ----------------------------------------------------------------------------*/
-static int chkxmmbits(void)
-{
-    static unsigned int cpu_eax, cpu_edx;
-    int hasSFXSR, hasEM;
-
-    _asm
-    {
-        pusha
-        mov eax, CR4
-        mov [cpu_eax], eax
-        popa
-    }
-    hasSFXSR = (cpu_eax & SFXSR_BIT) ? 1 : 0;
-
-    _asm
-    {
-        pusha
-        mov eax, CR0
-        mov [cpu_eax], eax
-        popa
-    }
-    hasEM = (cpu_eax & EM_BIT) ? 1 : 0;
-
-    if (hasSFXSR && !hasEM)
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
-}
+// static int chkxmmbits(void)
+// {
+//     static unsigned int cpu_eax, cpu_edx;
+//     int hasSFXSR, hasEM;
+//
+//     _asm
+//     {
+//         pusha
+//         mov eax, CR4
+//         mov [cpu_eax], eax
+//         popa
+//     }
+//     hasSFXSR = (cpu_eax & SFXSR_BIT) ? 1 : 0;
+//
+//     _asm
+//     {
+//         pusha
+//         mov eax, CR0
+//         mov [cpu_eax], eax
+//         popa
+//     }
+//     hasEM = (cpu_eax & EM_BIT) ? 1 : 0;
+//
+//     if (hasSFXSR && !hasEM)
+//     {
+//         return 1;
+//     }
+//     else
+//     {
+//         return 0;
+//     }
+// }
 
 /*-----------------------------------------------------------------------------
     Name        : transDetermineKatmaiSupport
@@ -809,4 +809,3 @@ extern "C" void transGeneralPerspectiveTransform_intrin(int nVerts, hvector* des
         }
     }
 }
-

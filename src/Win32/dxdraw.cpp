@@ -22,7 +22,7 @@ static unsigned int bActive = 0;
 extern "C" unsigned int fullScreen;
 
 
-static char* ddReportError(HRESULT hr);
+static const char* ddReportError(HRESULT hr);
 
 
 /*-----------------------------------------------------------------------------
@@ -207,9 +207,9 @@ extern "C" unsigned int ddActivate(int activate)
     Outputs     :
     Return      : error string, or "???" if not in table
 ----------------------------------------------------------------------------*/
-static char* ddReportError(HRESULT hr)
+static const char* ddReportError(HRESULT hr)
 {
-    char* str;
+    const char* str;
 
     switch (hr)
     {

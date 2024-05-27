@@ -154,7 +154,7 @@ real32		    *FreqLUT;
 real32  DefaultEQ[SOUND_EQ_SIZE];
 real32  MasterEQ[SOUND_EQ_SIZE] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
 
-extern HWND ghMainWindow;
+extern void* ghMainWindow;
 extern bool nisIsRunning;
 
 MCI_OPEN_PARMS MCIOpen;                     // MCI_OPEN structure
@@ -559,7 +559,7 @@ void soundEventSetActorFlag(sdword actorflag, bool bOn)
 void SEprecalcVolTables(void)
 {
     sdword i, j, index;
-	
+
 	/* do some precalculations on the volume and range tables, saves a divide, compare, 2 [] and 2 subtractions for every volume update */
 	for (j = 0; j < (VolumeLUT->rows * VolumeLUT->columns); j += VolumeLUT->columns)
 	{
@@ -765,15 +765,15 @@ void soundEventStopSFX(real32 fadetime)
     Ship *ship;
     Derelict *pDerelict;
     Node *objnode = universe.RenderList.tail;
-	
+
 	if (enableSFX)
 	{
 		soundstopallSFX(fadetime, FALSE);
-	
+
 		while (objnode != NULL)
 		{
 			ship = (Ship *)listGetStructOfNode(objnode);
-	
+
 			if (ship->objtype == OBJ_DerelictType)
 			{
 				pDerelict = (Derelict *)ship;
@@ -1033,7 +1033,7 @@ void soundEventUpdate(void)
 		// ok, now we're into the SHIP stuff
         shipclass = ship->staticinfo->shipclass;
         dist = (real32)fsqrt(ship->cameraDistanceSquared);
-		
+
 		// a little hack here so that these ships have reasonable volume curves
 		if (ship->shiptype == MiningBase)
 		{
@@ -1107,7 +1107,7 @@ void soundEventUpdate(void)
 		vol = SEequalize(shipclass, dist, tempEQ);
 		shipangle = SEgetAngleToCamera(ship);
 		velocity = fsqrt(vecMagnitudeSquared(ship->posinfo.velocity));
-		
+
 		// need this for setting the music volume
 		if (dist < nearestShipDistance)
 		{
@@ -1234,7 +1234,7 @@ void soundEventUpdate(void)
 				{
 					ship->soundevent.engineState = SOUND_PLAYING;
 				}
-	
+
 				soundvolume(ship->soundevent.engineHandle, vol);
 				soundpan(ship->soundevent.engineHandle, pan);
 				if (velratio > 1.0f)
@@ -1243,7 +1243,7 @@ void soundEventUpdate(void)
 				}
 				soundequalize(ship->soundevent.engineHandle, tempEQ);
 			}
-	
+
 			if (shipclass == CLASS_Fighter)
 			{
 				if (FIGHTER_DOPPLER_USEVELOCITY)
@@ -1269,7 +1269,7 @@ void soundEventUpdate(void)
 		}
 
 othersounds:
-		// now we deal with the special sounds, ambients, damage ambients and random ambients			
+		// now we deal with the special sounds, ambients, damage ambients and random ambients
 		if (!SEinrange(shipclass + AMBIENT_OFFSET, dist))
 		{
 			SEstopsoundhandle(&(ship->soundevent.specialHandle), SOUND_FADE_STOPNOW);
@@ -1296,7 +1296,7 @@ othersounds:
 				{
 					specialon = TRUE;
 					ambienton = FALSE;
-					
+
 					if ((ship->soundevent.specialHandle == SOUND_NOTINITED) ||
 						soundover(ship->soundevent.specialHandle))
 					{
@@ -1438,13 +1438,13 @@ othersounds:
 						{
 							ambient = ShipCmn_HeavyDamage;
 						}
-						
+
 						// only play if a damage should be on
 						ship->soundevent.damageHandle = splayEPRV(ShipBank, ShipCmnEventsLUT->lookup[GetPatch(ShipCmnEventsLUT, ship->shiptype, ambient)],
 																   tempEQ, pan, SOUND_PRIORITY_LOW, vol);
 					}
 				}
-				
+
 				ship->soundevent.lastAmbient = ambient;
 			}
 			else
@@ -1457,7 +1457,7 @@ othersounds:
 					if (damageratio < SFX_DAMAGERATIO_LIGHT)
 					{
 						damageOn = TRUE;
-						
+
 						if (damageratio > SFX_DAMAGERATIO_MEDIUM)
 						{
 							ambient = ShipCmn_LightDamage;
@@ -1483,7 +1483,7 @@ othersounds:
 																	   tempEQ, pan, SOUND_PRIORITY_LOW, vol);
 							ship->soundevent.lastAmbient = ambient;
 						}
-						
+
 						// set the parameters for the damage sound
 						soundvolume(ship->soundevent.damageHandle, vol);
 						soundpan(ship->soundevent.damageHandle, pan);
@@ -1582,7 +1582,7 @@ othersounds:
 			}
 		}
 
-playgimbles:		
+playgimbles:
 		// NEW Gimble stuff
 		if (ship->gunInfo != NULL)
 		{
@@ -1712,18 +1712,18 @@ void soundEventUpdate(void)
 					ship->soundevent.engineState = SOUND_PLAYING;
 				}
 			}
-	
+
 			/* set volume */
 			soundvolume(ship->soundevent.engineHandle, ship->soundevent.engineVol);
-	
+
 			/* set pan */
 			soundpan(ship->soundevent.engineHandle, ship->soundevent.pan);
-	
+
 			/* set equalization */
 			soundequalize(ship->soundevent.engineHandle, tempEQ);
 		}
 	}
-	
+
 	for (i = 0; i < SFX_MAX_CAPENGINES; i++)
 	{
 		ship = capships[i];
@@ -1731,7 +1731,7 @@ void soundEventUpdate(void)
 		{
 			/* EQ this puppy */
 			SEeq(ship->staticinfo->shipclass, ship->soundevent.distance, tempEQ);
-	
+
 			if (ship->soundevent.engineHandle == SOUND_NOTINITED)
 			{
 				/* start the engine sound */
@@ -1747,13 +1747,13 @@ void soundEventUpdate(void)
 						ship->soundevent.engineState = SOUND_PLAYING;
 					}
 				}
-		
+
 				/* set volume */
 				soundvolume(ship->soundevent.engineHandle, ship->soundevent.engineVol);
-		
+
 				/* set pan */
 				soundpan(ship->soundevent.engineHandle, ship->soundevent.pan);
-		
+
 				/* set equalization */
 				soundequalize(ship->soundevent.engineHandle, tempEQ);
 			}
@@ -1768,7 +1768,7 @@ void soundEventUpdate(void)
 		{
 			/* EQ this puppy */
 			SEeq(ship->staticinfo->shipclass, ship->soundevent.distance, tempEQ);
-	
+
 			if (ship->soundevent.engineHandle == SOUND_NOTINITED)
 			{
 				/* start the engine sound */
@@ -1940,7 +1940,7 @@ void SEupdateShipRange(void)
     ShipClass shipclass;
 	sdword i;
 
-	
+
 	numMoships = 0;
 
     while (objnode != NULL)
@@ -1957,9 +1957,9 @@ void SEupdateShipRange(void)
         if (SEinrangeSqr(shipclass, ship->cameraDistanceSquared))
 		{
 			ship->soundevent.distance = (real32)fsqrt(ship->cameraDistanceSquared);
-			
+
 			ship->soundevent.coverage = rndComputeOverlap(ship, 1.0);	// make 1.0 tweakable in a script
-	
+
 			ship->soundevent.pan = getPanAngle(ship->enginePosition);
 
 			ship->soundevent.engineVol = SEcalcvol(shipclass, ship->soundevent.distance);	// want to modify the volume by the coverage and a tweak to modify the effect of coverage
@@ -1973,7 +1973,7 @@ void SEupdateShipRange(void)
 		{
 			ship->soundevent.engineVol = 0;
 		}
-		
+
 		if (ship->soundevent.engineVol > 0)
 		{
 			tempship = ship;
@@ -2074,7 +2074,7 @@ void soundEventInitStruct(SOUNDEVENT *pseStruct)
 void soundEventShipDied(Ship *deadship)
 {
 	soundEventShipRemove(deadship);
-	
+
 	if (deadship != NULL)
 	{
 		deadship->soundevent.engineHandle = SOUND_SHIP_EXPLODED;
@@ -2285,7 +2285,7 @@ sword SEequalize(sdword objtype, real32 distance, real32 *eq)
 
 			mult = ((real32)RangeLUT->lookup[index] - distance) * RangeFloatLUT[index];
 			vol = volSFX * ((real32)VolumeLUT->lookup[index] + (mult * VolumeFloatLUT[index]));
-			
+
 			if (vol < SFX_MIN_PERCEPTABLE_VOL)
 			{
 				vol = 0;
@@ -2646,7 +2646,7 @@ sword getPanAngle(vector WorldVector, real32 objsize, real32 distance)
 	{
 		return ((sword)SOUND_PAN_CENTER);
 	}
-	
+
 	vecSub(CameraToPoint, WorldVector, mrCamera->eyeposition);
     vecSub(CameraLookAt, mrCamera->lookatpoint, mrCamera->eyeposition);
 
@@ -2705,5 +2705,3 @@ sword SEgetAngleToCamera(Ship *ship)
 
     return((sword) (angle*PI_UNDER_180));
 }
-
-

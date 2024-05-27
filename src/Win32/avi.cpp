@@ -195,7 +195,7 @@ void aviShowFrame(BITMAPINFO* pMap)
     XbmSize = pMap->bmiHeader.biWidth;
     YbmSize = pMap->bmiHeader.biHeight;
 
-    hdc = GetDC(ghMainWindow);
+    hdc = GetDC(static_cast<HWND>(ghMainWindow));
     g_hBitmap = CreateDIBSection(hdc, pMap, DIB_RGB_COLORS, (VOID**)&g_pBitmap, NULL, NULL);
     SetDIBits(hdc, g_hBitmap, 0, YbmSize, (BYTE*)(&pMap->bmiColors), pMap, DIB_RGB_COLORS);
 
@@ -216,7 +216,7 @@ void aviShowFrame(BITMAPINFO* pMap)
     BitBlt(hdc, xOffset, yOffset, XbmSize, YbmSize, hdcTemp, 0, 0, SRCCOPY);
 
     DeleteDC(hdcTemp);
-    ReleaseDC(ghMainWindow, hdc);
+    ReleaseDC(static_cast<HWND>(ghMainWindow), hdc);
 
     DeleteObject(g_hBitmap);
 }
