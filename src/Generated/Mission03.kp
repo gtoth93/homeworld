@@ -1,0 +1,4032 @@
+#line 1 "C:\\Users\\Coldboy\\ClionProjects\\homeworld_cmake\\src\\SinglePlayer\\Mission03.kas"
+
+
+
+
+#line 1 "C:\\Users\\Coldboy\\ClionProjects\\homeworld_cmake\\src\\Game\\speechevent.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+							
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+													
+													
+
+													
+													
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+												
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#line 6 "C:\\Users\\Coldboy\\ClionProjects\\homeworld_cmake\\src\\SinglePlayer\\Mission03.kas"
+
+    LOCALIZATION 
+
+
+
+
+
+
+
+
+
+
+
+
+
+        LSTRING_LCLocationCard
+            "KHARAK SYSTEM"
+            "SYSTEME KHARAK"
+            "KHARAK-SYSTEM"
+            "SISTEMA DE KHARAK"
+			"SISTEMA DI KHARAK"
+
+        LSTRING_FCFleetCommandFreaks
+            "It's gone. . .Everything's gone!. . .Kharak is burning!"
+            "Disparu. . . Tout a disparu !. . . Kharak est en flammes !"
+            "Nichts ... Alles ist weg! ... ... Kharak steht in Flammen!"
+            "Ha desaparecido. . Todo ha desaparecido. . ÌKharak estﬂ en llamas!"
+			"+ perduto‡ Tutto F perduto! Kharak sta bruciando!"
+
+        LSTRING_FINervousIntel
+            "A-Analyzing Kharak... \nNorthern polar regions have been consumed by some kind of firestorm.  All cities still burning... Average surface temperature two six four.  The Scaffold has been destroyed.  All orbital facilities destroyed.  Significant debris ring in low Kharak orbit.\n\nReceiving no communications from anywhere in the system... Not even automated beacons."
+            "Bilan de la situation a Kharak... \nRTgions polaires septentrionales dTvastTes par tornade de flammes.  TotalitT zones urbaines flambe encore ... TempTrature moyenne en surface deux soixante-quatre. Echafaud dTtruit. TotalitT installations orbitales dTtruite. Anneau de dTbris rTvTlateur sur orbite infTrieure de Kharak.\n\nRTception nulle des communications venant d'aucun point du systFme... Pas mOme des balises autonomes."
+            "Analyse von Kharak ... \nDie n˜rdlichen Polarregionen wurden von einer Art Feuersturm vernichtet. Die StSdte stehen noch immer in Flammen ... Durchschnittliche OberflSchentemperatur bei Zwo-Sechs-Vier. Die Rampe wurde zerst˜rt. Alle Orbit-Einrichtungen vernichtet. AuffSlliger Trnmmerring im niedrigen Orbit um Kharak.\n\nKeinerlei Kommunikation im System zu empfangen ... Nicht einmal stationSre Signale."
+            "Analizando Kharak... \nUna especie de tormenta de fuego ha destruido el polo norte.  Todas las ciudades siguen ardiendo. Temperatura media de la superficie: 128 grados.  El andamio ha sido destruido.  Todas las instalaciones orbitales estﬂn destruidas.  Considerable anillo de residuos en la =rbita baja de Kharak.\n\nNo se reciben comunicaciones de ning∑n lugar del sistema... Ni siquiera llegan balizas automﬂticas."
+			"A-Analisi di Kharak... \nLe regioni polari settentrionali sono state martoriate da una sorta di tempesta di fuoco. Tutte le citta stanno ancora bruciando... La temperatura media della superficie F di 264 gradi. Lo Scaffold F stato distrutto. Tutti i centri orbitali sono stati distrutti. Significativi anelli di frammenti nella bassa orbita di Kharak.\n\nMancata ricezione di comunicazioni provenienti dal sistema, non ricevo nemmeno i radiofari automatici."
+
+        LSTRING_FCFleetCommandHasHope
+            "Wait!  On the maintenance frequency.  I'm getting a signal from the Cryogenic Tray systems in orbit.  One of them is suffering a massive malfunction."
+            "Attendez ! Sur la frTquence de maintenance, je retois un signal des plates-formes cryogTniques placTes sur orbite. DTfaillance massive d'une des unitTs."
+            "Moment mal! Auf der Wartungsfrequenz ... Ich fange da ein Signal von den im Orbit befindlichen KSlteschlaf-Containersystemen auf. Eines davon zeigt eine massive Fehlfunktion."
+            "ÌEspera! En la frecuencia de mantenimiento. Recibo una se±al de los sistemas de soporte criogTnico en =rbita. Uno de ellos tiene graves problemas de funcionamiento."
+			"Un attimo! Sulla frequenza di manutenzione... Sto ricevendo un segnale dalle Camere Criogeniche orbitali. In una di esse, si F verificato un grave guasto."
+
+
+
+
+
+
+        
+        LSTRING_FIGetThoseGuys
+            "The Cryo Trays are under attack.  Defend them."
+            "Les modules cryogTniques sont attaquTs. DTfendez-les"
+            "Die KSlteschlaf-Container werden angegriffen. Sie mnssen verteidigt werden. "
+			"Estﬂn atacando los soportes criogTnicos. DefiTndelos."
+			"Le camere criogeniche sono sotto attacco: difendile."
+
+        
+        LSTRING_OBDefendCryos
+            "Defend cryo trays"
+            "DTfendre les modules cryogTniques"
+            "KSlteschlaf-Container verteidigen."
+			"Defiende los soportes criogTnicos"
+			"Difendi le camere criogeniche"
+
+        
+        LSTRING_FIThoseGuysAreMeanies
+            "These ships are not, repeat NOT related to the hostile units we previously encountered.  We must capture at least one vessel to find out who is responsible for this genocide.  Intelligence is vital to our immediate survival."
+            "Plates-formes cryos attaquTes.\n\nPar vaisseaux non-apparentTs, je souligne NON-apparentTs, aux unitTs hostiles rencontrTes prTcTdemment. Il est nTcessaire de capturer au moins une unitT pour dTterminer qui est responsable de ce gTnocide. Notre survie immTdiate dTpend des Renseignements."
+            "Die KSlteschlaf-Container werden angegriffen.\n\nDiese Schiffe haben nichts, ich wiederhole NICHTS, mit den frnher angetroffenen feindlichen Einheiten zu tun. Wir mnssen wenigsten ein Schiff nbernehmen, um herauszufinden, wer fnr diesen Genozid verantwortlich ist. Informationen sind fnr unser _berleben jetzt SuØerst wichtig."
+			"Estas naves no estﬂn, repito, no estﬂn relacionadas con las unidades hostiles encontradas anteriormente. Debemos capturar al menos una nave para descubrir al responsable de este genocidio. La inteligencia es bﬂsica para la supervivencia inmediata."
+			"Queste navi non sono, ripeto, NON sono collegate alle unita ostili che abbiamo incontrato in precedenza. Dobbiamo catturare almeno un vascello per scoprire chi F il responsabile di questo genocidio. Queste informazioni sono vitali per la nostra sopravvivenza."
+
+        LSTRING_OBObjective1
+            "Capture enemy ship using 2 Salvage Corvettes"
+            "Capture UnitT ennemie avec 2 Corvettes de Recuperation"
+            "Feindliches Schlachtschiff mit 2 Bergungskorvetten erobern."
+			"Captura la nave enemiga utilizando 2 corbetas de salvamento"
+			"Cattura l'astronave nemica con 2 Corvette di Recupero"
+
+        
+        LSTRING_FIWeveKilledTheMeanies
+            "Enemy units neutralized.  Begin salvaging the cryo trays."
+            "UnitTs ennemies neutralisTes. RTcupTrez les modules cryogTniques."
+            "Feindliche Einheiten neutralisiert. Beginnen Sie mit der Bergung der KSlteschlaf-Container."
+			"Neutralizadas las unidades enemigas. Comienza el rescate de los soportes criogTnicos."
+			"Unita nemica neutralizzata. Comincia il recupero delle camere criogeniche."
+
+        LSTRING_OBSalvageCryos
+            "Salvage cryo trays"
+            "Sauver les plates-formes"
+            "Container abholen"
+			"Rescata los soportes criogTnicos"
+			"Recupera le camere criogeniche"
+
+        
+        LSTRING_FCSaveThoseCryos
+            "The people in those trays are all that remain of our people.  Without them, we will become extinct."
+            "Les individus a bord des plates-formes sont les derniers survivants de notre espFce. S'ils disparaissent, c'est l'extinction."
+            "Die Menschen in diesen Containern sind der ganze Rest unseres Volkes. Ohne sie werden wir aussterben."
+			"Las personas que se encuentran en esos soportes son todo lo que queda de nuestro pueblo. Sin ellos nos extinguiremos."
+			"Le persone in quelle camere criogeniche sono tutto ci= che resta della nostra razza. Senza di loro, siamo destinati all'estinzione."
+
+        LSTRING_OBObjective2
+            "Destroy remaining enemy ships"
+            "Destruction reliquat flotte ennemie"
+            "Verbleibende feindliche Schiffe vernichten."
+            "Destruir las naves enemigas restantes"
+			"Distruggi le navi nemiche restanti"
+
+        LSTRING_FIFoundRecording
+            "Hostile vessel captured.  Crew interned.  Interrogation will take place on a neuronic level.  Subjects will not survive.  While searching the enemy ship's computer systems, we came across these flight recordings."
+            "Vaisseau hostile capturT. Equipage internT. Interrogatoire neurophysiologique imminent.  Survie des sujets impossible. Nous sommes tombTs sur ces enregistrements de vol pendant la fouille des systFmes informatiques du vaisseau ennemi."
+            "Feindliches Schiff nbernommen. Mannschaft gefangen genommen. Befragung wird auf neuronaler Stufe durchgefnhrt. Die Untersuchungsobjekte werden nicht nberleben. Bei der Untersuchung der Computersysteme des feindlichen Schiffs sind wir auf folgende Flugdaten gestoØen."
+            "Nave enemiga capturada.  Tripulaci=n bajo custodia.  Serﬂn sometidos a interrogatorio neuronal.  No sobrevivirﬂn.  Al examinar los sistemas informﬂticos de la nave enemiga hemos encontrado estos cuadernos de bitﬂcora."
+			"Vascello nemico catturato, l'equipaggio F stato internato per l'interrogatorio a livello neurologico. I soggetti non sopravviveranno. Nell'esame dei computer della nave nemica, abbiamo trovato alcuni dati del registratore di volo."
+
+        LSTRING_FITheyreBiggerThanUs
+            "...Analysis of the recording indicates that the Kharak missile defenses heavily damaged the attacking fleet.\n\nHowever, we have concluded that they can still easily defeat us.  Based on scanner telemetry recovered from the Khar-Selim, we have plotted a course to a deep space asteroid belt.\n\nOnce we have built a sufficient attack fleet there, we will be ready to track down the enemy and destroy them."
+            "...AprFs examen, ces enregistrements indiquent que les batteries de missiles defensifs de Kharak ont infligT des pertes importantes a l'agresseur.\n\nMais ses forces restent bien supTrieures aux n(tres. A partir des donnTes tTlTmTtriques numTrisTes rTcupTrTes au Khar-Selim, nous nous sommes dTterminT une trajectoire vers une ceinture d'asterondes lointaine.\n\nDe la, aprFs avoir rassemblT une flotte d'attaque suffisante, nous pourrons pourchasser l'ennemi et l'anTantir."
+            "... Die Analyse der Aufzeichnungen zeigen, dass die Raketenverteidigung von Kharak der angreifenden Flotte schwere SchSden zugefngt hat.\n\nTrotzdem sind wir der _berzeugung, dass der Feind uns noch immer mit Leichtigkeit besiegen kann. Basierend auf den Scanner-Telemetrie-Daten, die von der Khar-Selim geborgen wurden, haben wir einen Kurs zu einem weit entlegenen Asteroidengnrtel berechnet.\n\nSobald wir dort eine genngend groØe Angriffsflotte gebaut haben, k˜nnen wir den Feind stellen und vernichten."
+            "El anﬂlisis de la grabaci=n indica que las defensas de misiles de Kharak han provocado graves da±os a la flota de ataque.\n\nSin embargo, creemos que pueden derrotarnos con facilidad.  A partir de la telemetrfa recuperada del Khar-Selim hemos trazado un curso a un cintur=n de asteroides en el espacio profundo.\n\nCuando hayamos creado una flota de ataque suficiente, estaremos preparados para seguir al enemigo y destruirlo."
+			"... Le analisi dei dati indicano che le difese missilistiche di Kharak hanno inflitto pesanti danni alla flotta attaccante.\n\nPurtroppo, i nostri nemici sembrano in grado di sconfiggerci con facilita. Usando i dati delle scansioni recuperate dal Khar-Selim, abbiamo elaborato una rotta verso una cintura asteroidale nello spazio profondo.\n\nLa assembleremo una forza d'attacco sufficientemente forte da rintracciare e distruggere il nemico."
+
+        LSTRING_FIResearchTaken
+            "Our research division has analyzed the captured frigate.  We have reverse engineered their drive technology and developed plans for two new ships. The Support Frigate will provide repair and refuel service to Strike Craft in the field.The Resource Controller will allow for remote collection of resources.  Plans for a third vessel are underway, but first the captured Frigate's chassis must be researched."
+            "La FrTgate capturTe a TtT analysTe par notre service scientifique. L'inversion de leur technologie de propulsion a permis de tracer les plans de deux nouveaux vaisseaux. La FrTgate d'assistance assurera la rTparation et le ravitaillement des UnitTs lTgFres en action. Le Contr(leur des Ressources  permettra la collecte lointaine de ressources. La conception d'un troisiFme vaisseau continuera aprFs l'analyse technique du chGssis de la FrTgate capturTe."
+            "Unsere Forschungsabteilung hat die erbeutete Fregatte analysiert. Wir haben die Komponenten ihrer Antriebstechnologie zurnckentwickelt und mit Hilfe dieser Erkenntnisse PlSne fnr zwei neue Schiffe erstellt. Die Begleitfregatte wird den Kampfschiffen im Feld fnr Reparaturen und zur ErgSnzung des Treibstoffvorrats zur Verfngung stehen. Das Rohstoffnberwachungsschiff wird das Sammeln entfernter Rohstoffe erm˜glichen. PlSne fnr ein drittes Schiff sind in Arbeit. Aber zunSchst muss das Chassis der erbeuteten Fregatte erforscht werden."
+            "Nuestra divisi=n de investigaci=n ha analizado la fragata capturada. El anﬂlisis de su tecnologfa de propulsi=n nos ha permitido elaborar planos para naves nuevas. La fragata de apoyo proporcionarﬂ servicio de reparaci=n y reabastecimiento a las naves de ataque. El controlador de recursos permitirﬂ recolectar recursos a distancia. Estamos trabajando en los planos de una tercera nave, pero antes hay que investigar el chasis de la fragata capturada."
+			"I nostri ricercatori hanno analizzato a fondo la fregata catturata; siamo riusciti a comprendere la tecnologia dei loro motori, sviluppando dei piani per due nuove astronavi. La Fregata di Supporto, che fornira protezione e rifornimenti ai velivoli d'assalto sul campo, e il Collettore di Risorse, che ci permettera di raccogliere risorse a distanza. Stiamo lavorando anche su una terza astronave, ma dobbiamo ancora esaminare a fondo la struttura del vascello nemico."
+
+        LSTRING_FCCryoSalvaged01
+            "First cryo tray loaded. 100,000 colonists safely aboard the Mothership."
+            "Chargement de la premiFre plate-forme cryo accompli. 100 000 colons sont a l'abri a bord du Vaisseau MFre."
+            "Erster KSlteschlaf-Container geladen. 100.000 Kolonisten sicher an Bord des Mutterschiffs."
+            "Primer soporte criogTnico cargado. 100.000 colonos a salvo a bordo de la Nave nodriza."
+			"Prima Camera Criogenica al sicuro. 100.000 coloni sono sani e salvi a bordo dell'astronave madre."
+
+        LSTRING_FCCryoSalvaged02
+            "Second cryo tray loaded. 200,000 colonists safely aboard the Mothership."
+            "Chargement de la deuxiFme plate-forme cryo accompli. 200,000 colons sont a l'abri a bord du Vaisseau MFre."
+            "Zweiter KSlteschlaf-Container geladen. 200.000 Kolonisten sicher an Bord des Mutterschiffs."
+            "Segundo soporte criogTnico cargado. 200.000 colonos a salvo, a bordo de la Nave nodriza."
+			"Seconda Camera Criogenica al sicuro. 200.000 coloni sono sani e salvi a bordo dell'astronave madre."
+
+        LSTRING_FCCryoSalvaged03
+            "Third cryo tray loaded. 300,000 colonists safely aboard the Mothership."
+            "Chargement de la troisiFme plate-forme cryo accompli. 300 000 colons sont a l'abri a bord du Vaisseau MFre."
+            "Dritter KSlteschlaf-Container geladen. 300.000 Kolonisten sicher an Bord des Mutterschiffs."
+            "Tercer soporte criogTnico cargado. 300.000 colonos a salvo a bordo de la Nave nodriza."
+			"Terza Camera Criogenica al sicuro. 300.000 coloni sono sani e salvi a bordo dell'astronave madre."
+
+        LSTRING_FCCryoSalvaged04
+            "Fourth cryo tray loaded. 400,000 colonists safely aboard the Mothership."
+            "Chargement de la quatriFme plate-forme cryo accompli. 400 000 colons sont a l'abri a bord du Vaisseau MFre."
+            "Vierter KSlteschlaf-Container geladen. 400.000 Kolonisten sicher an Bord des Mutterschiffs."
+            "Cuarto soporte criogTnico cargado. 400.000 colonos a salvo a bordo de la Nave nodriza."
+			"Quarta Camera Criogenica al sicuro. 400.000 coloni sono sani e salvi a bordo dell'astronave madre."
+
+        LSTRING_FCCryoSalvaged05
+            "Fifth cryo tray loaded. 500,000 colonists safely aboard the Mothership."
+            "Chargement de la cinquiFme plate-forme cryo accompli. 500,000 colons sont a l'abri a bord du Vaisseau MFre."
+            "Fnnfter KSlteschlaf-Container geladen. 500.000 Kolonisten sicher an Bord des Mutterschiffs."
+            "Quinto soporte criogTnico cargado. 500.000 colonos a salvo a bordo de la Nave nodriza."
+			"Quinta Camera Criogenica al sicuro. 500.000 coloni sono sani e salvi a bordo dell'astronave madre."
+
+        LSTRING_FIWithdrawToSalvage
+            "Advise that we withdraw attack and deploy the Salvage Corvettes.  We need that ship captured."
+            "CommuniquT : attaque interrompue et dTploiement amorcT des Corvettes de sauvetage. La capture de ce vaisseau est prioritaire."
+            "Wir sollten den Angriff abbrechen und die Bergungskorvetten in Marsch setzen. Wir mnssen dieses Schiff nbernehmen."
+            "Recomendamos suspender el ataque y desplegar las corbetas de salvamento. Es necesario capturar esa nave."
+			"Consiglio di sospendere l'attacco e di inviare le Corvette di Recupero. Ci serve quell'astronave."
+
+        LSTRING_FCCryosDead
+            "We have failed.  The colonits were the last of our people. Without them we will perish."
+            "Echec de l'opTration. Les colons Ttaient les derniers survivants de notre espFce. Leur disparition signifie l'extinction."
+            "Wir haben versagt. Die Kolonisten waren die Letzten unseres Volkes. Ohne sie werden wir aussterben."
+            "Hemos fracasado. Esos colonos eran todos los que quedaban de nuestro pueblo. Sin ellos, nos extinguiremos."
+			"Abbiamo fallito. I coloni erano tutta la nostra gente rimasta, senza di loro siamo destinati a perire."
+
+        LSTRING_FIFrigatesDiedEscaped
+            "We failed to capture the enemy vessel.  Without its information, we cannot proceed."
+            "La capture du vaisseau ennemi a TchouT. Sans l'information qu'il contient, nous restons bloquTs."
+            "Wir haben es nicht geschafft, das feindliche Schiff zu nbernehmen. Ohne seine Informationen k˜nnen wir nicht weiterarbeiten."
+            "No hemos conseguido capturar la nave enemiga. Sin esa informaci=n no podemos seguir."
+			"Non siamo riusciti a catturare il vascello nemico: senza la possibilita di esaminarlo non possiamo fare nulla!"
+
+        LSTRING_LevelSave
+            "03 - Return To Kharak"
+            "03 - Retour vers Kharak"
+            "03 ˚ Rnckkehr nach Kharak"
+            "03 - Volver a Kharak"
+			"03 - Ritorno a Kharak"
+
+        LSTRING_FIWereFinished
+            "Cryogenic Trays loaded.  Hyperspace module charged.  It's time to go after them."
+            "Chargement des plates-formes cryo accompli. Module Hyperspatial activT. L'heure est venue de leur faire la chasse."
+            "KSlteschlaf-Container geladen. Hypersprung-Modul aufgeladen. Es wird Zeit, dass wir die Verfolgung aufnehmen."
+            "Soportes criogTnicos cargados. M=dulo hiperespacial cargado. Ha llegado el momento de ir tras ellos."
+			"Camere Criogeniche a bordo. Modulo iperspaziale caricato. Siamo pronti a inseguirli."
+
+        LSTRING_TBHyperspace
+            "                HYPERSPACE"
+            "                HYPERSPACE"
+            "        HYPERRAUMSPRUNG"
+            "              HIPERESPACIO"
+			"				IPERSPAZIO"
+
+        LSTRING_OBReadyToGo
+            "Cryogenic Trays loaded.  Hyperspace module charged.  It's time to go."
+            "Chargement des plates-formes cryo accompli. Module Hyperspatial activT. On y va."
+            "KSlteschlaf-Container geladen. Hypersprung-Modul aufgeladen. Es wird Zeit zum Abflug."
+            "Soportes criogTnicos cargados. M=dulo hiperespacial cargado. Ha llegado el momento de partir."
+			"Camere Criogeniche a bordo. Modulo iperspaziale caricato. + ora di andare."
+
+
+
+
+    ENDL 
+
+
+
+
+
+
+
+
+FSM ImNotHere
+        States LocationCard, Wait1, OhMyGodTheyveKilledKenny, YouBastards, LBXIn1, CryoTraysSurvived,
+               CryoObjective, WatchForFrigates, LBXIn2, AckTheyreAttackingCryos, KillThosePoopyHeads,
+               SaveThoseCryos, GotTheBastard, HeyCheckThisOut, ThoseGuysAreGonnaGetIt,
+               WeStoleTheirTechnology, WithdrawToSalvage, FrigatesDiedEscaped,
+               YayCryoSalvaged, CryosDead, YayWereDone, NullState, LBXIn3, FrigatesOutOfThePicture, LBXIn4, LBXIn5;
+
+        INIT
+            IntelEventNotEnded();
+            VarCreateSet("CryosSalvaged", 0);
+            VarCreateSet("Intel", 0);
+            VarCreateSet("InNullState",FALSE);
+            JUMP LocationCard;
+        ENDINIT
+        WATCH
+            
+
+            
+            IFONCE (VarGet("G_SalvageFrigate"))
+                VarSet("G_SalvageFrigate", FALSE);
+                ObjectiveSet("CaptureOne", TRUE);
+                TimerCreateSetStart("Searching", 8);
+            ENDIFONCE
+
+            IF (TimerExpiredDestroy("Searching"))
+                TechSet("MassDrive100Kt");
+                TechSetResearch("Chassis3");
+                VarSet("InNullState", FALSE);
+                JUMP GotTheBastard;
+            ENDIF
+
+            
+            IFONCE ((!ObjectiveGet("CaptureOne")) &&
+                    ((ShipsCount(TEAMSHIPS_EnemyFrig01) + ShipsCount(TEAMSHIPS_EnemyFrig02) + ShipsCount(TEAMSHIPS_ImNotDeadYet)) == 1))
+                TimerCreateSetStart("WithdrawDelay", 5);
+            ENDIFONCE
+
+            
+            IFONCE ((UnderAttackElsewhere(TEAM_EnemyFrig01, SHIPS_NULL) ||
+                     UnderAttackElsewhere(TEAM_EnemyFrig02, SHIPS_NULL) ||
+                     UnderAttackElsewhere(TEAM_ImNotDeadYet, SHIPS_NULL)) &&
+                     TimerExpiredDestroy("WithdrawDelay"))
+                VarSet("InNullState", FALSE);
+                JUMP WithdrawToSalvage;
+            ENDIFONCE
+
+            
+            IFONCE ((!ObjectiveGet("DefendCryos") && !ObjectiveGet("CaptureOne")) &&
+                    (!ShipsCount(TEAMSHIPS_EnemyFrig01) || VarGet("G_EnemyFrig01Escaped")) &&
+                    (!ShipsCount(TEAMSHIPS_EnemyFrig02) || VarGet("G_EnemyFrig02Escaped")) &&
+                    (!ShipsCount(TEAMSHIPS_ImNotDeadYet) || VarGet("G_ImNotDeadYetEscaped")))
+                VarCreateSet("GameOver", TRUE);
+                VarSet("InNullState", FALSE);
+                JUMP FrigatesDiedEscaped;
+            ENDIFONCE
+
+            
+            IFONCE (!VarGet("GameOver") &&
+                    (!ShipsCount(TEAMSHIPS_EnemyFrig01) ||
+                      VarGet("G_EnemyFrig01Escaped") ||
+                      ShipsSelectSpecial(SHIPS_CapturedFrig, TEAMSHIPS_EnemyFrig01, 2)) &&
+                    (!ShipsCount(TEAMSHIPS_EnemyFrig02) ||
+                      VarGet("G_EnemyFrig02Escaped") ||
+                      ShipsSelectSpecial(SHIPS_CapturedFrig, TEAMSHIPS_EnemyFrig02, 2)) &&
+                    (!ShipsCount(TEAMSHIPS_ImNotDeadYet) ||
+                      VarGet("G_ImNotDeadYetEscaped") ||
+                      ShipsSelectSpecial(SHIPS_CapturedFrig, TEAMSHIPS_ImNotDeadYet, 2)))
+                VarCreateSet("FrigatesOutOfThePicture", TRUE);
+            ENDIFONCE
+
+            IFONCE (VarGet("G_SalvageHandOff"))
+                VarSet("G_SalCapNearby", TRUE);     
+            ENDIFONCE
+
+            IF (VarGet("FrigatesOutOfThePicture") &&
+                VarGet("G_SalvageHandOff"))
+                VarDestroy("FrigatesOutOfThePicture");
+                VarDestroy("G_SalvageHandOff");
+                ObjectiveSet("DefendCryos", TRUE);
+                IF (ShipsCount(SHIPS_CryoTrays))
+                    VarSet("InNullState", FALSE);
+                    JUMP LBXIn3;
+                ENDIF
+            ENDIF
+
+            
+            IF (VarGet("G_SalvageCryoTray"))
+                VarSet("G_SalvageCryoTray", FALSE);
+                VarInc("CryosSalvaged");
+                VarSet("InNullState", FALSE);
+                JUMP YayCryoSalvaged;
+            ENDIF
+
+            
+            IFONCE (!ShipsCount(SHIPS_CryoTrays))
+                IF (!VarGet("CryosSalvaged"))
+                    
+                    VarCreateSet("GameOver", TRUE);
+                    VarSet("InNullState", FALSE);
+                    JUMP CryosDead;
+                ENDIF
+            ENDIFONCE
+
+            
+	    IFONCE (VarGet("ObjectiveCreated") && (ObjectiveGet ("DefendCryos")) && (ObjectiveGet ("CaptureOne")) && (ObjectiveGet ("GoForCryos")) )
+                ObjectiveCreate("Hyperspace", LSTRING_TBHyperspace, LSTRING_OBReadyToGo);
+            ENDIFONCE
+
+            IF (VarGet("G_CLICK_GoForCryos"))
+                VarDestroy("G_CLICK_GoForCryos");
+                VarCreateSet("Replay", TRUE);
+                VarSet("InNullState", FALSE);
+                JUMP FrigatesOutOfThePicture;
+            ELSEIF (VarGet("G_CLICK_CaptureOne"))
+                VarDestroy("G_CLICK_CaptureOne");
+                VarSet("InNullState", FALSE);
+                JUMP KillThosePoopyHeads;
+            ELSEIF (VarGet("G_CLICK_DefendCryos"))
+                VarDestroy("G_CLICK_DefendCryos");
+                VarSet("InNullState", FALSE);
+                VarCreateSet("Replay", TRUE);
+                JUMP CryoObjective;
+            ENDIF
+        ENDWATCH
+
+        
+        
+        
+        STATE LocationCard
+            INIT
+                TimerCreateSetStart("LocationCardTimer", 2);
+            ENDINIT
+            WATCH
+                IF (TimerExpiredDestroy("LocationCardTimer"))
+                    LocationCard(5000, LSTRING_LCLocationCard);
+                    IF (FindEnemyShipsOfType(SHIPS_Stuff, "HeavyCruiser"))
+                        JUMP GotTheBastard;
+                    ELSE
+                        JUMP Wait1;
+                    ENDIF
+                ENDIF
+            ENDWATCH
+        ENDSTATE
+
+        
+        
+        
+        STATE Wait1
+            INIT
+                TimerCreateSetStart("LetItSinkIn", 8);
+            ENDINIT
+            WATCH
+                IF ((TimerRemaining("LetItSinkIn") == 6))
+                    MusicPlay(11);
+                ENDIF
+                IF (TimerRemaining("LetItSinkIn") == 0)
+                    JUMP OhMyGodTheyveKilledKenny;
+                ENDIF
+            ENDWATCH
+        ENDSTATE Wait1
+
+        STATE OhMyGodTheyveKilledKenny
+            INIT
+
+                SpeechEvent((429 + 2048 + 268435456), 0);
+            ENDINIT
+            WATCH
+                IF (IntelEventEnded())
+                    JUMP YouBastards;
+                ENDIF
+            ENDWATCH
+        ENDSTATE
+
+        STATE YouBastards
+            INIT
+
+                SpeechEvent((430 + 4096 + 268435456), 0);
+                TimerCreateSetStart("LBX", 1);
+                TimerCreateSetStart("FocusScaffold", 4);
+
+                TimerCreateSetStart("FocusCancel", 18);
+            ENDINIT
+            WATCH
+                IF (TutGameSentMessage ("Game_BandBoxFocus,Game_ClickFocus,KB_CancelFocus,KB_Focus,KB_Sensors,TB_SensorsManager,KB_FocusMothership"))
+                    WideScreenOut(90);
+                    TimerDestroy("FocusCancel");
+                ENDIF
+
+                IF (TimerExpiredDestroy("LBX"))
+                    wideScreenIn(90);
+                ENDIF
+                IF (TimerExpiredDestroy("FocusScaffold"))
+                    TutCameraFocusDerelictType("Scaffold_scarred");
+                    TutCameraFocusDerelictType("Scaffold_scarred");
+                    TutResetGameMessageQueue();
+                ENDIF
+
+                IF (TimerExpiredDestroy("FocusFinger"))
+                    TutCameraFocusDerelictType("ScaffoldFingerB_scarred");
+                    TutCameraFocusDerelictType("ScaffoldFingerB_scarred");
+                    TutResetGameMessageQueue();
+                ENDIF
+
+                IF (TimerExpiredDestroy("FocusCancel"))
+
+                    WideScreenOut(90);
+                    TutCameraFocusCancel();
+                    TutCameraFocusCancel();
+                ENDIF
+
+                IF (IntelEventEnded())
+                    JUMP CryoTraysSurvived;
+                ENDIF
+            ENDWATCH
+        ENDSTATE
+
+
+        STATE LBXIn1
+            INIT
+                wideScreenIn(90);
+                TimerCreateSetStart("LBXTimer", 4);
+            ENDINIT
+            WATCH
+                IF ((TimerRemaining("LBXTimer") == 2))
+                    JUMP CryoTraysSurvived;
+                ENDIF
+            ENDWATCH
+        ENDSTATE
+
+        STATE CryoTraysSurvived
+            INIT
+                
+                IntelEventNotEnded();
+
+                SpeechEvent((431 + 2048 + 268435456), 0);
+                TimerCreateSetStart("LBX", 9);
+            ENDINIT
+            WATCH
+                IF (TimerExpiredDestroy("LBX"))
+                    wideScreenIn(90);
+                ENDIF
+                IF (IntelEventEnded())
+                    JUMP CryoObjective;
+                ENDIF
+            ENDWATCH
+        ENDSTATE
+
+        STATE CryoObjective
+            INIT
+                OpenSensors(27000);
+                ObjectiveCreate("DefendCryos", LSTRING_OBDefendCryos, "fleet intel 3.2");
+
+
+                SpeechEvent((759 + 4096 + 268435456), 0);
+                TutSetPointerTargetShip("PunyCryoTrays", TEAMSHIPS_CryoTray10);
+                VarCreateSet("ObjectiveCreated", TRUE);
+            ENDINIT
+            WATCH
+                VarSet("Intel", IntelEventEnded());
+
+                IF (TimerExpiredDestroy("SinkIn") ||   
+                    (VarGet("Intel") == 2) ||          
+                    (VarGet("Intel") &&                
+                     VarGet("Replay")))
+
+                    VarSet("Intel", 0);
+                    TutRemoveAllPointers();
+                    CloseSensors(TRUE);
+                    WideScreenOut(90);
+
+                    IF (VarGet("Replay"))
+                        VarDestroy("Replay");
+                        JUMP NullState;
+                    ENDIF
+
+                    JUMP WatchForFrigates;
+                ENDIF
+                IF (VarGet("Intel") == 1)
+                    TimerCreateSetStart("SinkIn", 1);
+                    VarSet("Intel", 0);
+                ENDIF
+            ENDWATCH
+        ENDSTATE
+
+        STATE WatchForFrigates
+            INIT
+            ENDINIT
+            WATCH
+                IF ((RenderedShips(TEAMSHIPS_EnemyFrig01, 4)) OR
+                    (RenderedShips(TEAMSHIPS_EnemyFrig02, 4)) OR
+                    (RenderedShips(TEAMSHIPS_ImNotDeadYet, 4)) OR
+                    (RenderedShips(TEAMSHIPS_EnemyFrig01, 3)) OR
+                    (RenderedShips(TEAMSHIPS_EnemyFrig02, 3)) OR
+                    (RenderedShips(TEAMSHIPS_ImNotDeadYet, 3)))
+                    JUMP LBXIn2;
+                ENDIF
+            ENDWATCH
+        ENDSTATE
+
+        STATE LBXIn2
+            INIT
+                wideScreenIn(90);
+                TimerCreateSetStart("LBXTimer", 3);
+            ENDINIT
+            WATCH
+                IF ((TimerExpiredDestroy("LBXTimer")))
+                    JUMP AckTheyreAttackingCryos;
+                ENDIF
+            ENDWATCH
+        ENDSTATE
+
+        STATE AckTheyreAttackingCryos
+            INIT
+                SoundEvent(262);
+                SpeechEvent((433 + 4096 + 268435456), 0);
+
+                TutCameraFocus(TEAMSHIPS_EnemyFrig01);
+                TimerCreateSetStart("Focus", 4);
+                TutResetGameMessageQueue();
+            ENDINIT
+            WATCH
+                IF (TutGameSentMessage ("Game_BandBoxFocus, Game_ClickFocus, KB_CancelFocus, KB_Focus, KB_Sensors, TB_SensorsManager"))
+                    VarCreateSet("Skip", TRUE);
+                    WideScreenOut(90);
+                ENDIF
+                IF (IntelEventEnded())
+                    IF (!VarGet("Skip"))
+                        TutCameraFocusCancel();
+                        WideScreenOut(90);
+                    ELSE
+                        VarDestroy("Skip");
+                    ENDIF
+                    JUMP KillThosePoopyHeads;
+                ENDIF
+            ENDWATCH
+        ENDSTATE AckTheyreAttackingCryos
+
+        STATE KillThosePoopyHeads
+            INIT
+
+                SpeechEvent((434 + 4096 + 268435456), 0);
+                TimerCreateSetStart("Pointers", 6);
+                ObjectiveCreate("CaptureOne", LSTRING_OBObjective1, "fleet command 3.3");
+                VarCreateSet("ObjectiveCreated", TRUE);
+            ENDINIT
+            WATCH
+                IF (TimerExpiredDestroy("Pointers"))
+                    SoundEvent(262);
+                    TutSetPointerTargetShip("Attackers", TEAMSHIPS_EnemyFrig01);
+                ENDIF
+                IF (IntelEventEnded())
+                    TutRemoveAllPointers();
+                    JUMP NullState;
+                ENDIF
+            ENDWATCH
+        ENDSTATE
+
+        STATE LBXIn3
+            INIT
+                wideScreenIn(90);
+                TimerCreateSetStart("LBXTimer", 3);
+            ENDINIT
+            WATCH
+                IF ((TimerRemaining("LBXTimer") == 0))
+                    OpenSensors(27000);
+                    JUMP FrigatesOutOfThePicture;
+                ENDIF
+            ENDWATCH
+        ENDSTATE
+
+        
+        
+        
+        STATE FrigatesOutOfThePicture
+            INIT
+                PauseUniverse();
+                SpeechEvent((760 + 4096 + 268435456), 0);
+
+                TimerCreateSetStart("Pointers", 2);
+                ObjectiveCreate("GoForCryos", LSTRING_OBSalvageCryos, "fleet command 3.3");
+            ENDINIT
+            WATCH
+                IF (TimerExpiredDestroy("Pointers"))
+                    TutSetPointerTargetShip("Cryos", SHIPS_CryoTrays);
+                ENDIF
+                VarSet("Intel", IntelEventEnded());
+
+                IF (VarGet("Intel") == 1)
+                    TimerCreateSetStart("SinkIn", 2);
+                    VarSet("Intel", 0);
+                ENDIF
+                IF (TimerExpiredDestroy("SinkIn") || (VarGet("Intel") == 2))
+                    VarSet("Intel", 0);
+                    CloseSensors(TRUE);
+                    TutRemoveAllPointers();
+                    WideScreenOut(90);
+                    UnPauseUniverse();
+
+                    IF (VarGet("Replay"))
+                        VarDestroy("Replay");
+                        JUMP NullState;
+                    ENDIF
+                    JUMP SaveThoseCryos;
+                ENDIF
+            ENDWATCH
+        ENDSTATE FrigatesOutOfThePicture
+
+
+        STATE SaveThoseCryos
+            INIT
+                SpeechEvent((435 + 2048 + 268435456), 0);
+            ENDINIT
+            WATCH
+                IF (IntelEventEnded())
+                    JUMP NullState;
+                ENDIF
+            ENDWATCH
+        ENDSTATE
+
+
+        STATE LBXIn4
+            INIT
+                wideScreenIn(90);
+                TimerCreateSetStart("LBXTimer", 5);
+            ENDINIT
+            WATCH
+                IF (TimerRemaining("LBXTimer") == 1)
+                    JUMP GotTheBastard;
+                ENDIF
+            ENDWATCH
+        ENDSTATE
+
+        STATE GotTheBastard
+            INIT
+                IntelEventNotEnded();
+                SpeechEvent ((436 + 4096 + 268435456), 0);
+                TimerCreateSetStart("LBX", 10);
+            ENDINIT
+            WATCH
+                IF (TimerExpiredDestroy("LBX"))
+                    wideScreenIn(90);
+                ENDIF
+
+                IF (IntelEventEnded())
+                    JUMP HeyCheckThisOut;
+                ENDIF
+            ENDWATCH
+        ENDSTATE
+
+        STATE HeyCheckThisOut
+            INIT
+                PauseUniverse();
+                VarCreateSet("PlayNis", 3);
+            ENDINIT
+            WATCH
+                IF (VarGet("G_Nis3Complete"))
+                    VarSet("G_Nis3Complete", FALSE);
+                    UnPauseUniverse();
+                    TimerCreateSetStart("AnalysePause", 5);
+                ENDIF
+                IF (TimerExpiredDestroy("AnalysePause"))
+                    JUMP ThoseGuysAreGonnaGetIt;
+                ENDIF
+            ENDWATCH
+        ENDSTATE
+
+        STATE ThoseGuysAreGonnaGetIt
+            INIT
+                SpeechEvent((462 + 4096 + 268435456), 0);
+            ENDINIT
+            WATCH
+                IF (IntelEventEnded())
+                    TimerCreateSetStart("StealingTechnology", 10);
+                ENDIF
+                IF (TimerExpiredDestroy("StealingTechnology"))
+                    JUMP WeStoleTheirTechnology;
+                ENDIF
+            ENDWATCH
+        ENDSTATE
+
+        STATE WeStoleTheirTechnology
+            INIT
+                SoundEvent(262);
+
+                SpeechEvent((463 + 4096 + 268435456), 0);
+            ENDINIT
+            WATCH
+                IF (IntelEventEnded())
+                    JUMP NullState;
+                ENDIF
+            ENDWATCH
+        ENDSTATE
+
+        STATE WithdrawToSalvage
+            INIT
+                SoundEvent(262);
+
+                SpeechEvent((469 + 4096 + 268435456), 0);
+            ENDINIT
+            WATCH
+                JUMP NullState;
+            ENDWATCH
+        ENDSTATE
+
+        STATE FrigatesDiedEscaped
+            INIT
+
+
+
+            ENDINIT
+            WATCH
+                MissionFailed();
+                JUMP NullState;
+            ENDWATCH
+        ENDSTATE
+
+
+        STATE YayCryoSalvaged
+            INIT
+                SoundEvent(262);
+                IF (VarGet("CryosSalvaged") == 1)
+
+                    SpeechEvent((464 + 2048 + 268435456), 0);
+                ELSEIF (VarGet("CryosSalvaged") == 2)
+
+                    SpeechEvent((465 + 2048 + 268435456), 0);
+                ELSEIF (VarGet("CryosSalvaged") == 3)
+
+                    SpeechEvent((466 + 2048 + 268435456), 0);
+                ELSEIF (VarGet("CryosSalvaged") == 4)
+
+                    SpeechEvent((467 + 2048 + 268435456), 0);
+                ELSEIF (VarGet("CryosSalvaged") == 5)
+
+                    SpeechEvent((468 + 2048 + 268435456), 0);
+                ENDIF
+            ENDINIT
+            WATCH
+                IF (IntelEventEnded())
+                    IF (!ShipsCount(SHIPS_CryoTrays))
+                        
+                        JUMP YayWereDone;
+                    ELSE
+                        JUMP NullState;
+                    ENDIF
+                ENDIF
+            ENDWATCH
+        ENDSTATE
+
+        STATE CryosDead
+            INIT
+
+
+
+            ENDINIT
+            WATCH
+                MissionFailed();
+                JUMP NullState;
+            ENDWATCH
+        ENDSTATE
+
+        
+        STATE LBXIn5
+            INIT
+                wideScreenIn(90);
+                TimerCreateSetStart("LBXTimer", 5);
+            ENDINIT
+            WATCH
+                IF (TimerRemaining("LBXTimer") == 1)
+                    JUMP YayWereDone;
+                ENDIF
+            ENDWATCH
+        ENDSTATE
+
+        STATE YayWereDone
+            INIT
+                SpeechEvent((470 + 4096 + 268435456), 0);
+                ObjectiveSet("GoForCryos", TRUE);
+            ENDINIT
+            WATCH
+                IF (IntelEventEnded())
+                    JUMP NullState;
+                ENDIF
+            ENDWATCH
+        ENDSTATE
+
+        
+        STATE NullState
+            INIT
+                VarSet("InNullState", TRUE);
+            ENDINIT
+            WATCH
+            ENDWATCH
+        ENDSTATE
+
+ENDFSM
+
+
+
+
+
+
+
+
+
+
+FSM ImNotHereEither
+
+    States NullState;
+        INIT
+            JUMP NullState;
+        ENDINIT
+        WATCH
+        ENDWATCH
+
+        STATE NullState
+            INIT
+            ENDINIT
+            WATCH
+            ENDWATCH
+        ENDSTATE
+ENDFSM
+
+
+
+
+
+
+
+
+
+FSM EnemyFrig01
+
+    States AttackMain, ProtectFrigates,
+           AttackCryoTrays, AttackSalCap, AttackCorvettes,
+           AttackFighters, ImCaptured, Escape, NullState;
+
+    INIT
+        TimerCreate("AttackTimer");
+        TacticsAggressive();
+        JUMP AttackCryoTrays;
+    ENDINIT
+    WATCH
+        IF (!VarGet("InNULLState") AND !VarGet("G_Escaping"))
+            
+            
+            IF (!VarGet("G_SalCapNearby"))
+                FindEnemiesNearTeam(SHIPS_SalCapTest, 8000);
+                FindEnemiesNearby(SHIPS_SalCapTest, 2500);
+
+                IF (ShipsSelectType(SHIPS_SalCaps, SHIPS_SalCapTest, "SalCapCorvette") == 1)
+                    
+                    
+                    VarSet("G_SalCapNearby", TRUE);
+                    TimerCreateSetStart("SalCapTimer", 4);
+                ENDIF
+            ENDIF
+
+            IF (TimerExpiredDestroy("SalCapTimer"))
+                
+                FindEnemiesNearTeam(SHIPS_SalCapTest, 8000);
+                FindEnemiesNearby(SHIPS_SalCapTest, 2500);
+                VarCreateSet("NumSalCaps", ShipsSelectType(SHIPS_SalCaps, SHIPS_SalCapTest, "SalCapCorvette"));
+
+                IF (VarGet("NumSalCaps") == 1)
+                    
+                    SpeechEventShips(SHIPS_SalCaps, (807 + 1024 + 268435456), 0);
+                    TimerCreateSetStart("G_SalCapNearbyRepeat", 40);
+                ELSEIF (!VarGet("NumSalCaps"))
+                    
+                    VarSet("G_SalCapNearby", FALSE);
+                ENDIF
+            ENDIF
+
+
+            IFONCE (TeamCount() == 0)
+                
+                JUMP NullState;
+            ENDIFONCE
+
+            IFONCE (TeamHealthAverage() < 50)
+                VarCreateSet("G_HelpEnemyFrig01", TRUE);
+            ENDIFONCE
+
+            IFONCE ((ShipsCount(TEAMSHIPS_EnemyFrig02) == 0) AND
+                    (ShipsCount(TEAMSHIPS_ImNotDeadYet) == 0) AND
+                    (TeamHealthAverage() < 30))
+                
+                JUMP Escape;
+            ENDIFONCE
+
+            IF (!VarGet("G_EnemyFrig01Captured") AND
+                ShipsSelectSpecial(SHIPS_Captured, TEAMSHIPS_EnemyFrig01, 2))
+                VarCreateSet("G_EnemyFrig01Captured", TRUE);
+                FindEnemiesNearTeam(SHIPS_E1Capturers, 500);
+                ShipsSelectType(SHIPS_E1Capturers, SHIPS_E1Capturers, "SalCapCorvette");
+                JUMP ImCaptured;
+            ENDIF
+        ENDIF
+    ENDWATCH
+
+        
+        
+        
+        STATE AttackMain
+            INIT
+                TimerSet("AttackTimer", Random(4,10));
+                TimerStart("AttackTimer");
+
+                
+                
+                IF (VarGet("G_EnemyFrig02Captured"))
+                    VarCreateSet("G_EF1BusySalCap", TRUE);
+                    
+                    ShipsAdd(SHIPS_E1Capturers, SHIPS_E2Capturers);
+                    JUMP AttackSalCap;
+                ENDIF
+
+                IF (VarGet("G_ImNotDeadYetCaptured"))
+                    VarCreateSet("G_EF1BusySalCap", TRUE);
+                    
+                    ShipsAdd(SHIPS_E1Capturers, SHIPS_INDYCapturers);
+                    JUMP AttackSalCap;
+                ENDIF
+
+                FindEnemiesNearTeam(SHIPS_Nearby, 5000);
+
+                
+                
+                IF ((VarGet("G_SalcapKilled") < 7) &&
+                    ShipsSelectType(SHIPS_E1Capturers, SHIPS_Nearby, "SalCapCorvette"))
+                    JUMP AttackSalCap;
+                ENDIF
+
+                IF (UnderAttackElsewhere(TEAM_ImNotDeadYet, SHIPS_BadDudes) ||
+                    UnderAttackElsewhere(TEAM_EnemyFrig02, SHIPS_BadDudes))
+                    JUMP ProtectFrigates;
+                ENDIF
+
+                
+                
+                IF (ShipsSelectClass(SHIPS_E1CorvetteBaddies, SHIPS_Nearby, "CLASS_Corvette") > 2)
+                    IF (ShipsCount(SHIPS_E1CorvetteBaddies) < 7)
+                        VarSet("G_EF1BusyCorvettes", TRUE);
+                    ENDIF
+                    JUMP AttackCorvettes;
+                ENDIF
+
+                
+                
+                IF (ShipsSelectClass(SHIPS_E1FighterBaddies, SHIPS_Nearby, "CLASS_Fighter") > 6)
+                    IF (ShipsCount(SHIPS_E1FighterBaddies) < 10)
+                        VarSet("G_EF1BusyFighters", TRUE);
+                    ENDIF
+                    JUMP AttackFighters;
+                ENDIF
+
+                
+                JUMP AttackCryoTrays;
+            ENDINIT
+            WATCH
+                JUMP AttackMain;
+            ENDWATCH
+        ENDSTATE AttackMain
+
+        
+        
+        
+        
+        STATE ProtectFrigates
+            INIT
+                Attack(SHIPS_BadDudes);
+            ENDINIT
+            WATCH
+                IF (!ShipsCount(SHIPS_BadDudes) ||
+                    (TimerRemaining("AttackTimer") == 0))
+                    JUMP AttackMain;
+                ENDIF
+            ENDWATCH
+        ENDSTATE ProtectFrigates
+
+        
+        
+        
+        STATE AttackCryoTrays
+            INIT
+                IF (ShipsCount(TEAMSHIPS_CryoTray10))
+                    Attack(TEAMSHIPS_CryoTray10);
+                    ShipsAdd(SHIPS_AttackTargets01, TEAMSHIPS_CryoTray10);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray09))
+                    Attack(TEAMSHIPS_CryoTray09);
+                    ShipsAdd(SHIPS_AttackTargets01, TEAMSHIPS_CryoTray09);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray08))
+                    Attack(TEAMSHIPS_CryoTray08);
+                    ShipsAdd(SHIPS_AttackTargets01, TEAMSHIPS_CryoTray08);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray07))
+                    Attack(TEAMSHIPS_CryoTray07);
+                    ShipsAdd(SHIPS_AttackTargets01, TEAMSHIPS_CryoTray07);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray06))
+                    Attack(TEAMSHIPS_CryoTray06);
+                    ShipsAdd(SHIPS_AttackTargets01, TEAMSHIPS_CryoTray06);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray05))
+                    Attack(TEAMSHIPS_CryoTray05);
+                    ShipsAdd(SHIPS_AttackTargets01, TEAMSHIPS_CryoTray05);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray04))
+                    Attack(TEAMSHIPS_CryoTray04);
+                    ShipsAdd(SHIPS_AttackTargets01, TEAMSHIPS_CryoTray04);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray03))
+                    Attack(TEAMSHIPS_CryoTray03);
+                    ShipsAdd(SHIPS_AttackTargets01, TEAMSHIPS_CryoTray03);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray02))
+                    Attack(TEAMSHIPS_CryoTray02);
+                    ShipsAdd(SHIPS_AttackTargets01, TEAMSHIPS_CryoTray02);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray01))
+                    Attack(TEAMSHIPS_CryoTray01);
+                    ShipsAdd(SHIPS_AttackTargets01, TEAMSHIPS_CryoTray01);
+                ELSE
+                    
+                    JUMP Escape;
+                ENDIF
+            ENDINIT
+            WATCH
+                IF ((ShipsCount(SHIPS_AttackTargets01) == 0) OR
+                    (TimerRemaining("AttackTimer") == 0))
+                    
+                    JUMP AttackMain;
+                ENDIF
+            ENDWATCH
+        ENDSTATE
+
+        
+        
+        
+        
+        STATE AttackSalCap
+            INIT
+                Attack(SHIPS_E1Capturers);
+            ENDINIT
+            WATCH
+                IF ((ShipsCount(SHIPS_E1Capturers) == 0) OR
+                    (TimerRemaining("AttackTimer") == 0))
+                    VarDestroy("G_EF1BusySalCap");
+                    JUMP AttackMain;
+                ENDIF
+            ENDWATCH
+        ENDSTATE AttackSalCap
+
+        
+        
+        
+        
+        STATE AttackCorvettes
+            INIT
+                Attack(SHIPS_E1CorvetteBaddies);
+            ENDINIT
+            WATCH
+                IF ((ShipsCount(SHIPS_E1CorvetteBaddies) == 0) OR
+                    (TimerRemaining("AttackTimer") == 0))
+                    VarDestroy("G_EF1BusyCorvettes");
+                    JUMP AttackMain;
+                ENDIF
+            ENDWATCH
+        ENDSTATE AttackCorvettes
+
+        
+        
+        
+        
+        STATE AttackFighters
+            INIT
+                Attack(SHIPS_E1FighterBaddies);
+            ENDINIT
+            WATCH
+                IF ((ShipsCount(SHIPS_E1FighterBaddies) == 0) OR
+                    (TimerRemaining("AttackTimer") == 0))
+                    VarDestroy("G_EF1BusyFighters");
+                    JUMP AttackMain;
+                ENDIF
+            ENDWATCH
+        ENDSTATE AttackFighters
+
+
+        
+        
+        
+        STATE ImCaptured
+            INIT
+            ENDINIT
+            WATCH
+                IF (!ShipsSelectSpecial(SHIPS_Captured, TEAMSHIPS_ImNotDeadYet, 2))
+                    
+                    VarDestroy("G_EnemyFrig01Captured");
+                    JUMP AttackMain;
+                ENDIF
+            ENDWATCH
+        ENDSTATE ImCaptured
+
+
+
+        
+        
+        
+        STATE Escape
+            INIT
+                TacticsEvasive();
+                TeamVelocityMaxSet(150);
+                MoveTo(POINT_DiddleOutHere);
+                VarCreateSet("G_Escaping", TRUE);
+            ENDINIT
+            WATCH
+                IF (Nearby(POINT_DiddleOutHere, 1000))
+                    
+                    VarCreateSet("G_EnemyFrig01Escaped", TRUE);
+                    Stop();
+                    TeamHyperSpaceOut();
+                    JUMP NullState;
+                ENDIF
+            ENDWATCH
+        ENDSTATE Escape
+
+
+        
+        
+        
+        STATE NullState
+            INIT
+                VarCreateSet("InNULLState", TRUE);
+            ENDINIT
+            WATCH
+            ENDWATCH
+        ENDSTATE NullState
+
+ENDFSM EnemyFrig01
+
+
+
+
+
+
+FSM EnemyFrig02
+
+    States AttackMain, AttackCryoTrays, AttackSalCap, AttackCorvettes, AttackFighters, ImCaptured, Escape, NullState;
+
+    INIT
+        TimerCreate("AttackTimer");
+        TacticsAggressive();
+        JUMP AttackCryoTrays;
+    ENDINIT
+    WATCH
+        IF (!VarGet("InNULLState") AND !VarGet("G_Escaping"))
+
+            
+            
+            IF (!VarGet("G_SalCapNearby"))
+                FindEnemiesNearTeam(SHIPS_SalCapTest, 8000);
+                FindEnemiesNearby(SHIPS_SalCapTest, 2500);
+
+                IF (ShipsSelectType(SHIPS_SalCaps, SHIPS_SalCapTest, "SalCapCorvette") == 1)
+                    
+                    
+                    VarSet("G_SalCapNearby", TRUE);
+                    TimerCreateSetStart("SalCapTimer", 4);
+                ENDIF
+            ENDIF
+
+            IF (TimerExpiredDestroy("SalCapTimer"))
+                
+                FindEnemiesNearTeam(SHIPS_SalCapTest, 8000);
+                FindEnemiesNearby(SHIPS_SalCapTest, 2500);
+                VarCreateSet("NumSalCaps", ShipsSelectType(SHIPS_SalCaps, SHIPS_SalCapTest, "SalCapCorvette"));
+
+                IF (VarGet("NumSalCaps") == 1)
+                    
+                    SpeechEventShips(SHIPS_SalCaps, (807 + 1024 + 268435456), 0);
+                    TimerCreateSetStart("G_SalCapNearbyRepeat", 40);
+                ELSEIF (!VarGet("NumSalCaps"))
+                    
+                    VarSet("G_SalCapNearby", FALSE);
+                ENDIF
+            ENDIF
+
+
+            IFONCE ((ShipsCount(TEAMSHIPS_EnemyFrig01) == 0) AND
+                    (ShipsCount(TEAMSHIPS_ImNotDeadYet) == 0) AND
+                    (TeamHealthAverage() < 30))
+                
+                JUMP Escape;
+            ENDIFONCE
+
+            IFONCE (TeamHealthAverage() < 50)
+                VarCreateSet("G_HelpEnemyFrig01", TRUE);
+            ENDIFONCE
+
+            IFONCE (TeamCount() == 0)
+                
+                JUMP NullState;
+            ENDIFONCE
+
+            
+            IF (!VarGet("G_EnemyFrig02Captured") AND
+                ShipsSelectSpecial(SHIPS_Captured, TEAMSHIPS_EnemyFrig02, 2))
+                VarCreateSet("G_EnemyFrig02Captured", TRUE);
+                FindEnemiesNearTeam(SHIPS_E2Capturers, 500);
+                ShipsSelectType(SHIPS_E2Capturers, SHIPS_E2Capturers, "SalCapCorvette");
+                JUMP ImCaptured;
+            ENDIF
+        ENDIF
+    ENDWATCH
+
+        
+        
+        
+        STATE AttackMain
+            INIT
+                TimerSet("AttackTimer", Random(6,14));
+                TimerStart("AttackTimer");
+
+                
+                IF (VarGet("G_HelpEnemyFrig01"))
+                    
+                    
+                    IF (VarGet("G_ImNotDeadYetCaptured") AND
+                        (!ShipsCount(TEAMSHIPS_EnemyFrig01)))
+                        ShipsAdd(SHIPS_E2Capturers, SHIPS_INDYCapturers);
+                        JUMP AttackSalCap;
+                    ENDIF
+
+                    FindEnemiesNearTeam(SHIPS_Nearby, 5000);
+
+                    
+                    
+
+
+
+
+
+
+                    ShipsSelectType(SHIPS_E2Capturers, SHIPS_Nearby, "SalCapCorvette");
+                    ShipsRemove(SHIPS_Nearby, SHIPS_E2Capturers);
+
+                    
+                    
+                    IF ((ShipsSelectClass(SHIPS_E2CorvetteBaddies, SHIPS_Nearby, "CLASS_Corvette") > 2) AND
+                        (!VarGet("G_EF1BusyCorvettes")))
+                        JUMP AttackCorvettes;
+                    ENDIF
+
+                    
+                    
+                    IF ((ShipsSelectClass(SHIPS_E2FighterBaddies, SHIPS_Nearby, "CLASS_Fighter") > 6) AND
+                        (!VarGet("G_EF1BusyFighters")))
+                        JUMP AttackFighters;
+                    ENDIF
+                ENDIF
+                JUMP AttackCryoTrays;
+            ENDINIT
+            WATCH
+                JUMP AttackMain;
+            ENDWATCH
+        ENDSTATE AttackMain
+
+        
+        
+        
+        STATE AttackCryoTrays
+            INIT
+                IF (ShipsCount(TEAMSHIPS_CryoTray10))
+                    Attack(TEAMSHIPS_CryoTray10);
+                    ShipsAdd(SHIPS_AttackTargets01, TEAMSHIPS_CryoTray10);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray09))
+                    Attack(TEAMSHIPS_CryoTray09);
+                    ShipsAdd(SHIPS_AttackTargets01, TEAMSHIPS_CryoTray09);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray08))
+                    Attack(TEAMSHIPS_CryoTray08);
+                    ShipsAdd(SHIPS_AttackTargets01, TEAMSHIPS_CryoTray08);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray07))
+                    Attack(TEAMSHIPS_CryoTray07);
+                    ShipsAdd(SHIPS_AttackTargets01, TEAMSHIPS_CryoTray07);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray06))
+                    Attack(TEAMSHIPS_CryoTray06);
+                    ShipsAdd(SHIPS_AttackTargets01, TEAMSHIPS_CryoTray06);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray05))
+                    Attack(TEAMSHIPS_CryoTray05);
+                    ShipsAdd(SHIPS_AttackTargets01, TEAMSHIPS_CryoTray05);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray04))
+                    Attack(TEAMSHIPS_CryoTray04);
+                    ShipsAdd(SHIPS_AttackTargets01, TEAMSHIPS_CryoTray04);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray03))
+                    Attack(TEAMSHIPS_CryoTray03);
+                    ShipsAdd(SHIPS_AttackTargets01, TEAMSHIPS_CryoTray03);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray02))
+                    Attack(TEAMSHIPS_CryoTray02);
+                    ShipsAdd(SHIPS_AttackTargets01, TEAMSHIPS_CryoTray02);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray01))
+                    Attack(TEAMSHIPS_CryoTray01);
+                    ShipsAdd(SHIPS_AttackTargets01, TEAMSHIPS_CryoTray01);
+                ELSE
+                    
+                    JUMP Escape;
+                ENDIF
+            ENDINIT
+            WATCH
+                IF ((ShipsCount(SHIPS_AttackTargets01) == 0) OR
+                    (TimerRemaining("AttackTimer") == 0))
+                    
+                    JUMP AttackMain;
+                ENDIF
+            ENDWATCH
+        ENDSTATE
+
+        
+        
+        
+        
+        STATE AttackSalCap
+            INIT
+                Attack(SHIPS_E2Capturers);
+            ENDINIT
+            WATCH
+                IF (ShipsCount(SHIPS_E2Capturers) == 0)
+                    
+                    JUMP AttackMain;
+                ENDIF
+            ENDWATCH
+        ENDSTATE AttackSalCap
+
+        
+        
+        
+        
+        STATE AttackCorvettes
+            INIT
+                Attack(SHIPS_E2CorvetteBaddies);
+            ENDINIT
+            WATCH
+                IF ((ShipsCount(SHIPS_E2CorvetteBaddies) == 0) OR
+                    (TimerRemaining("AttackTimer") == 0))
+                    JUMP AttackMain;
+                ENDIF
+            ENDWATCH
+        ENDSTATE AttackCorvettes
+
+        
+        
+        
+        
+        STATE AttackFighters
+            INIT
+                Attack(SHIPS_E2FighterBaddies);
+            ENDINIT
+            WATCH
+                IF ((ShipsCount(SHIPS_E2FighterBaddies) == 0) OR
+                    (TimerRemaining("AttackTimer") == 0))
+                    JUMP AttackMain;
+                ENDIF
+            ENDWATCH
+        ENDSTATE AttackFighters
+
+
+        
+        
+        
+        STATE ImCaptured
+            INIT
+            ENDINIT
+            WATCH
+                IF (!ShipsSelectSpecial(SHIPS_Captured, TEAMSHIPS_ImNotDeadYet, 2))
+                    
+                    VarDestroy("G_EnemyFrig02Captured");
+                    JUMP AttackMain;
+                ENDIF
+            ENDWATCH
+        ENDSTATE ImCaptured
+
+
+        
+        
+        
+        STATE Escape
+            INIT
+                TacticsEvasive();
+                TeamVelocityMaxSet(150);
+                MoveTo(POINT_DiddleOutHere);
+                VarCreateSet("G_Escaping", TRUE);
+            ENDINIT
+            WATCH
+                IF (Nearby(POINT_DiddleOutHere, 1000))
+                    
+                    VarCreateSet("G_EnemyFrig02Escaped", TRUE);
+                    Stop();
+                    TeamHyperSpaceOut();
+                    JUMP NullState;
+                ENDIF
+            ENDWATCH
+        ENDSTATE Escape
+
+        
+        
+        
+        STATE NullState
+            INIT
+                VarCreateSet("InNULLState", TRUE);
+            ENDINIT
+            WATCH
+            ENDWATCH
+        ENDSTATE NullState
+
+ENDFSM EnemyFrig02
+
+
+
+
+
+FSM ImNotDeadYet
+
+    States AttackCryoTrays, AttackSalCap, ImCaptured, Escape, NullState;
+
+    INIT
+        TacticsAggressive();
+        TeamHealthSet(40);
+        VarCreateSet("AvoidingFire", FALSE);
+        VarCreateSet("AttackReissued", FALSE);
+        JUMP AttackCryoTrays;
+    ENDINIT
+    WATCH
+        IF (!VarGet("InNULLState") AND !VarGet("G_Escaping"))
+            
+            
+            IF (!VarGet("G_SalCapNearby"))
+                FindEnemiesNearTeam(SHIPS_SalCapTest, 8000);
+                FindEnemiesNearby(SHIPS_SalCapTest, 2500);
+
+                IF (ShipsSelectType(SHIPS_SalCaps, SHIPS_SalCapTest, "SalCapCorvette") == 1)
+                    
+                    
+                    VarSet("G_SalCapNearby", TRUE);
+                    TimerCreateSetStart("SalCapTimer", 4);
+                ENDIF
+            ENDIF
+
+            IF (TimerExpiredDestroy("SalCapTimer"))
+                
+                FindEnemiesNearTeam(SHIPS_SalCapTest, 9000);
+                FindEnemiesNearby(SHIPS_SalCapTest, 2500);
+                VarCreateSet("NumSalCaps", ShipsSelectType(SHIPS_SalCaps, SHIPS_SalCapTest, "SalCapCorvette"));
+
+                IF (VarGet("NumSalCaps") == 1)
+                    
+                    SpeechEventShips(SHIPS_SalCaps, (807 + 1024 + 268435456), 0);
+                    TimerCreateSetStart("G_SalCapNearbyRepeat", 40);
+                ELSEIF (!VarGet("NumSalCaps"))
+                    
+                    VarSet("G_SalCapNearby", FALSE);
+                ENDIF
+            ENDIF
+
+
+            
+            
+            IF ((!VarGet("AvoidingFire")) AND (UnderAttack(SHIPS_Null)))
+                VarSet("AvoidingFire", TRUE);
+                VarSet("AttackReissued", TRUE);
+            
+            
+            ELSEIF (VarGet("AvoidingFire") AND (!UnderAttack(SHIPS_Null)))
+                VarSet("AvoidingFire", FALSE);
+                VarSet("AttackReissued", TRUE);
+            ENDIF
+
+            IFONCE ((ShipsCount(TEAMSHIPS_EnemyFrig01) == 0) AND
+                    (ShipsCount(TEAMSHIPS_EnemyFrig02) == 0) AND
+                    (TeamHealthAverage() < 30))
+                
+                JUMP Escape;
+            ENDIFONCE
+
+            IFONCE (TeamCount() == 0)
+                
+                JUMP NullState;
+            ENDIFONCE
+
+            IF (!VarGet("G_ImNotDeadYetCaptured") AND
+               (ShipsSelectSpecial(SHIPS_Captured, TEAMSHIPS_ImNotDeadYet, 2)))
+                VarCreateSet("G_ImNotDeadYetCaptured", TRUE);
+                FindEnemiesNearTeam(SHIPS_INDYCapturers, 500);
+                ShipsSelectType(SHIPS_INDYCapturers, SHIPS_INDYCapturers, "SalCapCorvette");
+                
+                JUMP ImCaptured;
+            ENDIF
+        ENDIF
+    ENDWATCH
+
+        
+        
+        
+        STATE AttackCryoTrays
+            INIT
+                IF (ShipsCount(TEAMSHIPS_CryoTray10))
+                    ShipsAdd(SHIPS_AttackTargets, TEAMSHIPS_CryoTray10);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray09))
+                    ShipsAdd(SHIPS_AttackTargets, TEAMSHIPS_CryoTray09);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray08))
+                    ShipsAdd(SHIPS_AttackTargets, TEAMSHIPS_CryoTray08);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray07))
+                    ShipsAdd(SHIPS_AttackTargets, TEAMSHIPS_CryoTray07);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray06))
+                    ShipsAdd(SHIPS_AttackTargets, TEAMSHIPS_CryoTray06);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray05))
+                    ShipsAdd(SHIPS_AttackTargets, TEAMSHIPS_CryoTray05);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray04))
+                    ShipsAdd(SHIPS_AttackTargets, TEAMSHIPS_CryoTray04);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray03))
+                    ShipsAdd(SHIPS_AttackTargets, TEAMSHIPS_CryoTray03);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray02))
+                    ShipsAdd(SHIPS_AttackTargets, TEAMSHIPS_CryoTray02);
+                ELSEIF (ShipsCount(TEAMSHIPS_CryoTray01))
+                    ShipsAdd(SHIPS_AttackTargets, TEAMSHIPS_CryoTray01);
+                ELSE
+                    JUMP Escape;
+                ENDIF
+
+                IF (VarGet("AvoidingFire"))
+                    MoveAttack(SHIPS_AttackTargets);
+                ELSE
+                    Attack(SHIPS_AttackTargets);
+                ENDIF
+            ENDINIT
+            WATCH
+                
+                
+                IF (VarGet("G_EnemyFrig02Captured") AND
+                    (!ShipsCount(TEAMSHIPS_EnemyFrig01)))
+                    JUMP Escape;
+                ENDIF
+
+                IF ((ShipsCount(SHIPS_AttackTargets) == 0) OR
+                    (VarGet("AttackReissued")))
+                    
+                    VarSet("AttackReissued", FALSE);
+                    JUMP AttackCryoTrays;
+                ENDIF
+            ENDWATCH
+        ENDSTATE
+
+        
+        
+        
+        STATE ImCaptured
+            INIT
+                FindEnemiesNearTeam(SHIPS_Capturers, 500);
+                ShipsSelectType(SHIPS_Capturers, SHIPS_Capturers, "SalCapCorvette");
+            ENDINIT
+            WATCH
+                IF (!ShipsSelectSpecial(SHIPS_Captured, TEAMSHIPS_ImNotDeadYet, 2))
+                    VarDestroy("G_ImNotDeadYetCaptured");
+                    
+                    JUMP AttackCryoTrays;
+                ENDIF
+            ENDWATCH
+        ENDSTATE ImCaptured
+
+        
+        
+        
+        STATE Escape
+            INIT
+                TacticsEvasive();
+                TeamVelocityMaxSet(150);
+                MoveTo(POINT_DiddleOutHere);
+                VarCreateSet("G_Escaping", TRUE);
+            ENDINIT
+            WATCH
+                IF (Nearby(POINT_DiddleOutHere, 1000))
+                    
+                    VarCreateSet("G_ImNotDeadYetEscaped", TRUE);
+                    Stop();
+                    TeamHyperSpaceOut();
+                    JUMP NullState;
+                ENDIF
+            ENDWATCH
+        ENDSTATE Escape
+
+        
+        
+        
+        STATE NullState
+            INIT
+                VarCreateSet("InNULLState", TRUE);
+            ENDINIT
+            WATCH
+            ENDWATCH
+        ENDSTATE NullState
+
+ENDFSM ImNotDeadYet
+
+
+
+
+
+FSM DamagedCryo
+
+    States NullState;
+
+    INIT
+        TeamHealthSet(75);
+    ENDINIT
+    WATCH
+    ENDWATCH
+ENDFSM DamagedCryo
+
+
+INIT
+       RotateDerelictType("Scaffold_scarred", -7, 20, 0, 0);
+       RotateDerelictType("ScaffoldFingerA_scarred", -7, 20, 0, 0);
+       RotateDerelictType("ScaffoldFingerB_scarred", 28, -15, 0, 5);
+       RotateDerelictType("Junk1_strut", 0, 0, 0, 180);
+       RotateDerelictType("Junk0_sensors", 0, 0, 0, 100);
+       RotateDerelictType("Junk1_partA", 0, 0, 0, 230);
+       RotateDerelictType("Junk1_partB", 0, 0, 0, 300);
+
+       FSMCreate(ImNotHere, TEAM_ImNotHere);
+
+       FSMCreate(EnemyFrig01, TEAM_EnemyFrig01);
+       FSMCreate(EnemyFrig02, TEAM_EnemyFrig02);
+       FSMCreate(ImNotDeadYet, TEAM_ImNotDeadYet);
+       FSMCreate(DamagedCryo, TEAM_CryoTray10);
+
+       VarCreateSet("G_SalcapKilled", 0);
+       VarCreateSet("SalcapLastCount", FindEnemyShipsOfType(SHIPS_Sal, "SalCapCorvette"));
+       VarCreateSet("G_SalCapNearby", FALSE);
+
+       SaveLevel (3, LSTRING_LevelSave);
+
+ENDINIT
+
+
+WATCH
+    FindEnemyShipsOfType(SHIPS_CryoTrays, "CryoTray");
+    FindEnemyShipsOfType(SHIPS_EnemyFrigs, "StandardFrigate");
+
+    VarCreateSet("SalcapCurCount", FindEnemyShipsOfType(SHIPS_Sal, "SalCapCorvette"));
+    IF (VarGet("SalcapCurCount") < VarGet("SalcapLastCount"))
+        
+        VarInc("G_SalcapKilled");
+        VarSet("SalcapLastCount", VarGet("SalcapCurCount"));
+    ELSEIF (VarGet("SalcapCurCount") > VarGet("SalcapLastCount"))
+        
+        VarSet("SalcapLastCount", VarGet("SalcapCurCount"));
+    ENDIF
+
+
+    IF (TimerExpiredDestroy("G_SalCapNearbyRepeat"))
+        VarSet("G_SalCapNearby", FALSE);
+    ENDIF
+
+    
+    
+    
+
+    
+    
+    IFONCE (TechGet ("Chassis1"))
+            TechSetResearch ("MassDrive10Kt");
+    ENDIFONCE
+
+    
+    
+    IFONCE (TechGet ("MassDrive10Kt"))
+            TechSetResearch ("Chassis2");
+    ENDIFONCE
+
+    
+    
+    IFONCE (TechGet ("Chassis2"))
+            TechSetResearch ("MediumGuns");
+    ENDIFONCE
+
+    
+    
+
+    
+
+ENDWATCH
+
+
+
+#line 1 "C:\\Users\\Coldboy\\CLionProjects\\homeworld_cmake\\src\\Game\\speechevent.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+							
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+													
+													
+
+													
+													
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+												
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
