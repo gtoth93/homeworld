@@ -1,91 +1,92 @@
-#ifndef _H_SocketPipe
-#define _H_SocketPipe
+#ifndef TITAN_EASYSOCKET_SOCKETPIPE_H
+#define TITAN_EASYSOCKET_SOCKETPIPE_H
 
 #include "PipeCmd.h"
-#include "LIST"
-//#include "windows.h"
+#include <list>
 
 namespace WONMisc {
+    using PipeCmdQueue = std::list<PipeCmd *>;
 
-typedef list<PipeCmd*> PipeCmdQueue;
+    class SocketPipe final {
+        PipeCmdQueue mOutCmds; // 12 bytes, 4..f
+        PipeCmdQueue mInCmds; // 12 bytes, 10..1b
+        CRITICAL_SECTION mOutCrit; // 24 bytes 1c..33
+        CRITICAL_SECTION mInCrit; // 24 bytes 34..4b
+        PipeCmdQueue::iterator mCurrOutCmd; // 4 bytes 4c..4f
+        PipeCmdQueue::iterator mCurrInCmd; // 4 bytes 50..53
+        int32_t mLabel; // 4 bytes 54..57
 
-class SocketPipe {
-private:
-    PipeCmdQueue mOutCmds;
-    PipeCmdQueue mInCmds;
-    CRITICAL_SECTION mOutCrit;
-    CRITICAL_SECTION mInCrit;
-    PipeCmdQueue::iterator mCurrOutCmd;
-    PipeCmdQueue::iterator mCurrInCmd;
-    int mLabel;
+        static auto HasCompletedCmds(const PipeCmdQueue&theQueueR, CRITICAL_SECTION&theCritR) -> bool;
 
-    bool HasCompletedCmds(  const PipeCmdQueue& theQueueR,
-                            CRITICAL_SECTION& theCritR );
+        static auto GetNumCompletedCmds(const PipeCmdQueue&theQueueR, CRITICAL_SECTION&theCritR) -> int32_t;
 
-    long GetNumCompletedCmds(   const PipeCmdQueue& theQueueR,
-                                CRITICAL_SECTION& theCritR );
+        static auto HasPendingCmds(const PipeCmdQueue&theQueueR, CRITICAL_SECTION&theCritR) -> bool;
 
-    bool HasPendingCmds(const PipeCmdQueue& theQueueR,
-                        CRITICAL_SECTION& theCritR );
+        static auto GetNumPendingCmds(const PipeCmdQueue&theQueueR, CRITICAL_SECTION&theCritR) -> int32_t;
 
-    long GetNumPendingCmds( const PipeCmdQueue& theQueueR,
-                            CRITICAL_SECTION& theCritR );
+        static auto RemoveCmd(PipeCmdQueue&theQueueR, CRITICAL_SECTION&theCritR) -> PipeCmd*;
 
-    PipeCmd* RemoveCmd( PipeCmdQueue& theQueueR,
-                        CRITICAL_SECTION& theCritR );
+        static auto RemoveCompletedCmd(PipeCmdQueue&theQueueR, CRITICAL_SECTION&theCritR) -> PipeCmd*;
 
-    PipeCmd* RemoveCompletedCmd(PipeCmdQueue& theQueueR,
-                                CRITICAL_SECTION& theCritR );
+        static void AddCmd(PipeCmd* thePipeCmdP, PipeCmdQueue&theQueueR, CRITICAL_SECTION&theCritR);
 
-    void AddCmd(PipeCmd* thePipeCmdP,
-                PipeCmdQueue& theQueueR,
-                CRITICAL_SECTION& theCritR );
+        auto ProcessCmd(PipeCmd* thePipeCmdP) -> bool; // returns true if completed the command
+        void MarkInError();
 
-    bool ProcessCmd(PipeCmd* thePipeCmdP); // returns true if completed the command
-    void MarkInError();
+        explicit SocketPipe(EasySocket* theEasySocketP);
 
-    SocketPipe(EasySocket* theEasySocketP);
-public:
-    EasySocket* mEasySocketP; // access with caution
-    ES_ErrorType mError;
-    bool mInErrorState;
-    HANDLE mCompletedPipeEvent;
-    
-    SocketPipe(void);
-    virtual ~SocketPipe(void);
+    public:
+        EasySocket* mEasySocketP; // access with caution, 4 bytes 58..5b
+        ES_ErrorType mError; // 4 bytes 5c..5f
+        bool mInErrorState; // 1 byte with 3 byte padding 60
+        HANDLE mCompletedPipeEvent; // 4 bytes 64..67
 
-    void SetCompletedPipeEventH(HANDLE theCompletedPipeEventH);
+        SocketPipe();
 
-    bool HasCompletedIncomingCmds(void);
-    bool HasCompletedOutgoingCmds(void);
-    bool HasCompletedCmds(void);
-    long GetNumCompletedIncomingCmds(void);
-    long GetNumCompletedOutgoingCmds(void);
+        ~SocketPipe();
 
-    bool HasPendingIncomingCmds(void);
-    bool HasPendingOutgoingCmds(void);
-    long GetNumPendingIncomingCmds(void);
-    long GetNumPendingOutgoingCmds(void);
+        void SetCompletedPipeEventH(HANDLE theCompletedPipeEventH);
 
-    PipeCmd* RemoveCompletedIncomingCmd(void);
-    PipeCmd* RemoveCompletedOutgoingCmd(void);
-    PipeCmd* RemoveCompletedCmd(void);
+        auto HasCompletedIncomingCmds() -> bool;
 
-    PipeCmd* RemoveIncomingCmd(void);
-    PipeCmd* RemoveOutgoingCmd(void);
+        auto HasCompletedOutgoingCmds() -> bool;
 
-    void AddIncomingCmd(PipeCmd* thePipeCmdP);
-    void AddOutgoingCmd(PipeCmd* thePipeCmdP);
+        auto HasCompletedCmds() -> bool;
 
-    void Pump(void);
+        auto GetNumCompletedIncomingCmds() -> int32_t;
 
-    void ClearErrorState(   bool forceCompleteCurrentInCommand,
-                            bool forceCompleteCurrentOutCommand);
+        auto GetNumCompletedOutgoingCmds() -> int32_t;
 
-    int GetLabel(void);
-    void SetLabel(int theLabel);
-};
+        auto HasPendingIncomingCmds() -> bool;
 
+        auto HasPendingOutgoingCmds() -> bool;
+
+        auto GetNumPendingIncomingCmds() -> int32_t;
+
+        auto GetNumPendingOutgoingCmds() -> int32_t;
+
+        auto RemoveCompletedIncomingCmd() -> PipeCmd*;
+
+        auto RemoveCompletedOutgoingCmd() -> PipeCmd*;
+
+        auto RemoveCompletedCmd() -> PipeCmd*;
+
+        auto RemoveIncomingCmd() -> PipeCmd*;
+
+        auto RemoveOutgoingCmd() -> PipeCmd*;
+
+        void AddIncomingCmd(PipeCmd* thePipeCmdP);
+
+        void AddOutgoingCmd(PipeCmd* thePipeCmdP);
+
+        void Pump();
+
+        void ClearErrorState(bool forceCompleteCurrentInCommand, bool forceCompleteCurrentOutCommand);
+
+        [[nodiscard]] auto GetLabel() const -> int32_t;
+
+        void SetLabel(int32_t theLabel);
+    };
 }; // end namespace WONMisc
 
-#endif // _H_SocketPipe
+#endif // TITAN_EASYSOCKET_SOCKETPIPE_H
