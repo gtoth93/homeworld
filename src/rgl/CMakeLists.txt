@@ -55,7 +55,6 @@ add_library(rglsw SHARED
         scan.c
         span.c
         swdriver.c
-        stipple.c
 )
 target_compile_definitions(rglsw PRIVATE __MSC__=yes)
 target_include_directories(rglsw PRIVATE 3dfx glide3/include D3D)
