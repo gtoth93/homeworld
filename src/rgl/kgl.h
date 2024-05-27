@@ -18,6 +18,10 @@ typedef short GLshort;
 
 typedef int GLfixed;
 
+struct gl_context_s;
+typedef struct gl_context_s gl_context;
+typedef gl_context GLcontext;
+
 #define LINES_DISABLEABLE 0
 
 #define DEPTH_BITS 32
@@ -409,9 +413,9 @@ typedef struct gl_driver_funcs_s
     /* for drivers that perform transformation */
 
     //begin(GLcontext* ctx, GLenum primitive)
-    void (*begin)();
+    void (*begin)(GLcontext*, GLenum);
     //end(GLcontext* ctx)
-    void (*end)();
+    void (*end)(GLcontext*);
 
     //vertex(GLfloat x, y, z)
     void (*vertex)(GLfloat, GLfloat, GLfloat);
@@ -850,8 +854,8 @@ DLL void gl_problem(GLcontext* ctx, char* s);
 DLL int rglFeature(unsigned int feature);
 DLL void rglSelectDevice(char* name, char* data);
 
-DLL void rglSetRendererString(char*);
-DLL void rglSetExtensionString(char*);
+DLL void rglSetRendererString(const char*);
+DLL void rglSetExtensionString(const char*);
 DLL GLboolean rglGetFullscreen(void);
 DLL GLboolean rglGetTruecolor(void);
 DLL GLboolean rglGetSlow(void);

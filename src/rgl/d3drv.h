@@ -188,10 +188,10 @@ void texpalette(gl_texture_object*);
 void texdel(gl_texture_object*);
 
 void errLogFn(char* s, HRESULT hr);
-void errLogNull(char* s, HRESULT hr);
+void errLogNull(const char* s, HRESULT hr);
 
 void logFn(char* s);
-void logNull(char* s);
+void logNull(const char* s);
 
 WORD GetNumberOfBits(DWORD mask);
 GLuint GetShiftBits(GLuint mask);

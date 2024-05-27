@@ -103,7 +103,7 @@ void bind_texture(void);
 typedef struct error_table
 {
     HRESULT hr;
-    char*   english;
+    const char*   english;
 } error_table;
 
 static error_table errTab[] =
@@ -207,7 +207,7 @@ static error_table errTab[] =
     {D3D_OK, "D3D_OK"}
 };
 
-char* d3d_map_error(HRESULT hr)
+const char* d3d_map_error(HRESULT hr)
 {
     error_table* ep = errTab;
     if (hr == D3D_OK)
@@ -228,7 +228,7 @@ char* d3d_map_error(HRESULT hr)
 void errLogFn(char* s, HRESULT hr)
 {
     FILE* out;
-    char* e;
+    const char* e;
 
     if (hr == D3D_OK)
     {
@@ -247,7 +247,7 @@ void errLogFn(char* s, HRESULT hr)
     fclose(out);
 }
 
-void errLogNull(char* s, HRESULT hr)
+void errLogNull(const char* s, HRESULT hr)
 {
     //nothing here
 }
@@ -277,12 +277,12 @@ void logFn(char* s)
     fclose(out);
 }
 
-void logNull(char* s)
+void logNull(const char* s)
 {
     //nothing here
 }
 
-char* depthToStr(DWORD depth)
+const char* depthToStr(DWORD depth)
 {
     switch (depth)
     {
@@ -2566,8 +2566,8 @@ extern "C" DLL GLboolean init_driver(GLcontext* ctx)
     ctx->DR.scissor = (VoidFunc)scissor;
 
     ctx->DriverTransforms = GL_FALSE;
-    ctx->DR.begin = (VoidFunc)begin;
-    ctx->DR.end = (VoidFunc)end;
+    ctx->DR.begin = begin;
+    ctx->DR.end = end;
     ctx->DR.vertex = vertex;
     ctx->DR.update_modelview = (VoidFunc)update_modelview;
     ctx->DR.update_projection = (VoidFunc)update_projection;

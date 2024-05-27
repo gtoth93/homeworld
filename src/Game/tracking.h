@@ -63,7 +63,7 @@ trackvalue;
 #define trkTrackValueRemoveAll()            trkTrackValueRemoveAllFn()
 #define trkTrackValuesDisplay()             trkTrackValuesDisplayFn()
 #else
-#define trkTrackValueAdd(name, number, c)
+#define trkTrackValueAdd(name, number, timer, c)
 #define trkTrackValueRemove(name)
 #define trkTrackValueRemoveAll()
 #define trkTrackValuesDisplay()
@@ -82,4 +82,3 @@ void trkTrackValuesDisplayFn(void);
 
 #endif //NUMBER_TRACKING
 #endif //___TRACKING_H
-

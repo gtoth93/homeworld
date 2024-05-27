@@ -151,14 +151,14 @@ DLL GLboolean rglGetFullscreen(void) { return IsFullscreen; }
 DLL GLboolean rglGetTruecolor(void) { return IsTruecolor; }
 DLL GLboolean rglGetSlow(void) { return IsSlow; }
 
-DLL void rglSetRendererString(char* s)
+DLL void rglSetRendererString(const char* s)
 {
     STR_RENDERER[0] = s[0];
     STR_RENDERER[1] = s[1];
     STR_RENDERER[2] = s[2];
 }
 
-DLL void rglSetExtensionString(char* s)
+DLL void rglSetExtensionString(const char* s)
 {
     GLint i;
 

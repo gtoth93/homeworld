@@ -1294,7 +1294,7 @@ commandoption commandOptions[] =
     entryVrHidden("/shortWon",      ShortCircuitWON, TRUE,              " - short circuit WON stuff" ),
 #else
     entryVrHidden("/logOff",        logEnable, LOG_OFF,                 " - turns of network logging file"),
-    entryVrHidden("/logOn",         logEnable, LOG_ON,,                 " - turns network logging file on"),
+    entryVrHidden("/logOn",         logEnable, LOG_ON,                  " - turns network logging file on"),
     entryVrHidden("/logOnVerbose",  logEnable, LOG_VERBOSE,             " - turns verbose network logging file on"),
     entryFnParamHidden("/logFilePath",SpecifyLogFilePath,               "=filepath.txt"),
 //!!!shortwon in release mode!!!    entryVrHidden("/shortWon",      ShortCircuitWON, TRUE,              " - short circuit WON stuff" ),
