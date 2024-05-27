@@ -8,7 +8,17 @@
 #ifndef FQUANT_H
 #define FQUANT_H
 
+#include <stdint.h>
+
 // General constants
+#ifndef OK
+#define OK		0
+#endif
+
+#ifndef ERR
+#define ERR		-1
+#endif
+
 #define FQ_LEN		260			// Block length (bytes)
 #define FQ_SCALE	10.0F		// Quantization scale
 #define FQ_EXP		6			// # of exponents
@@ -52,24 +62,27 @@ extern "C" {
 #endif
 
 // Functions
-int fqInitQuant(FILE *pStream);
 
-int fqQuantBlock(char *aQBlock,float *aFPBlock,float *aFSBlock,float *aFMBlock,unsigned char *aEBlock,
-				 unsigned long nLen,unsigned long nRate,unsigned long nSize,int nFlags);
+// int32_t fqInitQuant(FILE* pStream);
+//
+// int32_t fqQuantBlock(char* aQBlock, float* aFPBlock, float* aFSBlock, float* aFMBlock, uint8_t* aEBlock, uint32_t nLen,
+//                      uint32_t nRate, uint32_t nSize, int32_t nFlags);
 
-int fqInitDequant(void);
+int32_t fqInitDequant(void);
 
-int fqDequantBlock(char *aQBlock,float *aFPBlock,float *aFSBlock,unsigned char *aEBlock,
-				 unsigned long nLen,unsigned long nRate,unsigned long nSize);
+int32_t fqDequantBlock(const char* aQBlock, float* aFPBlock, float* aFSBlock, uint8_t* aEBlock, uint32_t nLen, uint32_t nRate,
+                       uint32_t nSize);
 
-int fqSPack(short nVal,unsigned long nLen,unsigned long nPos,char *aBlock);
-_inline long fqSUnpack(unsigned long nLen,unsigned long nPos,char *aBlock);
-_inline unsigned long fqUnpack(unsigned long nLen,unsigned long nPos,char *aBlock);
+// int32_t fqSPack(int16_t nVal, uint32_t nLen, uint32_t nPos, char* aBlock);
 
-int linint(float *xa,float *ya,unsigned long n,float x,float *y);
+_inline int32_t fqSUnpack(uint32_t nLen, uint32_t nPos, const char* aBlock);
+
+_inline uint32_t fqUnpack(uint32_t nLen, uint32_t nPos, const char* aBlock);
+
+// int32_t linint(float* xa, float* ya, uint32_t n, float x, float* y);
 
 #ifdef __cplusplus
-}		// extern "C"
+} // extern "C"
 #endif
 
 #endif  // FQUANT_H

@@ -8,6 +8,8 @@
 #ifndef FQCODEC_H
 #define FQCODEC_H
 
+#include <stdint.h>
+
 // General constants
 #ifndef OK
 #define OK		0
@@ -49,32 +51,32 @@
 extern double fChopT;
 
 // Macros
-#define rfabs(x)	((x<0.0F)?(-(x)):(x)) // Fast floating point absolute value
-#define rmax(x,y)	((x>y)?(x):(y)) // Fast maximize
-#define rint(x)		((fChopT = (double)(x)+FQ_BNUM), *(int*)(&fChopT)) // Fast integer cast
+#define fq_rfabs(x)	    ((x<0.0F)?(-(x)):(x)) // Fast floating point absolute value
+#define fq_rmax(x,y)	((x>y)?(x):(y)) // Fast maximize
+#define fq_rint(x)		((fChopT = (double)(x)+FQ_BNUM), *(int*)(&fChopT)) // Fast integer cast
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 // Functions
-int fqEncOver(float *aTPBlock,float *aTSBlock,float *aFPBlock,float *aFSBlock,
-		float *aCBlock,float *aWBlock,unsigned long nSize);
 
-int fqEncBlock(float *aTPBlock,float *aTSBlock,
-	float *aFPBlock,float *aFSBlock,int nMode);
+// int32_t fqEncOver(float* aTPBlock, float* aTSBlock, float* aFPBlock, float* aFSBlock, float* aCBlock, float* aWBlock,
+//                   uint32_t nSize);
+//
+// int32_t fqEncBlock(float* aTPBlock, float* aTSBlock, float* aFPBlock, float* aFSBlock, int32_t nMode);
 
-int fqDecOver(float *aFPBlock,float *aFSBlock,float *aTPBlock,float *aTSBlock,
-		float *aCBlock,float *aWBlock,unsigned long nSize);
+int32_t fqDecOver(const float* aFPBlock, const float* aFSBlock, float* aTPBlock, float* aTSBlock, const float* aCBlock,
+                  const float* aWBlock, uint32_t nSize);
 
-int fqDecBlock(float *aFPBlock,float *aFSBlock,
-	float *aTPBlock,float *aTSBlock,int nMode,int nFact);
+int32_t fqDecBlock(const float* aFPBlock, const float* aFSBlock, float* aTPBlock, float* aTSBlock, int32_t nMode,
+                   int32_t nFact);
 
-int fqWriteTBlock(float *aLBlock,float *aRBlock,short nChan,
-	void *pBuf1,unsigned long nSize1,void *pBuf2,unsigned long nSize2);
+int32_t fqWriteTBlock(const float* aLBlock, const float* aRBlock, int16_t nChan, void* pBuf1, uint32_t nSize1,
+                      void* pBuf2, uint32_t nSize2);
 
 #ifdef __cplusplus
-}		// extern "C"
+} // extern "C"
 #endif
 
 #endif  // FQCODEC_H

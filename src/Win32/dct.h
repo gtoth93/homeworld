@@ -8,6 +8,8 @@
 #ifndef DCT_H
 #define DCT_H
 
+#include <stdint.h>
+
 // General constants
 #ifndef OK
 #define OK		0
@@ -29,14 +31,14 @@
 extern "C" {
 #endif
 
-int dct(float *f,float *g,float *c,unsigned long n);
-int idct(float *f,float *g,float *c,unsigned long n);
-int Initdct(float *c,unsigned long n);
+    // int32_t dct(float* f, float* g, float* c, uint32_t n);
 
-void fft(long n,float *xRe,float *xIm,float *yRe,float *yIm);
+    int32_t idct(const float* f, float* g, const float* c, uint32_t n);
+
+    int32_t Initdct(float* c, uint32_t n);
 
 #ifdef __cplusplus
-}		// extern "C"
+} // extern "C"
 #endif
 
 #endif  // DCT_H
