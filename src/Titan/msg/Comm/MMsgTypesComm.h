@@ -30,6 +30,8 @@ namespace WONMsg
 		MiniCommNoOp               = MiniCommMin+7,
 		MiniCommGetNetStat         = MiniCommMin+8,
 		MiniCommGetNetStatReply    = MiniCommMin+9,
+		MiniCommMRTGRequest        = MiniCommMin+10,
+		MiniCommMRTGReply		   = MiniCommMin+11,
 
 		// Last Message type.  Don't use
 		MiniCommMax = 255

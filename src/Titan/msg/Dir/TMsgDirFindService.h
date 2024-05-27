@@ -11,7 +11,7 @@
 // Directory Server in response to a find service request.
 
 
-#include "STRING"
+#include <string>
 #include "msg/TMessage.h"
 #include "msg/ServerStatus.h"
 #include "DirServerEntry.h"
@@ -23,80 +23,80 @@ namespace WONMsg {
 class TMsgDirFindService : public TMsgDirServiceBase
 {
 public:
-    // Default ctor
-    TMsgDirFindService(void);
+	// Default ctor
+	TMsgDirFindService(void);
 
-    // TMessage ctor - will throw if TMessage type is not CommDebugLevel
-    explicit TMsgDirFindService(const TMessage& theMsgR);
+	// TMessage ctor - will throw if TMessage type is not CommDebugLevel
+	explicit TMsgDirFindService(const TMessage& theMsgR);
 
-    // Copy ctor
-    TMsgDirFindService(const TMsgDirFindService& theMsgR);
+	// Copy ctor
+	TMsgDirFindService(const TMsgDirFindService& theMsgR);
 
-    // Destructor
-    ~TMsgDirFindService(void);
+	// Destructor
+	~TMsgDirFindService(void);
 
-    // Assignment
-    TMsgDirFindService& operator=(const TMsgDirFindService& theMsgR);
+	// Assignment
+	TMsgDirFindService& operator=(const TMsgDirFindService& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    TRawMsg* Duplicate(void) const;
+	// Virtual Duplicate from TMessage
+	TRawMsg* Duplicate(void) const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    void* Pack(void);
-    void  Unpack(void);
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(void); 
+	void  Unpack(void);
 
-    // FindMask access
-    unsigned char GetFindMask(void) const;
-    void          SetFindMask(unsigned char theMask);
+	// FindMask access
+	unsigned char GetFindMask(void) const;
+	void          SetFindMask(unsigned char theMask);
 
-    // Recursive access
-    bool GetRecursive() const;
-    void SetRecursive(bool theFlag);
+	// Recursive access
+	bool GetRecursive() const;
+	void SetRecursive(bool theFlag);
 
 private:
-    unsigned char mFindMask;   // Service find mask (SK_MASK values 'or'ed)
-    bool          mRecursive;  // Recursive request?
+	unsigned char mFindMask;   // Service find mask (SK_MASK values 'or'ed)
+	bool          mRecursive;  // Recursive request?
 };
 
 
 class TMsgDirFindServiceReply : public TMessage
 {
 public:
-    // Default ctor
-    TMsgDirFindServiceReply(void);
+	// Default ctor
+	TMsgDirFindServiceReply(void);
 
-    // TMessage ctor - will throw if TMessage type is not of this type
-    explicit TMsgDirFindServiceReply(const TMessage& theMsgR);
+	// TMessage ctor - will throw if TMessage type is not of this type
+	explicit TMsgDirFindServiceReply(const TMessage& theMsgR);
 
-    // Copy ctor
-    TMsgDirFindServiceReply(const TMsgDirFindServiceReply& theMsgR);
+	// Copy ctor
+	TMsgDirFindServiceReply(const TMsgDirFindServiceReply& theMsgR);
 
-    // Destructor
-    ~TMsgDirFindServiceReply(void);
+	// Destructor
+	~TMsgDirFindServiceReply(void);
 
-    // Assignment
-    TMsgDirFindServiceReply& operator=(const TMsgDirFindServiceReply& theMsgR);
+	// Assignment
+	TMsgDirFindServiceReply& operator=(const TMsgDirFindServiceReply& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    TRawMsg* Duplicate(void) const;
+	// Virtual Duplicate from TMessage
+	TRawMsg* Duplicate(void) const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException if message is not of this type
-    void* Pack(void);
-    void  Unpack(void);
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException if message is not of this type
+	void* Pack(void); 
+	void  Unpack(void);
 
-    // Status access
-    ServerStatus GetStatus() const;
-    void         SetStatus(ServerStatus theStatus);
+	// Status access
+	ServerStatus GetStatus() const;
+	void         SetStatus(ServerStatus theStatus);
 
-    // Service access (const and non-const versions)
-    const DirServerEntry& Service() const;
-    DirServerEntry&       Service();
+	// Service access (const and non-const versions)
+	const DirServerEntry& Service() const;
+	DirServerEntry&       Service();
 
 private:
-    ServerStatus   mStatus;   // Status of the request
-    DirServerEntry mService;  // Service returned (may be empty)
+	ServerStatus   mStatus;   // Status of the request
+	DirServerEntry mService;  // Service returned (may be empty)
 };
 
 

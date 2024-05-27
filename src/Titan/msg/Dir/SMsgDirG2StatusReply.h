@@ -7,7 +7,7 @@
 // request made to the Directory Server.
 
 
-#include "STRING"
+#include <string>
 #include "msg/TMessage.h"
 #include "msg/ServerStatus.h"
 
@@ -17,40 +17,40 @@ namespace WONMsg {
 class SMsgDirG2StatusReply : public SmallMessage
 {
 public:
-    // Default ctor
-    SMsgDirG2StatusReply(ServerStatus theStatus=WONMsg::StatusCommon_Success);
+	// Default ctor
+	SMsgDirG2StatusReply(ServerStatus theStatus=WONMsg::StatusCommon_Success);
 
-    // TMessage ctor - will throw if SmallMessage type is not of this type
-    explicit SMsgDirG2StatusReply(const SmallMessage& theMsgR);
+	// TMessage ctor - will throw if SmallMessage type is not of this type
+	explicit SMsgDirG2StatusReply(const SmallMessage& theMsgR);
 
-    // Copy ctor
-    SMsgDirG2StatusReply(const SMsgDirG2StatusReply& theMsgR);
+	// Copy ctor
+	SMsgDirG2StatusReply(const SMsgDirG2StatusReply& theMsgR);
 
-    // Destructor
-    ~SMsgDirG2StatusReply(void);
+	// Destructor
+	~SMsgDirG2StatusReply(void);
 
-    // Assignment
-    SMsgDirG2StatusReply& operator=(const SMsgDirG2StatusReply& theMsgR);
+	// Assignment
+	SMsgDirG2StatusReply& operator=(const SMsgDirG2StatusReply& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    TRawMsg* Duplicate(void) const;
+	// Virtual Duplicate from TMessage
+	TRawMsg* Duplicate(void) const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    void* Pack(void);
-    void  Unpack(void);
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(void); 
+	void  Unpack(void);
 
-    // Status access
-    ServerStatus GetStatus(void) const;
-    void         SetStatus(ServerStatus theStatus);
+	// Status access
+	ServerStatus GetStatus(void) const;
+	void         SetStatus(ServerStatus theStatus);
 
-    // NetAddress access (for replies to AddService(Ex) only)
-    const WONCommon::RawBuffer& GetNetAddress(void) const;
-    void                        SetNetAddress(const WONCommon::RawBuffer& theAddr);
+	// NetAddress access (for replies to AddService(Ex) only)
+	const WONCommon::RawBuffer& GetNetAddress(void) const;
+	void                        SetNetAddress(const WONCommon::RawBuffer& theAddr);
 
 private:
-    ServerStatus         mStatus;   // Request status
-    WONCommon::RawBuffer mNetAddr;  // Service net address.  (AddService(Ex) only)
+	ServerStatus         mStatus;   // Request status
+	WONCommon::RawBuffer mNetAddr;  // Service net address.  (AddService(Ex) only)
 };
 
 

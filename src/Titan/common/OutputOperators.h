@@ -2,7 +2,7 @@
 #define OUTPUTOPERATORS_H
 
 #include "won.h"
-#include "LIST"
+#include <list>
 #include <ctype.h>
 
 // RawBuffer
@@ -34,6 +34,26 @@ operator<<(ostream& os, const std::list<unsigned short>& theList)
     os << "[";
     bool bFirstElement = true;
     std::list<unsigned short>::const_iterator itr = theList.begin();
+    for (; itr != theList.end(); itr++)
+    {
+        if (!bFirstElement)
+            os << ",";
+        os << *itr;
+        bFirstElement = false;
+    }
+    os << "]";
+    return os;
+}
+
+
+// std::list<unsigned long>
+// Outputs "[elt1,elt2,...,eltN]"
+inline ostream&
+operator<<(ostream& os, const std::list<unsigned long>& theList)
+{
+    os << "[";
+    bool bFirstElement = true;
+    std::list<unsigned long>::const_iterator itr = theList.begin();
     for (; itr != theList.end(); itr++)
     {
         if (!bFirstElement)

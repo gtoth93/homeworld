@@ -10,7 +10,7 @@
 // the Directory Server is response to a GetDirContents request.
 
 
-#include "STRING"
+#include <string>
 #include "msg/TMessage.h"
 #include "msg/ServerStatus.h"
 #include "DirServerEntry.h"
@@ -21,87 +21,87 @@ namespace WONMsg {
 class TMsgDirGetDirContents : public TMessage
 {
 public:
-    // Default ctor
-    TMsgDirGetDirContents(void);
+	// Default ctor
+	TMsgDirGetDirContents(void);
 
-    // TMessage ctor - will throw if TMessage type is not CommDebugLevel
-    explicit TMsgDirGetDirContents(const TMessage& theMsgR);
+	// TMessage ctor - will throw if TMessage type is not CommDebugLevel
+	explicit TMsgDirGetDirContents(const TMessage& theMsgR);
 
-    // Copy ctor
-    TMsgDirGetDirContents(const TMsgDirGetDirContents& theMsgR);
+	// Copy ctor
+	TMsgDirGetDirContents(const TMsgDirGetDirContents& theMsgR);
 
-    // Destructor
-    ~TMsgDirGetDirContents(void);
+	// Destructor
+	~TMsgDirGetDirContents(void);
 
-    // Assignment
-    TMsgDirGetDirContents& operator=(const TMsgDirGetDirContents& theMsgR);
+	// Assignment
+	TMsgDirGetDirContents& operator=(const TMsgDirGetDirContents& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    TRawMsg* Duplicate(void) const;
+	// Virtual Duplicate from TMessage
+	TRawMsg* Duplicate(void) const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    void* Pack(void);
-    void  Unpack(void);
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(void); 
+	void  Unpack(void);
 
-    // DirectoryPath access
-    const std::wstring& GetDirectoryPath(void) const;
-    void                SetDirectoryPath(const std::wstring& thePath);
+	// DirectoryPath access
+	const std::wstring& GetDirectoryPath(void) const;
+	void                SetDirectoryPath(const std::wstring& thePath);
 
-    // Recursive access
-    bool GetRecursive() const;
-    void SetRecursive(bool theFlag);
+	// Recursive access
+	bool GetRecursive() const;
+	void SetRecursive(bool theFlag);
 
 private:
-    std::wstring mDirectoryPath;  // Path to get
-    bool         mRecursive;      // Recursive request?
+	std::wstring mDirectoryPath;  // Path to get
+	bool         mRecursive;      // Recursive request?
 };
 
 
 class TMsgDirGetDirContentsReply : public TMessage
 {
 public:
-    // Default ctor
-    TMsgDirGetDirContentsReply(void);
+	// Default ctor
+	TMsgDirGetDirContentsReply(void);
 
-    // TMessage ctor - will throw if TMessage type is not of this type
-    explicit TMsgDirGetDirContentsReply(const TMessage& theMsgR);
+	// TMessage ctor - will throw if TMessage type is not of this type
+	explicit TMsgDirGetDirContentsReply(const TMessage& theMsgR);
 
-    // Copy ctor
-    TMsgDirGetDirContentsReply(const TMsgDirGetDirContentsReply& theMsgR);
+	// Copy ctor
+	TMsgDirGetDirContentsReply(const TMsgDirGetDirContentsReply& theMsgR);
 
-    // Destructor
-    ~TMsgDirGetDirContentsReply(void);
+	// Destructor
+	~TMsgDirGetDirContentsReply(void);
 
-    // Assignment
-    TMsgDirGetDirContentsReply& operator=(const TMsgDirGetDirContentsReply& theMsgR);
+	// Assignment
+	TMsgDirGetDirContentsReply& operator=(const TMsgDirGetDirContentsReply& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    TRawMsg* Duplicate(void) const;
+	// Virtual Duplicate from TMessage
+	TRawMsg* Duplicate(void) const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    void* Pack(void);
-    void  Unpack(void);
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(void); 
+	void  Unpack(void);
 
-    // Status access
-    ServerStatus GetStatus() const;
-    void         SetStatus(ServerStatus theStatus);
+	// Status access
+	ServerStatus GetStatus() const;
+	void         SetStatus(ServerStatus theStatus);
 
-    // Entry access (const and non-const versions)
-    const DirServerEntryVector& Entries() const;
-    DirServerEntryVector&       Entries();
+	// Entry access (const and non-const versions)
+	const DirServerEntryVector& Entries() const;
+	DirServerEntryVector&       Entries();
 
-    // Get base size of messsage
-    unsigned long GetBaseSize() const;
+	// Get base size of messsage
+	unsigned long GetBaseSize() const;
 
 private:
-    ServerStatus         mStatus;   // Status of the request
-    DirServerEntryVector mEntries;  // Entries returned (may be empty)
+	ServerStatus         mStatus;   // Status of the request
+	DirServerEntryVector mEntries;  // Entries returned (may be empty)
 
-    // Private methods
-    void PackEntry(const DirServerEntry& theEntry);
-    void UnpackEntry(DirServerEntry& theEntry);
+	// Private methods
+	void PackEntry(const DirServerEntry& theEntry);
+	void UnpackEntry(DirServerEntry& theEntry);
 };
 
 

@@ -17,9 +17,9 @@
 // are NoOps if message is not extended (mExtended == false).
 
 
-#include "STRING"
+#include <string>
 #include "common/DataObject.h"
-#include "msg/dir/SMsgDirG2QueryBase.h"
+#include "SMsgDirG2QueryBase.h"
 
 
 namespace WONMsg {
@@ -27,46 +27,46 @@ namespace WONMsg {
 class SMsgDirG2QueryExtendBase : public SMsgDirG2QueryBase
 {
 public:
-    // Default ctor
-    explicit SMsgDirG2QueryExtendBase(KeyType theType, bool isExtended=false);
+	// Default ctor
+	explicit SMsgDirG2QueryExtendBase(KeyType theType, bool isExtended=false);
 
-    // SmallMessage ctor
-    explicit SMsgDirG2QueryExtendBase(const SmallMessage& theMsgR);
+	// SmallMessage ctor
+	explicit SMsgDirG2QueryExtendBase(const SmallMessage& theMsgR);
 
-    // Copy ctor
-    SMsgDirG2QueryExtendBase(const SMsgDirG2QueryExtendBase& theMsgR);
+	// Copy ctor
+	SMsgDirG2QueryExtendBase(const SMsgDirG2QueryExtendBase& theMsgR);
 
-    // Destructor
-    virtual ~SMsgDirG2QueryExtendBase(void);
+	// Destructor
+	virtual ~SMsgDirG2QueryExtendBase(void);
 
-    // Assignment
-    SMsgDirG2QueryExtendBase& operator=(const SMsgDirG2QueryExtendBase& theMsgR);
+	// Assignment
+	SMsgDirG2QueryExtendBase& operator=(const SMsgDirG2QueryExtendBase& theMsgR);
 
-    // Virtual Duplicate from SmallMessage
-    // Pure virtual - must be overridden!
-    virtual TRawMsg* Duplicate(void) const = 0;
+	// Virtual Duplicate from SmallMessage
+	// Pure virtual - must be overridden!
+	virtual TRawMsg* Duplicate(void) const = 0;
 
-    // Extended access (read only)
-    bool IsExtended() const;
+	// Extended access (read only)
+	bool IsExtended() const;
 
-    // Get Data Types access
-    const WONCommon::DataObjectTypeSet& GetGetTypes() const;
-    void SetGetTypes(const WONCommon::DataObjectTypeSet& theSetR);
-    void AddGetType(const WONCommon::DataObject& theTypeR);
-    void AddGetType(const WONCommon::DataObject::DataType& theTypeR);
-    void AddGetType(const unsigned char* theTypeP, unsigned char theLen);
+	// Get Data Types access
+	const WONCommon::DataObjectTypeSet& GetGetTypes() const;
+	void SetGetTypes(const WONCommon::DataObjectTypeSet& theSetR);
+	void AddGetType(const WONCommon::DataObject& theTypeR);
+	void AddGetType(const WONCommon::DataObject::DataType& theTypeR);
+	void AddGetType(const unsigned char* theTypeP, unsigned char theLen);
 
 protected:
-    bool                         mExtended;  // Is query extended?
-    WONCommon::DataObjectTypeSet mGetTypes;  // Set of data object get types for extended query
+	bool                         mExtended;  // Is query extended?
+	WONCommon::DataObjectTypeSet mGetTypes;  // Set of data object get types for extended query
 
-    // Pack entities into raw buffer (call in Pack()).
-    // Is a NoOp if mExtended is false.
-    virtual void PackExtended();
+	// Pack entities into raw buffer (call in Pack()).
+	// Is a NoOp if mExtended is false.
+	virtual void PackExtended();
 
-    // Unpack entities from raw buffer (call in Unpack()).
-    // Is a NoOp if mExtended is false.
-    virtual void UnpackExtended();
+	// Unpack entities from raw buffer (call in Unpack()).
+	// Is a NoOp if mExtended is false.
+	virtual void UnpackExtended();
 
 private:
 };

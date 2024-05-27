@@ -31,6 +31,7 @@ namespace {
 	using WONMsg::TMsgAuth1ChallengeHW;
 	using WONMsg::TMsgAuth1ConfirmHW;
 	using WONMsg::TMsgAuth1RefreshHW;
+	using WONMsg::TMsgAuth1CheckHWKey;
 };
 
 
@@ -160,7 +161,7 @@ bool TMsgAuth1LoginRequestHW::ExtractBuffer(const WONCrypt::EGPrivateKey &thePri
 		WONCrypt::CryptKeyBase::CryptReturn aCryptRet(NULL,0);
 
 		aCryptRet = thePrivateKey.Decrypt(GetRawKeyBuf(),GetRawKeyBufLen());
-		auto_ptr<unsigned char> aDeleteCryptRet(aCryptRet.first);
+		unique_ptr<unsigned char> aDeleteCryptRet(aCryptRet.first);
 
 		if(aCryptRet.first==NULL) 
 			return false;
@@ -285,7 +286,7 @@ TMsgAuth1ChallengeHW::Pack(void)
 {
 	WTRACE("TMsgAuth1ChallengeHW::Pack");
 	SetServiceType(WONMsg::Auth1Login);
-//	SetMessageType(WONMsg::Auth1LoginChallengeHL);
+//	SetMessageType(WONMsg::Auth1LoginChallengeHW);
 	TMsgAuthRawBufferBase::Pack();
 
 	WDBG_LL("TMsgAuth1ChallengeHW::Pack Appending message data");
@@ -478,3 +479,205 @@ TMsgAuth1RefreshHW::Unpack(void)
 
 }
 
+
+
+// ** TMsgAuth1CheckHWKey **
+
+// ** Constructors / Destructor **
+
+// Default ctor
+TMsgAuth1CheckHWKey::TMsgAuth1CheckHWKey(void) :
+	TMsgAuth1LoginBase2(), mNeedKeyFlg(false), mCreateAcctFlg(false), mKeyBuf(NULL), mDataBuf(NULL)
+{
+	SetServiceType(WONMsg::Auth1Login);
+	SetMessageType(WONMsg::Auth1CheckHWKey);
+}
+
+
+// TMessage ctor
+TMsgAuth1CheckHWKey::TMsgAuth1CheckHWKey(const TMessage& theMsgR) :
+	TMsgAuth1LoginBase2(theMsgR), mKeyBuf(NULL), mDataBuf(NULL)
+{
+	Unpack();
+}
+
+
+// Copy ctor
+TMsgAuth1CheckHWKey::TMsgAuth1CheckHWKey(const TMsgAuth1CheckHWKey& theMsgR) :
+	TMsgAuth1LoginBase2(theMsgR), mNeedKeyFlg(theMsgR.mNeedKeyFlg), mCreateAcctFlg(theMsgR.mCreateAcctFlg),
+		mUserName(theMsgR.mUserName), mCommunityName(theMsgR.mCommunityName), mNicknameKey(theMsgR.mNicknameKey),
+		mPassword(theMsgR.mPassword), mNewPassword(theMsgR.mNewPassword), mCDKey(theMsgR.mCDKey),
+		mKeyBuf(NULL), mDataBuf(NULL)
+{
+}
+
+
+// Destructor
+TMsgAuth1CheckHWKey::~TMsgAuth1CheckHWKey(void)
+{
+	delete [] mKeyBuf;
+	delete [] mDataBuf;
+}
+
+
+// ** Public Methods
+
+// Assignment operator
+TMsgAuth1CheckHWKey&
+TMsgAuth1CheckHWKey::operator=(const TMsgAuth1CheckHWKey& theMsgR)
+{
+	if (this != &theMsgR)  // protect against a = a
+	{
+	    TMsgAuth1LoginBase2::operator=(theMsgR);
+
+			delete [] mKeyBuf; mKeyBuf = NULL;
+			delete [] mDataBuf; mDataBuf = NULL;
+
+			mNeedKeyFlg = theMsgR.mNeedKeyFlg;
+			mCreateAcctFlg = theMsgR.mCreateAcctFlg;
+			mUserName = theMsgR.mUserName;
+			mCommunityName = theMsgR.mCommunityName;
+			mNicknameKey = theMsgR.mNicknameKey;
+			mPassword = theMsgR.mPassword;
+			mNewPassword = theMsgR.mNewPassword;
+			mCDKey = theMsgR.mCDKey;
+	}
+	return *this;
+}
+
+// Build the raw encrypted buffers from class data members
+bool TMsgAuth1CheckHWKey::BuildBuffer(const WONAuth::Auth1PublicKeyBlock &thePubKeyBlock, 
+																					const WONCrypt::BFSymmetricKey &theSessionKey)
+{
+	SetRawKeyBuf(NULL,0,false);
+	SetRawDataBuf(NULL,0,false);
+	delete [] mKeyBuf; mKeyBuf = NULL;
+	delete [] mDataBuf; mDataBuf = NULL;
+
+	try {
+		if(!thePubKeyBlock.IsValid()) 
+			return false;
+
+		SetKeyBlockId(thePubKeyBlock.GetBlockId());
+		WONCrypt::CryptKeyBase::CryptReturn aCryptRet(NULL,0);
+		
+		aCryptRet = thePubKeyBlock.EncryptRawBuffer(theSessionKey.GetKey(),theSessionKey.GetKeyLen());
+		if(aCryptRet.first==NULL) 
+			return false;
+
+		mKeyBuf = aCryptRet.first;
+		SetRawKeyBuf(aCryptRet.first,aCryptRet.second,false);
+		aCryptRet.first = NULL;
+
+		TRawMsg aBuf;
+		aBuf.AppendShort(thePubKeyBlock.GetBlockId());
+		aBuf.AppendByte(mNeedKeyFlg);
+		aBuf.AppendByte(mCreateAcctFlg);
+		aBuf.Append_PW_STRING(mUserName);
+		aBuf.Append_PW_STRING(mCommunityName);
+		aBuf.Append_PW_STRING(mNicknameKey);
+		aBuf.Append_PW_STRING(mPassword);
+		aBuf.Append_PW_STRING(mNewPassword);
+		aBuf.Append_PA_STRING(mCDKey);
+		/*
+		aBuf.AppendShort(mCDKey.size());
+		aBuf.AppendBytes(mCDKey.size(),mCDKey.data());
+		*/
+
+		aCryptRet = theSessionKey.Encrypt(aBuf.GetDataPtr(),aBuf.GetDataLen());
+		if(aCryptRet.first==NULL)
+			return false;
+
+		mDataBuf = aCryptRet.first;
+		SetRawDataBuf(aCryptRet.first,aCryptRet.second,false);
+		aCryptRet.first = NULL;
+	}
+	catch(WONCommon::WONException&) {
+		return false;
+	}
+
+	return true;
+}
+
+
+bool TMsgAuth1CheckHWKey::ExtractBuffer(const WONCrypt::EGPrivateKey &thePrivateKey, 
+																		 WONCrypt::BFSymmetricKey *theSessionKey)
+{
+	try {
+		WONCrypt::CryptKeyBase::CryptReturn aCryptRet(NULL,0);
+
+		aCryptRet = thePrivateKey.Decrypt(GetRawKeyBuf(),GetRawKeyBufLen());
+		unique_ptr<unsigned char> aDeleteCryptRet(aCryptRet.first);
+
+		if(aCryptRet.first==NULL) 
+			return false;
+
+		theSessionKey->Create(aCryptRet.second,aCryptRet.first);
+		
+		aCryptRet.first=NULL;
+		aCryptRet = theSessionKey->Decrypt(GetRawDataBuf(),GetRawDataBufLen());
+		if(aCryptRet.first==NULL)
+			return false;
+
+		TRawMsg aBuf(aCryptRet.second, aCryptRet.first);
+		int aBlockId = aBuf.ReadShort();
+		if(aBlockId!=GetKeyBlockId())
+			return false;
+
+		mNeedKeyFlg = aBuf.ReadByte()!=0;
+		mCreateAcctFlg = aBuf.ReadByte()!=0;
+		aBuf.ReadWString(mUserName);
+		aBuf.ReadWString(mCommunityName);
+		aBuf.ReadWString(mNicknameKey);
+		aBuf.ReadWString(mPassword);
+		aBuf.ReadWString(mNewPassword);
+	
+		aBuf.ReadString(mCDKey);
+
+		/*
+		unsigned short aLen;
+		aLen = aBuf.ReadShort();
+		mCDKey.assign((const unsigned char*)aBuf.ReadBytes(aLen),aLen);
+		*/
+	}
+	catch(WONCommon::WONException&) {
+		return false;
+	}
+
+	return true;
+}
+
+
+// TMsgAuth1CheckHWKey::Pack
+// Virtual method from TMessage.  Packs data into message buffer and
+// sets the new message length.
+void*
+TMsgAuth1CheckHWKey::Pack(void)
+{
+	WTRACE("TMsgAuth1CheckHWKey::Pack");
+	SetServiceType(WONMsg::Auth1Login);
+	SetMessageType(WONMsg::Auth1CheckHWKey);
+	TMsgAuth1LoginBase2::Pack();
+
+	return GetDataPtr();
+}
+
+
+// TMsgAuth1CheckHKey::Unpack
+// Virtual method from TMessage.  Extracts data from message buffer.
+// Note: call ForceRawBufOwn() to force ownership of the data buffers.
+void
+TMsgAuth1CheckHWKey::Unpack(void)
+{
+	WTRACE("TMsgAuth1CheckHWKey::Unpack");
+	TMsgAuth1LoginBase2::Unpack();
+
+	if ((GetServiceType() != WONMsg::Auth1Login) ||
+	    (GetMessageType() != WONMsg::Auth1CheckHWKey))
+	{
+		WDBG_AH("TMsgAuth1CheckHWKey::Unpack Not a Auth1CheckHWKey message!");
+		throw WONMsg::BadMsgException(*this, __LINE__, __FILE__,
+		                              "Not a Auth1CheckHWKey message.");
+	}
+
+}

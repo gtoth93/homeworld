@@ -5,7 +5,7 @@
 
 // Message that is used to tell the server to register itself with a directory server
 
-#include "LIST"
+#include <list>
 #include "msg/TMessage.h"
 #include "common/DataObject.h"
 
@@ -13,56 +13,56 @@ namespace WONMsg {
 
 class SMsgCommRegisterRequest : public SmallMessage {
 public:
-    // Default ctor
-    SMsgCommRegisterRequest(bool isExtended=false);
+	// Default ctor
+	SMsgCommRegisterRequest(bool isExtended=false);
 
-    // TMessage ctor
-    explicit SMsgCommRegisterRequest(const SmallMessage& theMsgR);
+	// TMessage ctor
+	explicit SMsgCommRegisterRequest(const SmallMessage& theMsgR);
 
-    // Copy ctor
-    SMsgCommRegisterRequest(const SMsgCommRegisterRequest& theMsgR);
+	// Copy ctor
+	SMsgCommRegisterRequest(const SMsgCommRegisterRequest& theMsgR);
 
-    // Destructor
-    virtual ~SMsgCommRegisterRequest(void);
+	// Destructor
+	virtual ~SMsgCommRegisterRequest(void);
 
-    // Assignment
-    SMsgCommRegisterRequest& operator=(const SMsgCommRegisterRequest& theMsgR);
+	// Assignment
+	SMsgCommRegisterRequest& operator=(const SMsgCommRegisterRequest& theMsgR);
 
-    // Virtual Duplicate from BaseMessage
-    virtual TRawMsg* Duplicate(void) const;
+	// Virtual Duplicate from BaseMessage
+	virtual TRawMsg* Duplicate(void) const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    virtual void* Pack(void);
-    virtual void  Unpack(void);
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	virtual void* Pack(void); 
+	virtual void  Unpack(void);
 
-    // Member access
-    bool IsExtended(void) const;
-    const std::list<std::string>& GetDirServerAddressList(void) const;
-    const std::wstring& GetDisplayName(void) const;
-    bool RequireUniqueDisplayName(void) const;
-    const std::wstring& GetPath(void) const;
+	// Member access
+	bool IsExtended(void) const;
+	const std::list<std::string>& GetDirServerAddressList(void) const;
+	const std::wstring& GetDisplayName(void) const;
+	bool RequireUniqueDisplayName(void) const;
+	const std::wstring& GetPath(void) const;
 
-    // Data Object access
-    const WONCommon::DataObjectTypeSet& GetDataObjects() const;
-    void SetDataObjects(const WONCommon::DataObjectTypeSet& theSetR);
-    void AddDataObject(const WONCommon::DataObject& theObjR);
+	// Data Object access
+	const WONCommon::DataObjectTypeSet& GetDataObjects() const;
+	void SetDataObjects(const WONCommon::DataObjectTypeSet& theSetR);
+	void AddDataObject(const WONCommon::DataObject& theObjR);
 
-    virtual void AddDirServerAddress(const std::string& theAddrR);
-    virtual void SetDisplayName(const std::wstring& theDisplayName);
-    virtual void SetRequireUniqueDisplayName(bool requireUniqueDisplayName);
-    virtual void SetPath(const std::wstring& thePath);
+	virtual void AddDirServerAddress(const std::string& theAddrR);
+	virtual void SetDisplayName(const std::wstring& theDisplayName);
+	virtual void SetRequireUniqueDisplayName(bool requireUniqueDisplayName);
+	virtual void SetPath(const std::wstring& thePath);
 protected:
-    bool                         mIsExtended; // Is extended (data-object containing) version of message?
-    std::list<std::string>       mDirServerAddressList;
-    std::wstring                 mPath;
-    std::wstring                 mDisplayName;
-    bool                         mRequireUniqueDisplayName;
-    WONCommon::DataObjectTypeSet mDataObjects;  // Set of data objects for extended version
+	bool                         mIsExtended; // Is extended (data-object containing) version of message?
+	std::list<std::string>       mDirServerAddressList;
+	std::wstring                 mPath;
+	std::wstring                 mDisplayName;
+	bool                         mRequireUniqueDisplayName;
+	WONCommon::DataObjectTypeSet mDataObjects;  // Set of data objects for extended version
 
-    // Pack/Unpack data objects into raw buffer (call in Pack/Unpack()).  Is a NoOp if mExtended is false.
-    virtual void PackExtended();
-    virtual void UnpackExtended();
+	// Pack/Unpack data objects into raw buffer (call in Pack/Unpack()).  Is a NoOp if mExtended is false.
+	virtual void PackExtended();
+	virtual void UnpackExtended();
 };
 
 

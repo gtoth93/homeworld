@@ -5,7 +5,7 @@
 
 // DirectoryServer Change SubDirectory message.  Defines a subdirectory to change.
 
-#include "STRING"
+#include <string>
 #include "msg/TMessage.h"
 #include "TMsgDirDirectoryBase.h"
 
@@ -14,45 +14,45 @@ namespace WONMsg {
 class TMsgDirChangeDirectory : public TMsgDirDirectoryBase
 {
 public:
-    // Default ctor
-    TMsgDirChangeDirectory(void);
+	// Default ctor
+	TMsgDirChangeDirectory(void);
 
-    // TMessage ctor
-    explicit TMsgDirChangeDirectory(const TMessage& theMsgR);
+	// TMessage ctor
+	explicit TMsgDirChangeDirectory(const TMessage& theMsgR);
 
-    // Copy ctor
-    TMsgDirChangeDirectory(const TMsgDirChangeDirectory& theMsgR);
+	// Copy ctor
+	TMsgDirChangeDirectory(const TMsgDirChangeDirectory& theMsgR);
 
-    // Destructor
-    ~TMsgDirChangeDirectory(void);
+	// Destructor
+	~TMsgDirChangeDirectory(void);
 
-    // Assignment
-    TMsgDirChangeDirectory& operator=(const TMsgDirChangeDirectory& theMsgR);
+	// Assignment
+	TMsgDirChangeDirectory& operator=(const TMsgDirChangeDirectory& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    TRawMsg* Duplicate(void) const;
+	// Virtual Duplicate from TMessage
+	TRawMsg* Duplicate(void) const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    void* Pack(void);
-    void  Unpack(void);
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(void); 
+	void  Unpack(void);
 
-    // Member access
-    const std::wstring& GetNewName(void) const;
-    const std::wstring& GetNewDisplayName(void) const;
-    unsigned char       GetNewVisible(void) const;
-    unsigned long       GetNewLifespan(void) const;
+	// Member access
+	const std::wstring& GetNewName(void) const;
+	const std::wstring& GetNewDisplayName(void) const;
+	unsigned char       GetNewVisible(void) const;
+	unsigned long       GetNewLifespan(void) const;
 
-    void SetNewName(const std::wstring& theName);
-    void SetNewDisplayName(const std::wstring& theName);
-    void SetNewVisible(unsigned char theFlag);
-    void SetNewLifespan(unsigned long theLifespan);
+	void SetNewName(const std::wstring& theName);
+	void SetNewDisplayName(const std::wstring& theName);
+	void SetNewVisible(unsigned char theFlag);
+	void SetNewLifespan(unsigned long theLifespan);
 
 private:
-    std::wstring  mNewName;
-    std::wstring  mNewDisplayName;
-    int           mNewVisible;
-    unsigned long mNewLifespan;
+	std::wstring  mNewName;
+	std::wstring  mNewDisplayName;
+	int           mNewVisible;
+	unsigned long mNewLifespan;
 };
 
 

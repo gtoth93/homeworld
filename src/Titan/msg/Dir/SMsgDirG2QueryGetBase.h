@@ -18,7 +18,7 @@
 // from SMsgDirG2QueryExtendBase.  Derrived classes must override this method.
 
 
-#include "STRING"
+#include <string>
 #include "common/DataObject.h"
 #include "msg/TMessage.h"
 #include "SMsgDirG2QueryExtendBase.h"
@@ -29,38 +29,38 @@ namespace WONMsg {
 class SMsgDirG2QueryGetBase : public SMsgDirG2QueryExtendBase
 {
 public:
-    // Default ctor
-    explicit SMsgDirG2QueryGetBase(KeyType theType, bool isExtended=false);
+	// Default ctor
+	explicit SMsgDirG2QueryGetBase(KeyType theType, bool isExtended=false);
 
-    // SmallMessage ctor
-    explicit SMsgDirG2QueryGetBase(const SmallMessage& theMsgR);
+	// SmallMessage ctor
+	explicit SMsgDirG2QueryGetBase(const SmallMessage& theMsgR);
 
-    // Copy ctor
-    SMsgDirG2QueryGetBase(const SMsgDirG2QueryGetBase& theMsgR);
+	// Copy ctor
+	SMsgDirG2QueryGetBase(const SMsgDirG2QueryGetBase& theMsgR);
 
-    // Destructor
-    virtual ~SMsgDirG2QueryGetBase(void);
+	// Destructor
+	virtual ~SMsgDirG2QueryGetBase(void);
 
-    // Assignment
-    SMsgDirG2QueryGetBase& operator=(const SMsgDirG2QueryGetBase& theMsgR);
+	// Assignment
+	SMsgDirG2QueryGetBase& operator=(const SMsgDirG2QueryGetBase& theMsgR);
 
-    // Pack and Unpack the message
-    // Pack and Unpack will only affect mFlags.  mEntriesPerReply MUST be
-    // packed/unpacked explicitly be derived classes as needed.
-    virtual void* Pack(void);
-    virtual void  Unpack(void);
+	// Pack and Unpack the message
+	// Pack and Unpack will only affect mFlags.  mEntriesPerReply MUST be
+	// packed/unpacked explicitly be derived classes as needed.
+	virtual void* Pack(void); 
+	virtual void  Unpack(void);
 
-    // Flags for returned fields
-    unsigned long GetFlags() const;
-    void          SetFlags(unsigned long theFlags);
-    
-    // EntriesPerReply access
-    unsigned short GetEntitiesPerReply() const;
-    void           SetEntitiesPerReply(unsigned short theCt);
-    
+	// Flags for returned fields
+	unsigned long GetFlags() const;
+	void          SetFlags(unsigned long theFlags);
+	
+	// EntriesPerReply access
+	unsigned short GetEntitiesPerReply() const;
+	void           SetEntitiesPerReply(unsigned short theCt);
+	
 protected:
-    unsigned long  mFlags;             // Get Flags
-    unsigned short mEntitiesPerReply;  // Max entities per reply
+	unsigned long  mFlags;             // Get Flags
+	unsigned short mEntitiesPerReply;  // Max entities per reply
 
 private:
 };

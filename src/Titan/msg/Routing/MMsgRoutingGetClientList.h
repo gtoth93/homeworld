@@ -3,7 +3,7 @@
 
 // MMsgRoutingGetClientList.h
 
-#include "LIST"
+#include <list>
 #include <climits>
 #include "RoutingServerMessage.h"
 #include "MMsgRoutingStatusReply.h"
@@ -30,14 +30,24 @@ public:
     // Assignment
     RoutingServerClientInfoMessage& operator=(const RoutingServerClientInfoMessage& theMsgR);
 
-    // Debug output
-    virtual void Dump(std::ostream& os) const;
+	// Debug output
+	virtual void Dump(std::ostream& os) const;
+
+	void SimplePack();
+	void SimpleUnpack();
 
     // Member access
-    bool AuthInfoRequested() const                       { return mWasAuthInfoRequested; }
-    void SetAuthInfoRequested(bool wasAuthInfoRequested) { mWasAuthInfoRequested = wasAuthInfoRequested; }
+	bool AuthInfoRequested() const      { return mWasAuthInfoRequested; }
+	bool ModeratorFlagRequested() const { return mWasModeratorFlagRequested; } 
+	bool MuteFlagRequested() const      { return mWasMuteFlagRequested; }
+
+	void SetAuthInfoRequested(bool wasAuthInfoRequested)           { mWasAuthInfoRequested = wasAuthInfoRequested; }
+	void SetModeratorFlagRequested(bool wasModeratorFlagRequested) { mWasModeratorFlagRequested = wasModeratorFlagRequested; }
+	void SetMuteFlagRequested(bool wasMuteFlagRequested)           { mWasMuteFlagRequested = wasMuteFlagRequested; }
 protected:
-    bool mWasAuthInfoRequested;
+	bool mWasAuthInfoRequested;
+	bool mWasModeratorFlagRequested;
+	bool mWasMuteFlagRequested;
 };
 
 //
@@ -63,19 +73,19 @@ public:
     // Virtual Duplicate from RoutingServerMessage
     virtual TRawMsg* Duplicate(void) const { return new MMsgRoutingGetClientInfo(*this); }
 
-    // Debug output
-    virtual void Dump(std::ostream& os) const;
+	// Debug output
+	virtual void Dump(std::ostream& os) const;
 
     // Pack and Unpack the message
     // Unpack will throw a BadMsgException is message is not of this type
-    virtual void* Pack(void);
+    virtual void* Pack(void); 
     virtual void  Unpack(void);
 
     // Member access
-    ClientId GetClientId() const           { return mClientId; }
-    void SetClientId(ClientId theClientId) { mClientId = theClientId; }
+	ClientId GetClientId() const           { return mClientId; }
+	void SetClientId(ClientId theClientId) { mClientId = theClientId; }
 private:
-    ClientId mClientId;
+	ClientId mClientId;
 };
 
 //
@@ -103,7 +113,7 @@ public:
 
     // Pack and Unpack the message
     // Unpack will throw a BadMsgException is message is not of this type
-    virtual void* Pack(void);
+    virtual void* Pack(void); 
     virtual void  Unpack(void);
 };
 
@@ -130,19 +140,19 @@ public:
     // Virtual Duplicate from RoutingServerMessage
     virtual TRawMsg* Duplicate(void) const { return new MMsgRoutingGetMembersOfGroup(*this); }
 
-    // Debug output
-    virtual void Dump(std::ostream& os) const;
+	// Debug output
+	virtual void Dump(std::ostream& os) const;
 
     // Pack and Unpack the message
     // Unpack will throw a BadMsgException is message is not of this type
-    virtual void* Pack(void);
+    virtual void* Pack(void); 
     virtual void  Unpack(void);
 
     // Member access
-    GroupId GetGroupId() const             { return mGroupId; }
-    void    SetGroupId(GroupId theGroupId) { mGroupId = theGroupId; }
+	GroupId GetGroupId() const             { return mGroupId; }
+	void    SetGroupId(GroupId theGroupId) { mGroupId = theGroupId; }
 private:
-    GroupId mGroupId;
+	GroupId mGroupId;
 };
 
 //
@@ -150,17 +160,21 @@ private:
 //
 class MMsgRoutingGetClientListReply : public MMsgRoutingStatusReply {
 public:
-    // Client data
-    struct ClientData {
-        ClientId       mClientId;
-        ClientName     mClientName;
-        unsigned long  mIPAddress;
-        unsigned long  mWONUserId;
-        unsigned long  mCommunityId;
-        unsigned short mTrustLevel;
-    };
-    typedef std::list<ClientData> ClientList;
-    enum { MAX_CLIENT_LIST_SIZE = USHRT_MAX };
+	// Client data
+	struct ClientData {
+		ClientId       mClientId;
+		ClientName     mClientName;
+		unsigned long  mIPAddress;
+		unsigned long  mWONUserId;
+		unsigned long  mCommunityId;
+		unsigned short mTrustLevel;
+		bool           mIsModerator;
+		bool           mIsMuted;
+
+		ClientData() : mClientId(0), mIPAddress(0), mWONUserId(0), mCommunityId(0), mTrustLevel(0), mIsModerator(false), mIsMuted(false) {}
+	};
+	typedef std::list<ClientData> ClientList;
+	enum { MAX_CLIENT_LIST_SIZE = USHRT_MAX };
 
     // Default ctor
     MMsgRoutingGetClientListReply(void);
@@ -180,47 +194,56 @@ public:
     // Virtual Duplicate from RoutingServerMessage
     virtual TRawMsg* Duplicate(void) const { return new MMsgRoutingGetClientListReply(*this); }
 
-    // Debug output
-    virtual void Dump(std::ostream& os) const;
+	// Debug output
+	virtual void Dump(std::ostream& os) const;
+
+	// Copy flags from request
+	void CopyFlagsFromRequest(const RoutingServerClientInfoMessage& theRequestR);
 
     // Pack and Unpack the message
     // Unpack will throw a BadMsgException is message is not of this type
-    virtual void* Pack(void);
+    virtual void* Pack(void); 
     virtual void  Unpack(void);
 
     // Member access
-    unsigned short GetNumSpectators() const                { return mNumSpectators; }
-    bool IncludesIPs() const                               { return mIncludesIPs; }
-    bool IncludesAuthInfo() const                          { return mIncludesAuthInfo; }
-    const ClientList& GetClientList() const                { return mClientList; }
+	unsigned short GetNumSpectators() const { return mNumSpectators; }
+	bool IncludesIPs() const                { return mIncludesIPs; }
+	bool IncludesAuthInfo() const           { return mIncludesAuthInfo; }
+	bool IncludesModeratorFlag() const      { return mIncludesModeratorFlag; }
+	bool IncludesMuteFlag() const           { return mIncludesMuteFlag; }
+	const ClientList& GetClientList() const { return mClientList; }
 
-    void SetNumSpectators(unsigned short theNumSpectators) { mNumSpectators = theNumSpectators; }
-    void SetIncludesIPs(bool includesIPs)                  { mIncludesIPs = includesIPs; }
-    void SetIncludesAuthInfo(bool includesAuthInfo)        { mIncludesAuthInfo = includesAuthInfo; }
-    void SetClientList(const ClientList& theClientListR)   { mClientList = theClientListR; }
-    void AddClient(const ClientData& theClientDataR)       { mClientList.push_back(theClientDataR); }
+	void SetNumSpectators(unsigned short theNumSpectators)    { mNumSpectators = theNumSpectators; }
+	void SetIncludesIPs(bool includesIPs)                     { mIncludesIPs = includesIPs; }
+	void SetIncludesAuthInfo(bool includesAuthInfo)           { mIncludesAuthInfo = includesAuthInfo; }
+	void SetIncludesModeratorFlag(bool includesModeratorFlag) { mIncludesModeratorFlag = includesModeratorFlag; }
+	void SetIncludesMuteFlag(bool includesMuteFlag)           { mIncludesMuteFlag = includesMuteFlag; }
+	void SetClientList(const ClientList& theClientListR)      { mClientList = theClientListR; }
+	void AddClient(const ClientData& theClientDataR)          { mClientList.push_back(theClientDataR); }
 private:
-    unsigned short mNumSpectators;
-    ClientList     mClientList;
-    bool           mIncludesIPs;
-    bool           mIncludesAuthInfo;
+	unsigned short mNumSpectators;
+	ClientList     mClientList;
+	bool           mIncludesIPs;
+	bool           mIncludesAuthInfo;
+	bool           mIncludesModeratorFlag;
+	bool           mIncludesMuteFlag;
 };
 
 };  // Namespace WONMsg
 
 inline ostream& operator<<(ostream& os, const WONMsg::MMsgRoutingGetClientListReply::ClientList& theClientList)
 {
-    WONMsg::MMsgRoutingGetClientListReply::ClientList::const_iterator itr = theClientList.begin();
-    for (; itr != theClientList.end(); itr++)
-    {
-        os << " * " << itr->mClientId << ","
-                    << itr->mClientName << ","
-                    << (itr->mIPAddress & 0x000000FF) << "." << ((itr->mIPAddress & 0x0000FF00) >> 8) << "." << ((itr->mIPAddress & 0x00FF0000) >> 16) << "." << ((itr->mIPAddress & 0xFF000000) >> 24) << ","
-                    << itr->mWONUserId << ","
-                    << itr->mCommunityId << ","
-                    << itr->mTrustLevel << endl;
-    }
-    return os;
+	WONMsg::MMsgRoutingGetClientListReply::ClientList::const_iterator itr = theClientList.begin();
+	for (; itr != theClientList.end(); itr++)
+	{
+		os << " * " << itr->mClientId << "," 
+					<< itr->mClientName << ","
+					<< (itr->mIPAddress & 0x000000FF) << "." << ((itr->mIPAddress & 0x0000FF00) >> 8) << "." << ((itr->mIPAddress & 0x00FF0000) >> 16) << "." << ((itr->mIPAddress & 0xFF000000) >> 24) << ","
+					<< itr->mWONUserId << ","
+					<< itr->mCommunityId << ","
+					<< itr->mTrustLevel << endl;
+	}
+	return os;
 }
 
 #endif // MMsgRoutingGetClientList_H

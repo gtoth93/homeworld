@@ -34,10 +34,14 @@ public:
 	unsigned long GetMaxConnectTime() { return mMaxConnectTime; }
 	void SetMaxConnectTime(unsigned long theVal) { mMaxConnectTime = theVal; }
 
+	bool GetSendReplyToAcceptor() const { return mSendReplyToAcceptor; }
+	void SetSendReplyToAcceptor(bool theVal) { mSendReplyToAcceptor = theVal; }
+
 protected:
 	unsigned short mListenPort;
 	bool mWaitForConnect;
 	unsigned long mMaxConnectTime;
+	bool mSendReplyToAcceptor;
 
 };
 

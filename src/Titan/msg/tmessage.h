@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     !  N O T I C E  !  N O T I C E  !  N O T I C E  !  N O T I C E  !      */
 /*                                                                            */
-/*             ©1998 Sierra On-Line, Inc.  All Rights Reserved.               */
+/*             Â©1998 Sierra On-Line, Inc.  All Rights Reserved.               */
 /*                     U.S. and foreign patents pending.                      */
 /*                                                                            */
 /*                          THIS SOFTWARE BELONGS TO                          */
@@ -28,13 +28,14 @@
 #define H_TMessage
 
 #include "common/won.h"
-#include "msg/HeaderTypes.h"
+#include "HeaderTypes.h"
+#include "common/CriticalSection.h"
 
 namespace WONMsg {
 
 // Message class types
 enum MessageClass {
-	eTMessage, eMiniMessage, eSmallMessage, eLargeMessage
+	eTMessage, eMiniMessage, eSmallMessage, eLargeMessage, eHeaderMessage
 };
 
 
@@ -52,6 +53,9 @@ private:
 	// *NOTE* Interlocked operations are used on this member, and it must be
 	// 32-bit aligned.  Change the byte alignment of the compiler at your own risk!
 	long mRefCount;   // reference count
+#ifndef WIN32
+	WONCommon::CriticalSection mRefCountCrit;
+#endif
 
 	int                    mChunkMult;  // Chunking multiplier
 	unsigned char*         mDataP;      // Data Buffer
@@ -69,7 +73,6 @@ private:
 
 	//Disable assignment
 	TRawData& operator =(const TRawData& theMsgR);  //prevent assignment
-
 public:
 
 	TRawData();
@@ -82,6 +85,7 @@ public:
 	unsigned long GetDataLen() const;
 	unsigned long GetBufferLen() const { return mDataLen; }
 
+	void	AppendLongLong(__int64 theLongLong);
 	void	AppendLong(unsigned long theLong);
 	void	AppendShort(unsigned short theShort);
 	void	AppendByte(unsigned char theByte);
@@ -107,11 +111,12 @@ public:
 
 	void           ReadWString(std::wstring& theBufR) const;
 	void           ReadString(std::string& theBufR) const;
+	__int64        ReadLongLong() const;
 	unsigned long  ReadLong() const;
 	unsigned short ReadShort() const;
 	unsigned char  ReadByte() const;
 	const void*    ReadBytes(long theNumBytes) const;
-    const void*    PeekBytes(long theNumBytes) const;
+	const void*    PeekBytes(long theNumBytes) const;
 };
 
 
@@ -126,7 +131,7 @@ class TRawMsg
 {
 public:
 	TRawMsg();
-	TRawMsg(unsigned long theDataLen, const void *theData=NULL);
+	explicit TRawMsg(unsigned long theDataLen, const void *theData=NULL);
 	TRawMsg(const TRawMsg& Rmsg);
 
 	virtual ~TRawMsg();
@@ -162,6 +167,12 @@ public:
 			return rep->AddAllocate(nNewBytes, false); 
 		}
 
+	void	AppendLongLong(__int64 theLonglong)
+		{
+			CopyOnWrite();
+			rep->AppendLongLong(theLonglong);
+		}
+
 	void	AppendLong(unsigned long theLong)
 		{
 			CopyOnWrite();
@@ -180,6 +191,8 @@ public:
 			rep->AppendByte(theByte);
 		}
 
+	void    AppendBool(bool theBool) { AppendByte(theBool); }
+
 	void	AppendBytes(long theNumBytes, const void* theBytesP, bool chunkAlloc = true, bool doDumbCheck = true)
 		{
 			CopyOnWrite();
@@ -196,6 +209,12 @@ public:
 		{ 
 			CopyOnWrite();
 			rep->Append_PA_STRING(theString);
+		}
+
+	void    AppendRawString(const WONCommon::RawBuffer& theString)
+		{
+			AppendShort(theString.size());
+			AppendBytes(theString.size(), (void*)theString.data());
 		}
 
 	void	ResetBuffer(void)
@@ -220,9 +239,17 @@ public:
 
 	void           ReadWString(std::wstring& theBufR) const { rep->ReadWString(theBufR); }
 	void           ReadString(std::string& theBufR) const { rep->ReadString(theBufR); }
+	void           ReadRawString(WONCommon::RawBuffer& theBufR) const
+	{
+		unsigned short aLength = ReadShort();
+		theBufR.assign((unsigned char*)ReadBytes(aLength), aLength);
+	}
+	__int64        ReadLongLong() const { return rep->ReadLongLong(); }
 	unsigned long  ReadLong() const { return rep->ReadLong(); }
 	unsigned short ReadShort() const { return rep->ReadShort(); }
 	unsigned char  ReadByte() const { return rep->ReadByte(); }
+	bool           ReadBool() const { return (ReadByte() != 0); }
+
 	const void *   ReadBytes(long theNumBytes) const { return rep->ReadBytes(theNumBytes); }
 	const void *   PeekBytes(long theNumBytes) const { return rep->PeekBytes(theNumBytes); }
 
@@ -231,7 +258,7 @@ public:
 		{ return (sizeof(unsigned short) + theStrR.size()); }
 
 	static unsigned long ComputeWStringPackSize(const std::wstring& theStrR)
-		{ return (sizeof(unsigned short) + theStrR.size() * sizeof(wchar_t)); }
+		{ return (sizeof(unsigned short) + theStrR.size() * sizeof(unsigned short)); }
 
 private:
 	TRawData *rep;  // ref counted member
@@ -246,7 +273,11 @@ private:
 // *NOTE*
 // No padding of structs for message headers.  Padding screws up size and
 // pack/unpack alogirthms
+#if WIN32
 #pragma pack (push, 1)
+#else
+#pragma pack(1)
+#endif
 
 // Old-style header for TMessages (no header type)
 // **OBSOLETE**
@@ -271,6 +302,16 @@ struct TitanHeader
 
 };
 
+// HeaderMessage header
+struct HeaderHeader {
+	unsigned char _HeaderType;
+	explicit HeaderHeader() : _HeaderType(HeaderService0Message0) {}
+#ifdef _LINUX
+} __attribute__((packed));
+#else 
+};
+#endif
+
 // MiniMessage header
 struct MiniHeader {
 	unsigned char  _HeaderType;
@@ -280,7 +321,11 @@ struct MiniHeader {
 	explicit MiniHeader(unsigned char theServType=0, unsigned char theMsgType=0) :
 		_HeaderType(HeaderService1Message1), _ServiceType(theServType), _MessageType(theMsgType) 
 	{}
+#ifdef _LINUX
+} __attribute__((packed));
+#else 
 };
+#endif
 
 // SmallMessage header
 struct SmallHeader {
@@ -291,7 +336,11 @@ struct SmallHeader {
 	explicit SmallHeader(unsigned short theServType=0, unsigned short theMsgType=0) :
 		_HeaderType(HeaderService2Message2), _ServiceType(theServType), _MessageType(theMsgType) 
 	{}
+#ifdef _LINUX
+} __attribute__((packed));
+#else 
 };
+#endif
 
 // LargeMessage header
 struct LargeHeader {
@@ -302,10 +351,18 @@ struct LargeHeader {
 	explicit LargeHeader(unsigned long theServType=0, unsigned long theMsgType=0) :
 		_HeaderType(HeaderService4Message4), _ServiceType(theServType), _MessageType(theMsgType) 
 	{}
+#ifdef _LINUX
+} __attribute__((packed));
+#else 
 };
+#endif
 
 // Restore previous packing level
+#ifdef WIN32
 #pragma pack (pop)
+#else
+#pragma pack()
+#endif
 
 // ** End message header definitions **
 
@@ -320,15 +377,15 @@ class BaseMessage : public TRawMsg
 public:
 	BaseMessage();
 	BaseMessage(const BaseMessage& msg);
-	explicit BaseMessage(MessageClass theMessageClass) : mMessageClass(theMessageClass) {};
-	BaseMessage(unsigned long theDataLen, const void *theData =NULL);
+	explicit BaseMessage(MessageClass theMessageClass) : mMessageClass(theMessageClass){};
+	explicit BaseMessage(unsigned long theDataLen, const void *theData =NULL);
 	virtual ~BaseMessage();
 
 	BaseMessage& operator=(const BaseMessage&);
 
 	virtual TRawMsg* Duplicate() const =0;
 
-	virtual void* Pack() =0; // May throw
+	virtual void* Pack(); // May throw
 	virtual void  Unpack();  // May throw
 	virtual void  UnpackHeader() const;
 
@@ -350,6 +407,8 @@ public:
 	MessageClass GetMessageClass() const { return mMessageClass; }
 
 	virtual void Dump(std::ostream& os) const {};
+
+	static BaseMessage* GetMsgOfType(unsigned char theHeaderType); 
 	
 	// Class Constants
 	enum { MAXMSG_SIZE = 131068 }; // Maximum message size
@@ -357,12 +416,44 @@ protected:
 	MessageClass mMessageClass;
 };
 
+class HeaderMessage : public BaseMessage {
+public:
+	HeaderMessage();
+	HeaderMessage(const HeaderMessage& theRSMsg);
+	explicit HeaderMessage(unsigned long theDataLen, const void *theData =NULL);
+	virtual ~HeaderMessage();
+
+	HeaderMessage& operator=(const HeaderMessage&);
+
+	virtual TRawMsg* Duplicate() const;
+
+	virtual void* Pack(); // May throw
+
+	const HeaderHeader& GetHeader() const       { return *(static_cast<const HeaderHeader*>(GetDataPtr())); }
+	unsigned long      GetHeaderLength() const { return sizeof(HeaderHeader); }
+
+	unsigned char GetHeaderType(void) const    { return GetHeader()._HeaderType;    }
+	unsigned char GetClearHeaderType() const   { return HeaderService0Message0; }
+	unsigned char GetEncryptedHeaderType() const { return HeaderEncryptedService; }
+	unsigned long GetServiceType(void) const   { return 0;   }
+	unsigned long GetMessageType(void) const   { return 0;   }
+	void SetServiceType(unsigned long theServiceType) { }
+	void SetMessageType(unsigned long theMessageType) { }
+
+	virtual void Dump(std::ostream& os) const;
+
+private:
+	void SetHeaderType(unsigned char theHeaderType)   { GetHeaderRef()._HeaderType = theHeaderType;  }
+	// Non-const version of getheader for set methods
+	// MUST RETURN A NON-CONST REF!!!
+	LargeHeader& GetHeaderRef() { return *(static_cast<LargeHeader*>(GetDataPtr())); }
+};
 
 class MiniMessage : public BaseMessage {
 public:
 	MiniMessage();
 	MiniMessage(const MiniMessage& theRSMsg);
-	MiniMessage(unsigned long theDataLen, const void *theData =NULL);
+	explicit MiniMessage(unsigned long theDataLen, const void *theData =NULL);
 	virtual ~MiniMessage();
 
 	MiniMessage& operator=(const MiniMessage&);
@@ -379,8 +470,8 @@ public:
 	unsigned char GetEncryptedHeaderType() const { return MiniEncryptedService; }
 	unsigned long GetServiceType(void) const   { return GetHeader()._ServiceType;   }
 	unsigned long GetMessageType(void) const   { return GetHeader()._MessageType;   }
-	void SetServiceType(unsigned long theServiceType) { GetHeaderRef()._ServiceType = theServiceType; }
-	void SetMessageType(unsigned long theMessageType) { GetHeaderRef()._MessageType = theMessageType; }
+	void SetServiceType(unsigned long theServiceType) { GetHeaderRef()._ServiceType = static_cast<unsigned char>(theServiceType); }
+	void SetMessageType(unsigned long theMessageType) { GetHeaderRef()._MessageType = static_cast<unsigned char>(theMessageType); }
 
 	virtual void Dump(std::ostream& os) const;
 
@@ -396,7 +487,7 @@ class SmallMessage : public BaseMessage {
 public:
 	SmallMessage();
 	SmallMessage(const SmallMessage& theRSMsg);
-	SmallMessage(unsigned long theDataLen, const void *theData =NULL);
+	explicit SmallMessage(unsigned long theDataLen, const void *theData =NULL);
 	virtual ~SmallMessage();
 
 	SmallMessage& operator=(const SmallMessage&);
@@ -411,10 +502,10 @@ public:
 	unsigned char GetHeaderType(void) const    { return GetHeader()._HeaderType;    }
 	unsigned char GetClearHeaderType() const   { return HeaderService2Message2; }
 	unsigned char GetEncryptedHeaderType() const { return SmallEncryptedService; }
-	unsigned long GetServiceType(void) const   { return GetHeader()._ServiceType;   }
-	unsigned long GetMessageType(void) const   { return GetHeader()._MessageType;   }
-	void SetServiceType(unsigned long theServiceType) { GetHeaderRef()._ServiceType = theServiceType; }
-	void SetMessageType(unsigned long theMessageType) { GetHeaderRef()._MessageType = theMessageType; }
+	unsigned long GetServiceType(void) const   { return WONCommon::ttohs(GetHeader()._ServiceType); }
+	unsigned long GetMessageType(void) const   { return WONCommon::ttohs(GetHeader()._MessageType); }
+	void SetServiceType(unsigned long theServiceType) { GetHeaderRef()._ServiceType = WONCommon::htots(static_cast<unsigned short>(theServiceType)); }
+	void SetMessageType(unsigned long theMessageType) { GetHeaderRef()._MessageType = WONCommon::htots(static_cast<unsigned short>(theMessageType)); }
 
 	virtual void Dump(std::ostream& os) const;
 
@@ -430,7 +521,7 @@ class LargeMessage : public BaseMessage {
 public:
 	LargeMessage();
 	LargeMessage(const LargeMessage& theRSMsg);
-	LargeMessage(unsigned long theDataLen, const void *theData =NULL);
+	explicit LargeMessage(unsigned long theDataLen, const void *theData =NULL);
 	virtual ~LargeMessage();
 
 	LargeMessage& operator=(const LargeMessage&);
@@ -445,10 +536,10 @@ public:
 	unsigned char GetHeaderType(void) const    { return GetHeader()._HeaderType;    }
 	unsigned char GetClearHeaderType() const   { return HeaderService4Message4; }
 	unsigned char GetEncryptedHeaderType() const { return LargeEncryptedService; }
-	unsigned long GetServiceType(void) const   { return GetHeader()._ServiceType;   }
-	unsigned long GetMessageType(void) const   { return GetHeader()._MessageType;   }
-	void SetServiceType(unsigned long theServiceType) { GetHeaderRef()._ServiceType = theServiceType; }
-	void SetMessageType(unsigned long theMessageType) { GetHeaderRef()._MessageType = theMessageType; }
+	unsigned long GetServiceType(void) const   { return WONCommon::ttohl(GetHeader()._ServiceType);   }
+	unsigned long GetMessageType(void) const   { return WONCommon::ttohl(GetHeader()._MessageType);   }
+	void SetServiceType(unsigned long theServiceType) { GetHeaderRef()._ServiceType = WONCommon::htotl(theServiceType); }
+	void SetMessageType(unsigned long theMessageType) { GetHeaderRef()._MessageType = WONCommon::htotl(theMessageType); }
 
 	virtual void Dump(std::ostream& os) const;
 
@@ -483,10 +574,10 @@ public:
 	unsigned char GetHeaderType(void) const    { return (unsigned char)GetServiceType(); }
 	unsigned char GetClearHeaderType() const   { return GetHeaderType(); }
 	unsigned char GetEncryptedHeaderType() const { return EncryptedService; }
-	unsigned long GetServiceType(void) const   { return GetHeader()._ServiceType;   }
-	unsigned long GetMessageType(void) const   { return GetHeader()._MessageType;   }
-	void SetServiceType(unsigned long theServiceType ) { GetHeaderRef()._ServiceType   = theServiceType; }
-	void SetMessageType(unsigned long theMessageType ) { GetHeaderRef()._MessageType   = theMessageType; }
+	unsigned long GetServiceType(void) const   { return WONCommon::ttohl(GetHeader()._ServiceType);   }
+	unsigned long GetMessageType(void) const   { return WONCommon::ttohl(GetHeader()._MessageType);   }
+	void SetServiceType(unsigned long theServiceType ) { GetHeaderRef()._ServiceType = WONCommon::htotl(theServiceType); }
+	void SetMessageType(unsigned long theMessageType ) { GetHeaderRef()._MessageType = WONCommon::htotl(theMessageType); }
 
 	virtual void Dump(std::ostream& os) const;
 private:
@@ -496,7 +587,6 @@ private:
 };
 // **END OBSOLETE**
 
-
 };  // namespace WONMsg
 
 inline std::ostream& 
@@ -504,4 +594,3 @@ operator<<(std::ostream& os, const WONMsg::BaseMessage& theMsgR)
 { theMsgR.Dump(os); return os; }
 
 #endif // H_TMessage
-

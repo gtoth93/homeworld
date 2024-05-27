@@ -10,10 +10,10 @@
 // *NOTE* this class is implemented inline.
 
 
-#include "STRING"
+#include <string>
 #include "common/won.h"
-#include "msg/dir/SMsgDirG2PeerDataBase.h"
-#include "msg/dir/SMsgDirG2KeyedBase.h"
+#include "SMsgDirG2PeerDataBase.h"
+#include "SMsgDirG2KeyedBase.h"
 
 
 namespace WONMsg {
@@ -21,24 +21,24 @@ namespace WONMsg {
 class SMsgDirG2UpdateBase : public SMsgDirG2PeerDataBase, public SMsgDirG2KeyedBase
 {
 public:
-    // Default ctor
-    explicit SMsgDirG2UpdateBase(KeyType theType);
+	// Default ctor
+	explicit SMsgDirG2UpdateBase(KeyType theType);
 
-    // SmallMessage ctor
-    explicit SMsgDirG2UpdateBase(const SmallMessage& theMsgR);
+	// SmallMessage ctor
+	explicit SMsgDirG2UpdateBase(const SmallMessage& theMsgR);
 
-    // Copy ctor
-    SMsgDirG2UpdateBase(const SMsgDirG2UpdateBase& theMsgR);
+	// Copy ctor
+	SMsgDirG2UpdateBase(const SMsgDirG2UpdateBase& theMsgR);
 
-    // Destructor
-    virtual ~SMsgDirG2UpdateBase(void);
+	// Destructor
+	virtual ~SMsgDirG2UpdateBase(void);
 
-    // Assignment
-    SMsgDirG2UpdateBase& operator=(const SMsgDirG2UpdateBase& theMsgR);
+	// Assignment
+	SMsgDirG2UpdateBase& operator=(const SMsgDirG2UpdateBase& theMsgR);
 
-    // Virtual Duplicate from SmallMessage
-    // Pure virtual - must be overridden!
-    virtual TRawMsg* Duplicate(void) const = 0;
+	// Virtual Duplicate from SmallMessage
+	// Pure virtual - must be overridden!
+	virtual TRawMsg* Duplicate(void) const = 0;
 
 protected:
 
@@ -50,21 +50,21 @@ private:
 
 inline
 SMsgDirG2UpdateBase::SMsgDirG2UpdateBase(KeyType theType) :
-    SMsgDirG2PeerDataBase(),
-    SMsgDirG2KeyedBase(theType)
+	SMsgDirG2PeerDataBase(),
+	SMsgDirG2KeyedBase(theType)
 {}
 
 
 inline
 SMsgDirG2UpdateBase::SMsgDirG2UpdateBase(const SmallMessage& theMsgR) :
-    SMsgDirG2PeerDataBase(theMsgR),
-    SMsgDirG2KeyedBase(KT_DIRECTORY)
+	SMsgDirG2PeerDataBase(theMsgR),
+	SMsgDirG2KeyedBase(KT_DIRECTORY)
 {}
 
 inline
 SMsgDirG2UpdateBase::SMsgDirG2UpdateBase(const SMsgDirG2UpdateBase& theMsgR) :
-    SMsgDirG2PeerDataBase(theMsgR),
-    SMsgDirG2KeyedBase(theMsgR)
+	SMsgDirG2PeerDataBase(theMsgR),
+	SMsgDirG2KeyedBase(theMsgR)
 {}
 
 inline
@@ -75,9 +75,9 @@ inline
 SMsgDirG2UpdateBase&
 SMsgDirG2UpdateBase::operator=(const SMsgDirG2UpdateBase& theMsgR)
 {
-    SMsgDirG2PeerDataBase::operator=(theMsgR);
-    SMsgDirG2KeyedBase::operator=(theMsgR);
-    return *this;
+	SMsgDirG2PeerDataBase::operator=(theMsgR);
+	SMsgDirG2KeyedBase::operator=(theMsgR);
+	return *this;
 }
 
 };  // Namespace WONMsg

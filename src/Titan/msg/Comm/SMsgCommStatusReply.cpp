@@ -8,7 +8,7 @@
 #include "msg/BadMsgException.h"
 #include "msg/SServiceTypes.h"
 #include "msg/ServerStatus.h"
-#include "TMsgTypesComm.h"
+#include "SMsgTypesComm.h"
 #include "SMsgCommStatusReply.h"
 
 // Private namespace for using, types, and constants
@@ -26,7 +26,7 @@ SMsgCommStatusReply::SMsgCommStatusReply(void) :
 	mStatus(WONMsg::StatusCommon_Success)
 {
 	SetServiceType(WONMsg::CommonService);
-	SetMessageType(WONMsg::CommStatusReply);
+	SetMessageType(WONMsg::SmallCommStatusReply);
 }
 
 
@@ -71,7 +71,7 @@ SMsgCommStatusReply::Pack(void)
 {
 	WTRACE("SMsgCommStatusReply::Pack");
 	SetServiceType(WONMsg::CommonService);
-	SetMessageType(WONMsg::CommStatusReply);
+	SetMessageType(WONMsg::SmallCommStatusReply);
 	SmallMessage::Pack();
 
 	WDBG_LL("SMsgCommStatusReply::Pack Appending message data");
@@ -90,7 +90,7 @@ SMsgCommStatusReply::Unpack(void)
 	SmallMessage::Unpack();
 
 	if ((GetServiceType() != WONMsg::SmallCommonService) ||
-	    (GetMessageType() != WONMsg::CommStatusReply))
+	    (GetMessageType() != WONMsg::SmallCommStatusReply))
 	{
 		WDBG_AH("SMsgCommStatusReply::Unpack Not a CommStatusReply message!");
 		throw WONMsg::BadMsgException(*this, __LINE__, __FILE__,

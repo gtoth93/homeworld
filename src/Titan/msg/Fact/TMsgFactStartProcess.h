@@ -7,7 +7,7 @@
 
 
 #include "TMsgFactStartProcessBase.h"
-#include "SET"
+#include <set>
 
 
 namespace WONMsg {
@@ -15,37 +15,32 @@ namespace WONMsg {
 class TMsgFactStartProcess : public TMsgFactStartProcessBase {
 
 public:
-    // Default ctor
-    TMsgFactStartProcess(void);
+	// Default ctor
+	TMsgFactStartProcess(void);
 
-    // TMessage ctor
-    explicit TMsgFactStartProcess(const TMessage& theMsgR);
+	// TMessage ctor
+	explicit TMsgFactStartProcess(const TMessage& theMsgR);
 
-    // Copy ctor
-    TMsgFactStartProcess(const TMsgFactStartProcess& theMsgR);
+	// Copy ctor
+	TMsgFactStartProcess(const TMsgFactStartProcess& theMsgR);
 
-    // Destructor
-    virtual ~TMsgFactStartProcess(void);
+	// Destructor
+	virtual ~TMsgFactStartProcess(void);
 
-    // Assignment
-    TMsgFactStartProcess& operator=(const TMsgFactStartProcess& theMsgR);
+	// Assignment
+	TMsgFactStartProcess& operator=(const TMsgFactStartProcess& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    virtual TRawMsg* Duplicate(void) const;
+	// Virtual Duplicate from TMessage
+	virtual TRawMsg* Duplicate(void) const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    virtual void* Pack(void);
-    virtual void  Unpack(void);
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	virtual void* Pack(void); 
+	virtual void  Unpack(void);
 
-    // Member access
-    const std::string& GetCmdLine(void) const;
-    virtual void SetCmdLine(const std::string& theCmdLine);
 protected:
-    virtual void PackCommandLine();
-    virtual void UnpackCommandLine();
-    
-    std::string mCmdLine;
+	virtual void PackCommandLine();
+	virtual void UnpackCommandLine();
 };
 
 
@@ -53,10 +48,6 @@ protected:
 inline TRawMsg* TMsgFactStartProcess::Duplicate(void) const
 { return new TMsgFactStartProcess(*this); }
 
-inline const std::string& TMsgFactStartProcess::GetCmdLine(void) const
-{ return mCmdLine; }
-inline void TMsgFactStartProcess::SetCmdLine(const std::string& theCmdLine)
-{ mCmdLine = theCmdLine; }
 
 };  // Namespace WONMsg
 

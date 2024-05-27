@@ -21,6 +21,7 @@ namespace WONMsg
 
 		SmallCommRegisterRequest   = SmallCommMin+1,
 		SmallCommRegisterRequestEx = SmallCommMin+2,
+		SmallCommDumpStatistics    = SmallCommMin+3,
 
 		SmallCommStatusReply       = SmallCommMin+15, // Firewall Server had already used this value...
 

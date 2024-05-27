@@ -16,7 +16,7 @@ public:
     MMsgRoutingGroupChange(void);
 
     // RoutingServerMessage ctor
-    explicit MMsgRoutingGroupChange(const RoutingServerMessage& theMsgR);
+    explicit MMsgRoutingGroupChange(const RoutingServerMessage& theMsgR, bool doUnpack =true);
 
     // Copy ctor
     MMsgRoutingGroupChange(const MMsgRoutingGroupChange& theMsgR);
@@ -28,7 +28,7 @@ public:
     MMsgRoutingGroupChange& operator=(const MMsgRoutingGroupChange& theMsgR);
 
     // Virtual Duplicate from RoutingServerMessage
-    virtual TRawMsg* Duplicate(void) const;
+    virtual TRawMsg* Duplicate(void) const { return new MMsgRoutingGroupChange(*this); }
 
 	// Debug output
 	virtual void Dump(std::ostream& os) const;
@@ -49,7 +49,7 @@ protected:
 //
 // GroupChangeEx
 //
-class MMsgRoutingGroupChangeEx : public MMsgRoutingClientChangeEx {
+class MMsgRoutingGroupChangeEx : public MMsgRoutingGroupChange, public ChangeInfo {
 public:
     // Default ctor
     MMsgRoutingGroupChangeEx(void);
@@ -67,7 +67,7 @@ public:
     MMsgRoutingGroupChangeEx& operator=(const MMsgRoutingGroupChangeEx& theMsgR);
 
     // Virtual Duplicate from RoutingServerMessage
-    virtual TRawMsg* Duplicate(void) const;
+    virtual TRawMsg* Duplicate(void) const { return new MMsgRoutingGroupChangeEx(*this); }
 
 	// Debug output
 	virtual void Dump(std::ostream& os) const;
@@ -76,21 +76,7 @@ public:
     // Unpack will throw a BadMsgException is message is not of this type
     virtual void* Pack(void); 
     virtual void  Unpack(void);
-
-    // Member access
-    // Member access
-	GroupId GetGroupId() const             { return mGroupId; }
-	void    SetGroupId(GroupId theGroupId) { mGroupId = theGroupId; }
-protected:
-	GroupId mGroupId;
 };
-
-
-// Inlines
-inline TRawMsg* MMsgRoutingGroupChange::Duplicate(void) const
-    { return new MMsgRoutingGroupChange(*this); }
-inline TRawMsg* MMsgRoutingGroupChangeEx::Duplicate(void) const
-    { return new MMsgRoutingGroupChangeEx(*this); }
 
 };  // Namespace WONMsg
 

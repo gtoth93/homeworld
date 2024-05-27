@@ -37,9 +37,9 @@ namespace WONMsg
 
 		// Update Requests
 		DirG2AddDirectory                 = 200,
-		DirG2AddDirectoryEx               = 201,
+		DirG2AddDirectoryExObsolete       = 201,  // Obsolete, don't use!
 		DirG2AddService                   = 202,
-		DirG2AddServiceEx                 = 203,
+		DirG2AddServiceExObsolete         = 203,  // Obsolete, don't use!
 		DirG2RenewDirectory               = 204,
 		DirG2RenewService                 = 205,
 		DirG2NameDirectory                = 206,
@@ -47,9 +47,13 @@ namespace WONMsg
 		DirG2RemoveDirectory              = 208,
 		DirG2RemoveService                = 209,
 		DirG2ModifyDirectory              = 210,
-		DirG2ModifyDirectoryEx            = 211,
+		DirG2ModifyDirectoryExObsolete    = 211,  // Obsolete, don't use!
 		DirG2ModifyService                = 212,
-		DirG2ModifyServiceEx              = 213,
+		DirG2ModifyServiceExObsolete      = 213,  // Obsolete, don't use!
+		DirG2AddDirectoryEx               = 214,
+		DirG2AddServiceEx                 = 215,
+		DirG2ModifyDirectoryEx            = 216,
+		DirG2ModifyServiceEx              = 217,
 
 		// Data Object Requests
 		DirG2DirectorySetDataObjects         = 300,
@@ -61,17 +65,22 @@ namespace WONMsg
 		DirG2DirectoryExplicitSetDataObjects = 306,
 		DirG2ServiceExplicitSetDataObjects   = 307,
 
+		// ACL Requests
+		DirG2DirectorySetACLs = 401,
+		DirG2ServiceSetACLs   = 402,
+
 		// Administration and System Messages (and their replies where applicable)
 		DirG2PeerSynch                    = 1000,
 		DirG2PeerConnect                  = 1001,
 		DirG2PeerConnectReply             = 1002,
 		DirG2PeerAttach                   = 1003,
 		DirG2LoadFromSrc                  = 1004,
-		DirG2LoadFromSrcReply             = 1005,
+		DirG2LoadFromSrcReplyObsolete     = 1005,
 		DirG2SynchTree                    = 1006,
 		DirG2DumpTree                     = 1007,
 		DirG2PeerSynchTest                = 1008,
 		DirG2PeerSynchPath                = 1009,
+		DirG2LoadFromSrcReply             = 1010,
 
 		// Last Message type.  Don't use
 		SMsgDirMax

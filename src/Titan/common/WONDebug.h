@@ -206,7 +206,7 @@
 
 
 // Headers
-#include "STRING"
+#include <string>
 #include <fstream>
 
 // Debug namespace

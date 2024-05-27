@@ -11,7 +11,7 @@
 // Auth1LoginReply is sent in response to both Auth1LoginRequest and
 
 
-#include "STRING"
+#include <string>
 #include "common/won.h"
 #include "auth/Auth1PublicKeyBlock.h"
 #include "crypt/BFSymmetricKey.h"
@@ -62,96 +62,96 @@ class TMsgAuth1LoginRequestHW : public TMsgAuth1LoginBase2
 {
 public:
 
-    // Default ctor
-    TMsgAuth1LoginRequestHW();
+	// Default ctor
+	TMsgAuth1LoginRequestHW();
 
-    // TMessage ctor - will throw if TMessage type is not of this type
-    explicit TMsgAuth1LoginRequestHW(const TMessage& theMsgR);
+	// TMessage ctor - will throw if TMessage type is not of this type
+	explicit TMsgAuth1LoginRequestHW(const TMessage& theMsgR);
 
-    // Copy ctor
-    TMsgAuth1LoginRequestHW(const TMsgAuth1LoginRequestHW& theMsgR);
+	// Copy ctor
+	TMsgAuth1LoginRequestHW(const TMsgAuth1LoginRequestHW& theMsgR);
 
-    // Destructor
-    ~TMsgAuth1LoginRequestHW();
+	// Destructor
+	~TMsgAuth1LoginRequestHW();
 
-    // Assignment
-    TMsgAuth1LoginRequestHW& operator=(const TMsgAuth1LoginRequestHW& theMsgR);
+	// Assignment
+	TMsgAuth1LoginRequestHW& operator=(const TMsgAuth1LoginRequestHW& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    TRawMsg* Duplicate() const;
+	// Virtual Duplicate from TMessage
+	TRawMsg* Duplicate() const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    void* Pack();
-    void  Unpack();
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(); 
+	void  Unpack();
 
-    bool GetNeedKeyFlg(void) { return mNeedKeyFlg; }
-    bool GetCreateAcctFlg(void) { return mCreateAcctFlg; }
-    const std::wstring& GetUserName(void) { return mUserName; }
-    const std::wstring& GetCommunityName(void) { return mCommunityName; }
-    const std::wstring& GetNicknameKey(void) { return mNicknameKey; }
-    const std::wstring& GetPassword(void) { return mPassword; }
-    const std::wstring& GetNewPassword(void) { return mNewPassword; }
-    const WONCommon::RawBuffer& GetCDKey(void) { return mCDKey; }
-    const WONCommon::RawBuffer& GetLoginKey(void) { return mLoginKey; }
+	bool GetNeedKeyFlg(void) { return mNeedKeyFlg; }
+	bool GetCreateAcctFlg(void) { return mCreateAcctFlg; }
+	const std::wstring& GetUserName(void) { return mUserName; }
+	const std::wstring& GetCommunityName(void) { return mCommunityName; }
+	const std::wstring& GetNicknameKey(void) { return mNicknameKey; }
+	const std::wstring& GetPassword(void) { return mPassword; }
+	const std::wstring& GetNewPassword(void) { return mNewPassword; }
+	const WONCommon::RawBuffer& GetCDKey(void) { return mCDKey; }
+	const WONCommon::RawBuffer& GetLoginKey(void) { return mLoginKey; }
 
-    void SetNeedKeyFlg(bool theNeedKeyFlg) { mNeedKeyFlg = theNeedKeyFlg; }
-    void SetCreateAcctFlg(bool theCreateAcctFlg) { mCreateAcctFlg = theCreateAcctFlg; }
-    void SetUserName(const std::wstring &theUserName) { mUserName = theUserName; }
-    void SetCommunityName(const std::wstring &theCommunityName) { mCommunityName = theCommunityName; }
-    void SetNicknameKey(const std::wstring &theNicknameKey) { mNicknameKey = theNicknameKey; }
-    void SetPassword(const std::wstring &thePassword) { mPassword = thePassword; }
-    void SetNewPassword(const std::wstring &theNewPassword) { mNewPassword = theNewPassword; }
-    void SetCDKey(const unsigned char *theKey, unsigned short theKeyLen) { mCDKey.assign(theKey,theKeyLen); }
-    void SetLoginKey(const unsigned char *theKey, unsigned short theKeyLen) { mLoginKey.assign(theKey,theKeyLen); }
+	void SetNeedKeyFlg(bool theNeedKeyFlg) { mNeedKeyFlg = theNeedKeyFlg; }
+	void SetCreateAcctFlg(bool theCreateAcctFlg) { mCreateAcctFlg = theCreateAcctFlg; }
+	void SetUserName(const std::wstring &theUserName) { mUserName = theUserName; }
+	void SetCommunityName(const std::wstring &theCommunityName) { mCommunityName = theCommunityName; }
+	void SetNicknameKey(const std::wstring &theNicknameKey) { mNicknameKey = theNicknameKey; }
+	void SetPassword(const std::wstring &thePassword) { mPassword = thePassword; }
+	void SetNewPassword(const std::wstring &theNewPassword) { mNewPassword = theNewPassword; }
+	void SetCDKey(const unsigned char *theKey, unsigned short theKeyLen) { mCDKey.assign(theKey,theKeyLen); }
+	void SetLoginKey(const unsigned char *theKey, unsigned short theKeyLen) { mLoginKey.assign(theKey,theKeyLen); }
 
-    bool BuildBuffer(const WONAuth::Auth1PublicKeyBlock &thePubKeyBlock, const WONCrypt::BFSymmetricKey &theSessionKey);
-    bool ExtractBuffer(const WONCrypt::EGPrivateKey &thePrivateKey, WONCrypt::BFSymmetricKey *theSessionKey);
+	bool BuildBuffer(const WONAuth::Auth1PublicKeyBlock &thePubKeyBlock, const WONCrypt::BFSymmetricKey &theSessionKey);
+	bool ExtractBuffer(const WONCrypt::EGPrivateKey &thePrivateKey, WONCrypt::BFSymmetricKey *theSessionKey);
 
 private:
-    bool mNeedKeyFlg;
-    bool mCreateAcctFlg;
-    std::wstring mUserName;
-    std::wstring mCommunityName;
-    std::wstring mNicknameKey;
-    std::wstring mPassword;
-    std::wstring mNewPassword;
-    WONCommon::RawBuffer mCDKey;
-    WONCommon::RawBuffer mLoginKey;
+	bool mNeedKeyFlg;
+	bool mCreateAcctFlg;
+	std::wstring mUserName;
+	std::wstring mCommunityName;
+	std::wstring mNicknameKey;
+	std::wstring mPassword;
+	std::wstring mNewPassword;
+	WONCommon::RawBuffer mCDKey;
+	WONCommon::RawBuffer mLoginKey;
 
-    unsigned char *mKeyBuf;
-    unsigned char *mDataBuf;
+	unsigned char *mKeyBuf;
+	unsigned char *mDataBuf;
 
 };
 
 // TMsgAuth1ChallengeHW - Challenge the client's validity
 //   Contains challenge seed encrypted with session key.  Session key was specified
-//   in the TMsgAuth1LoginRequestHW message.
+//	 in the TMsgAuth1LoginRequestHW message.
 class TMsgAuth1ChallengeHW : public TMsgAuthRawBufferBase
 {
 public:
-    // Default ctor
-    TMsgAuth1ChallengeHW();
+	// Default ctor
+	TMsgAuth1ChallengeHW();
 
-    // TMessage ctor - will throw if TMessage type is not of this type
-    explicit TMsgAuth1ChallengeHW(const TMessage& theMsgR);
+	// TMessage ctor - will throw if TMessage type is not of this type
+	explicit TMsgAuth1ChallengeHW(const TMessage& theMsgR);
 
-    // Copy ctor
-    TMsgAuth1ChallengeHW(const TMsgAuth1ChallengeHW& theMsgR);
+	// Copy ctor
+	TMsgAuth1ChallengeHW(const TMsgAuth1ChallengeHW& theMsgR);
 
-    // Destructor
-    ~TMsgAuth1ChallengeHW();
+	// Destructor
+	~TMsgAuth1ChallengeHW();
 
-    // Assignment
-    TMsgAuth1ChallengeHW& operator=(const TMsgAuth1ChallengeHW& theMsgR);
+	// Assignment
+	TMsgAuth1ChallengeHW& operator=(const TMsgAuth1ChallengeHW& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    TRawMsg* Duplicate() const;
+	// Virtual Duplicate from TMessage
+	TRawMsg* Duplicate() const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    void* Pack();
-    void  Unpack();
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(); 
+	void  Unpack();
 
 private:
 };
@@ -159,32 +159,32 @@ private:
 
 // TMsgAuth1ConfirmHW - Confirm the client's validity
 //   Contains confirm seed encrypted with session key.  Session key was specified
-//   in the TMsgAuth1LoginRequestHW message.
+//	 in the TMsgAuth1LoginRequestHW message.
 class TMsgAuth1ConfirmHW : public TMsgAuthRawBufferBase
 {
 public:
-    // Default ctor
-    TMsgAuth1ConfirmHW();
+	// Default ctor
+	TMsgAuth1ConfirmHW();
 
-    // TMessage ctor - will throw if TMessage type is not of this type
-    explicit TMsgAuth1ConfirmHW(const TMessage& theMsgR);
+	// TMessage ctor - will throw if TMessage type is not of this type
+	explicit TMsgAuth1ConfirmHW(const TMessage& theMsgR);
 
-    // Copy ctor
-    TMsgAuth1ConfirmHW(const TMsgAuth1ConfirmHW& theMsgR);
+	// Copy ctor
+	TMsgAuth1ConfirmHW(const TMsgAuth1ConfirmHW& theMsgR);
 
-    // Destructor
-    ~TMsgAuth1ConfirmHW();
+	// Destructor
+	~TMsgAuth1ConfirmHW();
 
-    // Assignment
-    TMsgAuth1ConfirmHW& operator=(const TMsgAuth1ConfirmHW& theMsgR);
+	// Assignment
+	TMsgAuth1ConfirmHW& operator=(const TMsgAuth1ConfirmHW& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    TRawMsg* Duplicate() const;
+	// Virtual Duplicate from TMessage
+	TRawMsg* Duplicate() const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    void* Pack();
-    void  Unpack();
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(); 
+	void  Unpack();
 
 private:
 };
@@ -203,32 +203,131 @@ class TMsgAuth1RefreshHW : public TMsgAuth1LoginBase2
 {
 public:
 
-    // Default ctor
-    TMsgAuth1RefreshHW();
+	// Default ctor
+	TMsgAuth1RefreshHW();
 
-    // TMessage ctor - will throw if TMessage type is not of this type
-    explicit TMsgAuth1RefreshHW(const TMessage& theMsgR);
+	// TMessage ctor - will throw if TMessage type is not of this type
+	explicit TMsgAuth1RefreshHW(const TMessage& theMsgR);
 
-    // Copy ctor
-    TMsgAuth1RefreshHW(const TMsgAuth1RefreshHW& theMsgR);
+	// Copy ctor
+	TMsgAuth1RefreshHW(const TMsgAuth1RefreshHW& theMsgR);
 
-    // Destructor
-    ~TMsgAuth1RefreshHW();
+	// Destructor
+	~TMsgAuth1RefreshHW();
 
-    // Assignment
-    TMsgAuth1RefreshHW& operator=(const TMsgAuth1RefreshHW& theMsgR);
+	// Assignment
+	TMsgAuth1RefreshHW& operator=(const TMsgAuth1RefreshHW& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    TRawMsg* Duplicate() const;
+	// Virtual Duplicate from TMessage
+	TRawMsg* Duplicate() const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    void* Pack();
-    void  Unpack();
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(); 
+	void  Unpack();
 
 private:
 
 };
+
+
+// TMsgAuth1CheckHWKey - 
+//   Key Block ID        (2 bytes)  Must match key block Id in encrypted block
+//   Session Block Length(2 bytes)
+//   Session Key Block   (variable) Session key Encrypted with AuthPublicKey
+//   Data Block          (variable) encrypted with Session Key
+//   Before encryption, Data Block contains:
+//     KeyBlockID       (2 bytes) Must match key block Id in message
+//     NeedKeyFlg       (1 byte )
+//     CreateAcctFlg    (1 byte )
+
+//     UserName len     (2 bytes)
+//     UserName         (variable)
+//     CommunityNameLen (2 bytes)
+//     CommunityName    (variable)
+//     NicknameKeyLen   (2 bytes)
+//     NicknameKey      (variable)
+//     Password len     (2 bytes)
+//     Password         (var bytes == Password Len)
+//     NewPassword len  (2 Bytes)
+//     NewPassword      (var bytes == newPassword Len) (May be 0)
+
+//     // The AuthServer only allows one login session per key. It may also
+//     // do validation checks on the key.
+//     CDKey len (2 bytes)
+//     CDKey     (var bytes == KeyLen) - typically a CD Key including dashes
+
+//   Login data is encrypted with the and stored in the
+//   raw buffer from the TMsgAuthRawBufferBase class.
+
+class TMsgAuth1CheckHWKey : public TMsgAuth1LoginBase2
+{
+public:
+
+	// Default ctor
+	TMsgAuth1CheckHWKey();
+
+	// TMessage ctor - will throw if TMessage type is not of this type
+	explicit TMsgAuth1CheckHWKey(const TMessage& theMsgR);
+
+	// Copy ctor
+	TMsgAuth1CheckHWKey(const TMsgAuth1CheckHWKey& theMsgR);
+
+	// Destructor
+	~TMsgAuth1CheckHWKey();
+
+	// Assignment
+	TMsgAuth1CheckHWKey& operator=(const TMsgAuth1CheckHWKey& theMsgR);
+
+	// Virtual Duplicate from TMessage
+	TRawMsg* Duplicate() const;
+
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(); 
+	void  Unpack();
+
+	bool GetNeedKeyFlg(void) { return mNeedKeyFlg; }
+	bool GetCreateAcctFlg(void) { return mCreateAcctFlg; }
+	const std::wstring& GetUserName(void) { return mUserName; }
+	const std::wstring& GetCommunityName(void) { return mCommunityName; }
+	const std::wstring& GetNicknameKey(void) { return mNicknameKey; }
+	const std::wstring& GetPassword(void) { return mPassword; }
+	const std::wstring& GetNewPassword(void) { return mNewPassword; }
+	const std::string&  GetCDKey(void) { return mCDKey; }
+//	const WONCommon::RawBuffer& GetCDKey(void) { return mCDKey; }
+
+	void SetNeedKeyFlg(bool theNeedKeyFlg) { mNeedKeyFlg = theNeedKeyFlg; }
+	void SetCreateAcctFlg(bool theCreateAcctFlg) { mCreateAcctFlg = theCreateAcctFlg; }
+	void SetUserName(const std::wstring &theUserName) { mUserName = theUserName; }
+	void SetCommunityName(const std::wstring &theCommunityName) { mCommunityName = theCommunityName; }
+	void SetNicknameKey(const std::wstring &theNicknameKey) { mNicknameKey = theNicknameKey; }
+	void SetPassword(const std::wstring &thePassword) { mPassword = thePassword; }
+	void SetNewPassword(const std::wstring &theNewPassword) { mNewPassword = theNewPassword; }
+	void SetCDKey(const char *theKey, unsigned short theKeyLen) { mCDKey.assign(theKey,theKeyLen); }
+
+	bool BuildBuffer(const WONAuth::Auth1PublicKeyBlock &thePubKeyBlock, const WONCrypt::BFSymmetricKey &theSessionKey);
+	bool ExtractBuffer(const WONCrypt::EGPrivateKey &thePrivateKey, WONCrypt::BFSymmetricKey *theSessionKey);
+
+private:
+	bool mNeedKeyFlg;
+	bool mCreateAcctFlg;
+	std::wstring mUserName;
+	std::wstring mCommunityName;
+	std::wstring mNicknameKey;
+	std::wstring mPassword;
+	std::wstring mNewPassword;
+	std::string  mCDKey;
+
+	unsigned char *mKeyBuf;
+	unsigned char *mDataBuf;
+};
+
+
+// Inlines
+inline TRawMsg*
+TMsgAuth1CheckHWKey::Duplicate(void) const
+{ return new TMsgAuth1CheckHWKey(*this); }
 
 inline TRawMsg*
 TMsgAuth1LoginRequestHW::Duplicate(void) const
@@ -247,5 +346,7 @@ TMsgAuth1RefreshHW::Duplicate(void) const
 { return new TMsgAuth1RefreshHW(*this); }
 
 };  // Namespace WONMsg
+
+
 
 #endif

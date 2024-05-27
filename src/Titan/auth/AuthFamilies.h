@@ -12,15 +12,15 @@
 
 namespace WONAuth
 {
-	enum AuthFamilies
-	{
-		AuthFamily0 = 0,
-		AuthFamily1 = 1,
-		AuthFamily2 = 2,
+    enum AuthFamilies
+    {
+        AuthFamily0 = 0,
+        AuthFamily1 = 1,
+        AuthFamily2 = 2,
 
-		// last one, don't use
-		AuthFamilyMax
-	};
+        // last one, don't use
+        AuthFamilyMax
+    };
 };
 
 #endif

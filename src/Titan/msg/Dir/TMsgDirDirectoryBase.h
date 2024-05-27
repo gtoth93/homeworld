@@ -8,7 +8,7 @@
 // of TMessage for use in directory messages.
 
 
-#include "STRING"
+#include <string>
 #include "TMsgDirPeerDataBase.h"
 
 namespace WONMsg {
@@ -16,35 +16,35 @@ namespace WONMsg {
 class TMsgDirDirectoryBase : public TMsgDirPeerDataBase
 {
 public:
-    // Default ctor
-    TMsgDirDirectoryBase(void);
+	// Default ctor
+	TMsgDirDirectoryBase(void);
 
-    // TMessage ctor
-    explicit TMsgDirDirectoryBase(const TMessage& theMsgR);
+	// TMessage ctor
+	explicit TMsgDirDirectoryBase(const TMessage& theMsgR);
 
-    // Copy ctor
-    TMsgDirDirectoryBase(const TMsgDirDirectoryBase& theMsgR);
+	// Copy ctor
+	TMsgDirDirectoryBase(const TMsgDirDirectoryBase& theMsgR);
 
-    // Destructor
-    virtual ~TMsgDirDirectoryBase(void);
+	// Destructor
+	virtual ~TMsgDirDirectoryBase(void);
 
-    // Assignment
-    TMsgDirDirectoryBase& operator=(const TMsgDirDirectoryBase& theMsgR);
+	// Assignment
+	TMsgDirDirectoryBase& operator=(const TMsgDirDirectoryBase& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    virtual TRawMsg* Duplicate(void) const;
+	// Virtual Duplicate from TMessage
+	virtual TRawMsg* Duplicate(void) const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    virtual void* Pack(void);
-    virtual void  Unpack(void);
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	virtual void* Pack(void); 
+	virtual void  Unpack(void);
 
-    // Member access
-    const std::wstring& GetDirectoryPath(void) const;
-    virtual void SetDirectoryPath(const std::wstring& thePath);
+	// Member access
+	const std::wstring& GetDirectoryPath(void) const;
+	virtual void SetDirectoryPath(const std::wstring& thePath);
 
 protected:
-    std::wstring mDirectoryPath;
+	std::wstring mDirectoryPath;
 };
 
 

@@ -25,7 +25,9 @@ namespace WONMsg
         Auth1LoginRequest2    = 03, // new std
         Auth1LoginReply       = 04, // new std
 
-        Auth1LoginRequest     = 05, // new std ( should migrate to Auth1LoginRequest2 )
+        // Auth1LoginRequest     = 05, // depricated ( should use Auth1LoginRequest2 )
+
+		Auth2LoginRequest     = 06,
 
         Auth1GetPubKeys23       = 10, // crypt++2.3 compatibility
         Auth1GetPubKeysReply23  = 11, // crypt++2.3 compatibility
@@ -38,7 +40,7 @@ namespace WONMsg
 
         Auth1LoginReplyHL23     = 16, // HL crypt++2.3 compatibility
 
-        Auth1ChangePasswordRequest = 17, // to Server (unused?)
+        // Auth1ChangePasswordRequest = 17, // to Server (unused?)
 
         Auth1LoginRequestHL23   = 19, // HL crypt++2.3 compatibility
         Auth1LoginChallengeHL23 = 20, // HL crypt++2.3 compatibility
@@ -49,6 +51,7 @@ namespace WONMsg
         Auth1LoginRequest223    = 24, // WONSwap crypt++2.3 compatibility
 
         Auth1CheckHLKey         = 25, // Cust support (rev the code)
+        Auth1CheckHWKey         = 26, // Cust support (rev the code)
 
         // Homeworld login messages
         Auth1LoginRequestHW   = 30,
@@ -68,6 +71,11 @@ namespace WONMsg
         Auth1Challenge1       = 51, // to Client
         Auth1Challenge2       = 52, // to Server
         Auth1Complete         = 53, // to Client
+
+		// Auth Peering messages
+		AuthPeer              = 60,
+		AuthPeerHW            = 61,
+		AuthPeerHL            = 62,
 
 		// Last Message type.  Don't use
 		AuthMax

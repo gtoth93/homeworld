@@ -18,8 +18,8 @@
 // **NOTE**
 
 
-#include <sstream>
-#include "STRING"
+#include "WONString.h"
+#include <string>
 #include <exception>
 
 #ifndef _WON_EXCEPTION_SOURCE
@@ -32,7 +32,7 @@ namespace WONCommon
 
 // Exception base class.  All WON exceptions, except MemoryException are
 // derived from this class
-class WONException : public exception
+class WONException : public std::exception
 {
 public:
     // Types
@@ -44,7 +44,7 @@ public:
 
     // Constructors/Destructor
     // Usage: WONException anEx(code, __FILE__, __LINE__ [,text]);
-    explicit WONException(int theCode=0, int theLine=0, const char* theFileP=NULL,
+    explicit WONException(unsigned long theCode=0, int theLine=0, const char* theFileP=NULL,
                           const char* addTextP=NULL) throw();
 
     WONException(const WONException& theExR) throw();
@@ -75,7 +75,7 @@ public:
     virtual void SetState(ExState theState) throw();
 
     // Access to data
-    int                GetCode(void) const throw();
+    unsigned long      GetCode(void) const throw();
     const std::string& GetFile(void) const throw();
     int                GetLine(void) const throw();
 
@@ -83,15 +83,15 @@ public:
     static void Init(void) throw();
 
 protected:
-    ExState           mState;   // Exception state (default=Critical)
-    int               mCode;    // Exception code
-    std::string       mFile;    // File where exception occured.
-    int               mLine;    // Line where exception occured
-    std::stringstream mStream;  // Exception buffer (stream)
+    ExState             mState;   // Exception state (default=Critical)
+    unsigned long       mCode;    // Exception code
+    std::string         mFile;    // File where exception occured.
+    int				    mLine;    // Line where exception occured
+    wonstringstream     mStream;  // Exception buffer (stream)
 
 private:
-    bool                mLogIt;  // Log to event log?
-    mutable std::string mWhat;   // Buffer used by what method
+    bool                mLogIt;   // Log to event log?
+    mutable std::string mWhat;    // Buffer used by what method
 };
 
 
@@ -101,7 +101,7 @@ private:
 // This class is used by the installed new_handler when no memory is
 // available.  The new_handler uses a static instance so no memory is
 // allocated.
-class MemoryException : public exception
+class MemoryException : public std::exception
 {
 public:
     // Constructors/Destructor
@@ -146,7 +146,7 @@ inline WONException::ExState
 WONException::GetState(void) const throw()
 { return mState; }
 
-inline int
+inline unsigned long
 WONException::GetCode(void) const throw()
 { return mCode; }
 

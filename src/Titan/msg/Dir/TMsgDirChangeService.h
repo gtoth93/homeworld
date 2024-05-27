@@ -6,7 +6,7 @@
 // DirectoryServer Change Entry message.  Defines an entry to change.
 
 
-#include "STRING"
+#include <string>
 #include "msg/TMessage.h"
 #include "TMsgDirServiceBase.h"
 
@@ -15,62 +15,62 @@ namespace WONMsg {
 class TMsgDirChangeService : public TMsgDirServiceBase
 {
 public:
-    // Default ctor
-    TMsgDirChangeService(void);
+	// Default ctor
+	TMsgDirChangeService(void);
 
-    // TMessage ctor
-    explicit TMsgDirChangeService(const TMessage& theMsgR);
+	// TMessage ctor
+	explicit TMsgDirChangeService(const TMessage& theMsgR);
 
-    // Copy ctor
-    TMsgDirChangeService(const TMsgDirChangeService& theMsgR);
+	// Copy ctor
+	TMsgDirChangeService(const TMsgDirChangeService& theMsgR);
 
-    // Destructor
-    ~TMsgDirChangeService(void);
+	// Destructor
+	~TMsgDirChangeService(void);
 
-    // Assignment
-    TMsgDirChangeService& operator=(const TMsgDirChangeService& theMsgR);
+	// Assignment
+	TMsgDirChangeService& operator=(const TMsgDirChangeService& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    TRawMsg* Duplicate(void) const;
+	// Virtual Duplicate from TMessage
+	TRawMsg* Duplicate(void) const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    void* Pack(void);
-    void  Unpack(void);
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(void); 
+	void  Unpack(void);
 
-    // Member access
-    unsigned char       GetChangeMask(void) const;
-    const std::wstring& GetNewName(void) const;
-    const std::wstring& GetNewDisplayName(void) const;
-    const std::wstring& GetNewVersion(void) const;
-    const std::wstring& GetNewProtoName(void) const;
-    const std::wstring& GetNewProtoVersion(void) const;
-    const std::wstring& GetNewNetAddress(void) const;
-    unsigned long       GetNewLifespan(void) const;
-    unsigned short      GetNewBlobLen(void) const;
-    const void*         GetNewBlob(void) const;
+	// Member access
+	unsigned char       GetChangeMask(void) const;
+	const std::wstring& GetNewName(void) const;
+	const std::wstring& GetNewDisplayName(void) const;
+	const std::wstring& GetNewVersion(void) const;
+	const std::wstring& GetNewProtoName(void) const;
+	const std::wstring& GetNewProtoVersion(void) const;
+	const std::wstring& GetNewNetAddress(void) const;
+	unsigned long       GetNewLifespan(void) const;
+	unsigned short      GetNewBlobLen(void) const;
+	const void*         GetNewBlob(void) const;
 
-    void SetChangeMask(unsigned char theMask);
-    void SetNewName(const std::wstring& theName);
-    void SetNewDisplayName(const std::wstring& theName);
-    void SetNewVersion(const std::wstring& theVersion);
-    void SetNewProtoName(const std::wstring& theName);
-    void SetNewProtoVersion(const std::wstring& theVersion);
-    void SetNewNetAddress(const std::wstring& theAddr);
-    void SetNewLifespan(unsigned long theLifespan);
-    void SetNewBlob(const void* theBlob, unsigned short theLen);
+	void SetChangeMask(unsigned char theMask);
+	void SetNewName(const std::wstring& theName);
+	void SetNewDisplayName(const std::wstring& theName);
+	void SetNewVersion(const std::wstring& theVersion);
+	void SetNewProtoName(const std::wstring& theName);
+	void SetNewProtoVersion(const std::wstring& theVersion);
+	void SetNewNetAddress(const std::wstring& theAddr);
+	void SetNewLifespan(unsigned long theLifespan);
+	void SetNewBlob(const void* theBlob, unsigned short theLen);
 
 private:
-    unsigned char  mChangeMask;
-    std::wstring   mNewName;
-    std::wstring   mNewDisplayName;
-    std::wstring   mNewVersion;
-    std::wstring   mNewProtoName;
-    std::wstring   mNewProtoVersion;
-    std::wstring   mNewNetAddress;
-    unsigned long  mNewLifespan;
-    unsigned short mNewBlobLen;
-    unsigned char* mNewBlob;
+	unsigned char  mChangeMask;
+	std::wstring   mNewName;
+	std::wstring   mNewDisplayName;
+	std::wstring   mNewVersion;
+	std::wstring   mNewProtoName;
+	std::wstring   mNewProtoVersion;
+	std::wstring   mNewNetAddress;
+	unsigned long  mNewLifespan;
+	unsigned short mNewBlobLen;
+	unsigned char* mNewBlob;
 };
 
 

@@ -15,7 +15,7 @@
 // These methods should be called by the derived class Pack/Unpack.
 
 
-#include "STRING"
+#include <string>
 #include "common/DataObject.h"
 #include "msg/TMessage.h"
 #include "DirEntity.h"
@@ -26,41 +26,41 @@ namespace WONMsg {
 class SMsgDirG2EntityBase : public SmallMessage
 {
 public:
-    // Default ctor
-    SMsgDirG2EntityBase(void);
+	// Default ctor
+	SMsgDirG2EntityBase(void);
 
-    // SmallMessage ctor
-    explicit SMsgDirG2EntityBase(const SmallMessage& theMsgR);
+	// SmallMessage ctor
+	explicit SMsgDirG2EntityBase(const SmallMessage& theMsgR);
 
-    // Copy ctor
-    SMsgDirG2EntityBase(const SMsgDirG2EntityBase& theMsgR);
+	// Copy ctor
+	SMsgDirG2EntityBase(const SMsgDirG2EntityBase& theMsgR);
 
-    // Destructor
-    virtual ~SMsgDirG2EntityBase(void);
+	// Destructor
+	virtual ~SMsgDirG2EntityBase(void);
 
-    // Assignment
-    SMsgDirG2EntityBase& operator=(const SMsgDirG2EntityBase& theMsgR);
+	// Assignment
+	SMsgDirG2EntityBase& operator=(const SMsgDirG2EntityBase& theMsgR);
 
-    // Virtual Duplicate from SmallMessage
-    // Pure virtual - must be overridden!
-    virtual TRawMsg* Duplicate(void) const = 0;
+	// Virtual Duplicate from SmallMessage
+	// Pure virtual - must be overridden!
+	virtual TRawMsg* Duplicate(void) const = 0;
 
-    // Fetch get flags used for Pack/Unpack entities
-    // Pure virtual - must be overridden!
-    virtual unsigned long GetFlags() const = 0;
+	// Fetch get flags used for Pack/Unpack entities
+	// Pure virtual - must be overridden!
+	virtual unsigned long GetFlags() const = 0;
 
-    // Data Types access
-    const WONCommon::DataObjectTypeSet& GetDataTypes() const;
-    void SetDataTypes(const WONCommon::DataObjectTypeSet& theSetR);
+	// Data Types access
+	const WONCommon::DataObjectTypeSet& GetDataTypes() const;
+	void SetDataTypes(const WONCommon::DataObjectTypeSet& theSetR);
 
 protected:
-    WONCommon::DataObjectTypeSet mDataTypes;  // Set of data object types to add
+	WONCommon::DataObjectTypeSet mDataTypes;  // Set of data object types to add
 
-    // Pack entity into raw buffer (call in Pack())
-    virtual void PackEntity(const DirEntity& theEntityR);
+	// Pack entity into raw buffer (call in Pack())
+	virtual void PackEntity(const DirEntity& theEntityR);
 
-    // Unpack entity from raw buffer (call in Unpack())
-    virtual void UnpackEntity(DirEntity& theEntityR);
+	// Unpack entity from raw buffer (call in Unpack())
+	virtual void UnpackEntity(DirEntity& theEntityR);
 
 private:
 };

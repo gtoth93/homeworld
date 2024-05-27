@@ -6,7 +6,7 @@
 // Common Generic Reply class.  Returns a status (short) value.
 
 
-#include "STRING"
+#include <string>
 #include "msg/TMessage.h"
 #include "msg/ServerStatus.h"
 
@@ -16,35 +16,35 @@ namespace WONMsg {
 class SMsgCommStatusReply : public SmallMessage
 {
 public:
-    // Default ctor
-    SMsgCommStatusReply(void);
+	// Default ctor
+	SMsgCommStatusReply(void);
 
-    // SmallMessage ctor - will throw if SmallMessage type is not of this type
-    explicit SMsgCommStatusReply(const SmallMessage& theMsgR);
+	// SmallMessage ctor - will throw if SmallMessage type is not of this type
+	explicit SMsgCommStatusReply(const SmallMessage& theMsgR);
 
-    // Copy ctor
-    SMsgCommStatusReply(const SMsgCommStatusReply& theMsgR);
+	// Copy ctor
+	SMsgCommStatusReply(const SMsgCommStatusReply& theMsgR);
 
-    // Destructor
-    ~SMsgCommStatusReply(void);
+	// Destructor
+	~SMsgCommStatusReply(void);
 
-    // Assignment
-    SMsgCommStatusReply& operator=(const SMsgCommStatusReply& theMsgR);
+	// Assignment
+	SMsgCommStatusReply& operator=(const SMsgCommStatusReply& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    TRawMsg* Duplicate(void) const;
+	// Virtual Duplicate from TMessage
+	TRawMsg* Duplicate(void) const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    void* Pack(void);
-    void  Unpack(void);
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(void); 
+	void  Unpack(void);
 
-    // Status access
-    ServerStatus GetStatus(void) const;
-    void         SetStatus(ServerStatus theStatus);
+	// Status access
+	ServerStatus GetStatus(void) const;
+	void         SetStatus(ServerStatus theStatus);
 
 private:
-    ServerStatus mStatus;  // Request status
+	ServerStatus mStatus;  // Request status
 };
 
 

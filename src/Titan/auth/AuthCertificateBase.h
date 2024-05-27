@@ -9,51 +9,53 @@
 
 
 #include "AuthFamilyBuffer.h"
-
+#include "Crypt/EGPublicKey.h"
+#include <list>
 
 // In the WONAuth namespace
 namespace WONAuth {
 
 
-class AuthCertificateBase : public AuthFamilyBuffer
-{
-public:
-	// Default constructor
-	AuthCertificateBase();
+    class AuthCertificateBase : public AuthFamilyBuffer
+    {
+    public:
+        // Default constructor
+        AuthCertificateBase();
 
-	// Copy Constructor
-	AuthCertificateBase(const AuthCertificateBase& theCertR);
+        // Copy Constructor
+        AuthCertificateBase(const AuthCertificateBase& theCertR);
 
-	// Destructor
-	virtual ~AuthCertificateBase();
+        // Destructor
+        virtual ~AuthCertificateBase();
 
-	// Operators
-	AuthCertificateBase& operator=(const AuthCertificateBase& theCertR);
+        // Operators
+        AuthCertificateBase& operator=(const AuthCertificateBase& theCertR);
 
-protected:
+        struct CommunityAccess
+        {
+            unsigned long  mCommunityId;
+            unsigned short mTrustLevel;
 
-private:
-};
+            CommunityAccess() : mCommunityId(0), mTrustLevel(0) {}
+            CommunityAccess(unsigned long theCommunityId, unsigned short theTrustLevel) : mCommunityId(theCommunityId), mTrustLevel(theTrustLevel) {}
+        };
+        typedef std::list<CommunityAccess> AccessList;
 
+        const unsigned long  GetUserId() const { return mUserId; }
+        const WONCrypt::EGPublicKey& GetPubKey() const { return mPubKey; }
+        const AccessList& GetAccessList() const { return mAccessList; }
 
-// Inlines
-inline
-AuthCertificateBase::AuthCertificateBase() :
-	AuthFamilyBuffer()
-{}
+        void SetUserId(unsigned long theId) { mUserId = theId; }
+        void SetPublicKey(const WONCrypt::EGPublicKey& theKeyR) { mPubKey = theKeyR; }
 
-inline
-AuthCertificateBase::AuthCertificateBase(const AuthCertificateBase& theCertR) :
-	AuthFamilyBuffer(theCertR)
-{}
+    protected:
+        AccessList mAccessList;
+        unsigned long mUserId;
+        WONCrypt::EGPublicKey mPubKey;
 
-inline
-AuthCertificateBase::~AuthCertificateBase()
-{}
+    private:
+    };
 
-inline AuthCertificateBase&
-AuthCertificateBase::operator=(const AuthCertificateBase& theCertR)
-{ AuthFamilyBuffer::operator=(theCertR);  return *this; }
 
 
 };  // Namespace WONAuth

@@ -5,7 +5,7 @@
 
 // DirectoryServer Add SubDirectory message.  Defines a subdirectory to add.
 
-#include "STRING"
+#include <string>
 #include "msg/TMessage.h"
 #include "TMsgDirDirectoryBase.h"
 
@@ -14,45 +14,45 @@ namespace WONMsg {
 class TMsgDirAddDirectory : public TMsgDirDirectoryBase
 {
 public:
-    // Default ctor
-    TMsgDirAddDirectory(void);
+	// Default ctor
+	TMsgDirAddDirectory(void);
 
-    // TMessage ctor
-    explicit TMsgDirAddDirectory(const TMessage& theMsgR);
+	// TMessage ctor
+	explicit TMsgDirAddDirectory(const TMessage& theMsgR);
 
-    // Copy ctor
-    TMsgDirAddDirectory(const TMsgDirAddDirectory& theMsgR);
+	// Copy ctor
+	TMsgDirAddDirectory(const TMsgDirAddDirectory& theMsgR);
 
-    // Destructor
-    ~TMsgDirAddDirectory(void);
+	// Destructor
+	~TMsgDirAddDirectory(void);
 
-    // Assignment
-    TMsgDirAddDirectory& operator=(const TMsgDirAddDirectory& theMsgR);
+	// Assignment
+	TMsgDirAddDirectory& operator=(const TMsgDirAddDirectory& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    TRawMsg* Duplicate(void) const;
+	// Virtual Duplicate from TMessage
+	TRawMsg* Duplicate(void) const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    void* Pack(void);
-    void  Unpack(void);
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(void); 
+	void  Unpack(void);
 
-    // Member access
-    const std::wstring& GetName(void) const;
-    const std::wstring& GetDisplayName(void) const;
-    bool                GetVisible(void) const;
-    unsigned long       GetLifespan(void) const;
+	// Member access
+	const std::wstring& GetName(void) const;
+	const std::wstring& GetDisplayName(void) const;
+	bool                GetVisible(void) const;
+	unsigned long       GetLifespan(void) const;
 
-    void SetName(const std::wstring& theName);
-    void SetDisplayName(const std::wstring& theName);
-    void SetVisible(bool theFlag);
-    void SetLifespan(unsigned long theLifespan);
+	void SetName(const std::wstring& theName);
+	void SetDisplayName(const std::wstring& theName);
+	void SetVisible(bool theFlag);
+	void SetLifespan(unsigned long theLifespan);
 
 private:
-    std::wstring  mName;
-    std::wstring  mDisplayName;
-    bool          mVisible;
-    unsigned long mLifespan;
+	std::wstring  mName;
+	std::wstring  mDisplayName;
+	bool          mVisible;
+	unsigned long mLifespan;
 };
 
 

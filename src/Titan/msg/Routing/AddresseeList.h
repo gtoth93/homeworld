@@ -3,7 +3,7 @@
 
 // MiniMessageWithAddresseeList.h
 
-#include "LIST"
+#include <list>
 #include "RoutingServerMessage.h"
 
 namespace WONMsg {
@@ -22,23 +22,23 @@ public:
     // Assignment
     AddresseeList& operator=(const AddresseeList& theCopyR);
 
-    // Debug output
-    void Dump(std::ostream& os) const;
+	// Debug output
+	void Dump(std::ostream& os) const;
 
-    void AppendAddresseeList(RoutingServerMessage* theMsgP);
+	void AppendAddresseeList(RoutingServerMessage* theMsgP);
     void ReadAddresseeList(RoutingServerMessage* theMsgP);
 
-    typedef std::list<ClientOrGroupId> IdList;
-    // Member access
-    bool GetIncludeExcludeFlag() const                     { return mIncludeExcludeFlag; }
-    const IdList& GetAddresseeList() const                 { return mAddresseeList; }
+	typedef std::list<ClientOrGroupId> IdList;
+	// Member access
+	bool GetIncludeExcludeFlag() const                     { return mIncludeExcludeFlag; }
+	const IdList& GetAddresseeList() const                 { return mAddresseeList; }
 
-    void SetIncludeExcludeFlag(bool theIncludeExcludeFlag) { mIncludeExcludeFlag = theIncludeExcludeFlag; }
-    void SetAddresseeList(const IdList& theAddresseeListR) { mAddresseeList = theAddresseeListR; }
-    void AddAddressee(ClientOrGroupId theAddressee)        { mAddresseeList.push_back(theAddressee); }
+	void SetIncludeExcludeFlag(bool theIncludeExcludeFlag) { mIncludeExcludeFlag = theIncludeExcludeFlag; }
+	void SetAddresseeList(const IdList& theAddresseeListR) { mAddresseeList = theAddresseeListR; }
+	void AddAddressee(ClientOrGroupId theAddressee)        { mAddresseeList.push_back(theAddressee); }
 protected:
-    bool   mIncludeExcludeFlag;
-    IdList mAddresseeList;
+	bool   mIncludeExcludeFlag;
+	IdList mAddresseeList;
 };
 
 };  // Namespace WONMsg

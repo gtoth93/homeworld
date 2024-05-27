@@ -5,14 +5,15 @@
 // WON Database Types
 // Types and constants used to communicate with the database (Oracle at this time).
 
-#include "STRING"
+#include <string>
 
 namespace WONDatabase
 {
     enum DBConstants
     {
         DB_NAMESTANDARD_MAX = 65,
-        DB_DESCSTANDARD_MAX = 65
+        DB_DESCSTANDARD_MAX = 65,
+        DB_RAW_SIZE			= 2000
     };
 
     // DB array types
@@ -44,6 +45,13 @@ namespace WONDatabase
     // Standard column types
     typedef DBVarCharWide  DBNameStandard;  // VARCHAR2(65)
     typedef DBVarCharAscii DBDescStandard;  // VARCHAR2(65)
+
+    // For raw data type from database
+    struct DBRawData
+    {
+        unsigned long	length;
+        unsigned char	data [DB_RAW_SIZE];
+    };
 };
 
 #endif

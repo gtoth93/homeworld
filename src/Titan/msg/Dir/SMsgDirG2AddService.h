@@ -5,7 +5,7 @@
 
 // DirectoryServer add service message.  Adds a new service at specified path.
 
-#include "STRING"
+#include <string>
 #include "SMsgDirG2UpdateExtendBase.h"
 
 
@@ -14,45 +14,45 @@ namespace WONMsg {
 class SMsgDirG2AddService : public SMsgDirG2UpdateExtendBase
 {
 public:
-    // Default ctor
-    explicit SMsgDirG2AddService(bool isExtended=false);
+	// Default ctor
+	explicit SMsgDirG2AddService(bool isExtended=false);
 
-    // SmallMessage ctor
-    explicit SMsgDirG2AddService(const SmallMessage& theMsgR);
+	// SmallMessage ctor
+	explicit SMsgDirG2AddService(const SmallMessage& theMsgR);
 
-    // Copy ctor
-    SMsgDirG2AddService(const SMsgDirG2AddService& theMsgR);
+	// Copy ctor
+	SMsgDirG2AddService(const SMsgDirG2AddService& theMsgR);
 
-    // Destructor
-    ~SMsgDirG2AddService(void);
+	// Destructor
+	~SMsgDirG2AddService(void);
 
-    // Assignment
-    SMsgDirG2AddService& operator=(const SMsgDirG2AddService& theMsgR);
+	// Assignment
+	SMsgDirG2AddService& operator=(const SMsgDirG2AddService& theMsgR);
 
-    // Virtual Duplicate
-    TRawMsg* Duplicate(void) const;
+	// Virtual Duplicate
+	TRawMsg* Duplicate(void) const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    void* Pack(void);
-    void  Unpack(void);
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(void); 
+	void  Unpack(void);
 
-    // EntityFlags access
-    unsigned char GetEntityFlags() const;
-    void SetEntityFlags(unsigned char theFlags);
+	// EntityFlags access
+	unsigned char GetEntityFlags() const;
+	void SetEntityFlags(unsigned char theFlags);
 
-    // DisplayName access
-    const std::wstring& GetDisplayName() const;
-    void SetDisplayName(const std::wstring& theName);
+	// DisplayName access
+	const std::wstring& GetDisplayName() const;
+	void SetDisplayName(const std::wstring& theName);
 
-    // Lifespan access
-    unsigned long GetLifespan() const;
-    void SetLifespan(unsigned long theSpan);
+	// Lifespan access
+	unsigned long GetLifespan() const;
+	void SetLifespan(unsigned long theSpan);
 
 private:
-    unsigned char mEntityFlags;  // Flags for add
-    std::wstring  mDisplayName;  // Service display name
-    unsigned long mLifespan;     // Lifespan in seconds
+	unsigned char mEntityFlags;  // Flags for add
+	std::wstring  mDisplayName;  // Service display name
+	unsigned long mLifespan;     // Lifespan in seconds
 };
 
 

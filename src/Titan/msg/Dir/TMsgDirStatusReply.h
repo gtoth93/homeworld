@@ -7,7 +7,7 @@
 // to the Directory Server.
 
 
-#include "STRING"
+#include <string>
 #include "msg/TMessage.h"
 #include "msg/ServerStatus.h"
 
@@ -17,35 +17,35 @@ namespace WONMsg {
 class TMsgDirStatusReply : public TMessage
 {
 public:
-    // Default ctor
-    TMsgDirStatusReply(void);
+	// Default ctor
+	TMsgDirStatusReply(void);
 
-    // TMessage ctor - will throw if TMessage type is not of this type
-    explicit TMsgDirStatusReply(const TMessage& theMsgR);
+	// TMessage ctor - will throw if TMessage type is not of this type
+	explicit TMsgDirStatusReply(const TMessage& theMsgR);
 
-    // Copy ctor
-    TMsgDirStatusReply(const TMsgDirStatusReply& theMsgR);
+	// Copy ctor
+	TMsgDirStatusReply(const TMsgDirStatusReply& theMsgR);
 
-    // Destructor
-    ~TMsgDirStatusReply(void);
+	// Destructor
+	~TMsgDirStatusReply(void);
 
-    // Assignment
-    TMsgDirStatusReply& operator=(const TMsgDirStatusReply& theMsgR);
+	// Assignment
+	TMsgDirStatusReply& operator=(const TMsgDirStatusReply& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    TRawMsg* Duplicate(void) const;
+	// Virtual Duplicate from TMessage
+	TRawMsg* Duplicate(void) const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    void* Pack(void);
-    void  Unpack(void);
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(void); 
+	void  Unpack(void);
 
-    // Status access
-    ServerStatus GetStatus(void) const;
-    void         SetStatus(ServerStatus theStatus);
+	// Status access
+	ServerStatus GetStatus(void) const;
+	void         SetStatus(ServerStatus theStatus);
 
 private:
-    ServerStatus mStatus;  // Request status
+	ServerStatus mStatus;  // Request status
 };
 
 

@@ -8,7 +8,7 @@
 // TMessage for use in directory messages.
 
 
-#include "STRING"
+#include <string>
 #include "TMsgDirPeerDataBase.h"
 
 namespace WONMsg {
@@ -16,57 +16,57 @@ namespace WONMsg {
 class TMsgDirServiceBase : public TMsgDirPeerDataBase
 {
 public:
-    // Default ctor
-    TMsgDirServiceBase(void);
+	// Default ctor
+	TMsgDirServiceBase(void);
 
-    // TMessage ctor
-    explicit TMsgDirServiceBase(const TMessage& theMsgR);
+	// TMessage ctor
+	explicit TMsgDirServiceBase(const TMessage& theMsgR);
 
-    // Copy ctor
-    TMsgDirServiceBase(const TMsgDirServiceBase& theMsgR);
+	// Copy ctor
+	TMsgDirServiceBase(const TMsgDirServiceBase& theMsgR);
 
-    // Destructor
-    virtual ~TMsgDirServiceBase(void);
+	// Destructor
+	virtual ~TMsgDirServiceBase(void);
 
-    // Assignment
-    TMsgDirServiceBase& operator=(const TMsgDirServiceBase& theMsgR);
+	// Assignment
+	TMsgDirServiceBase& operator=(const TMsgDirServiceBase& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    virtual TRawMsg* Duplicate(void) const;
+	// Virtual Duplicate from TMessage
+	virtual TRawMsg* Duplicate(void) const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    virtual void* Pack(void);
-    virtual void  Unpack(void);
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	virtual void* Pack(void); 
+	virtual void  Unpack(void);
 
-    // Member access
-    const std::wstring& GetDirectoryPath(void) const;
-    const std::wstring& GetName(void) const;
-    const std::wstring& GetDisplayName(void) const;
-    const std::wstring& GetVersion(void) const;
-    const std::wstring& GetProtoName(void) const;
-    const std::wstring& GetProtoVersion(void) const;
-    const std::wstring& GetNetAddress(void) const;
+	// Member access
+	const std::wstring& GetDirectoryPath(void) const;
+	const std::wstring& GetName(void) const;
+	const std::wstring& GetDisplayName(void) const;
+	const std::wstring& GetVersion(void) const;
+	const std::wstring& GetProtoName(void) const;
+	const std::wstring& GetProtoVersion(void) const;
+	const std::wstring& GetNetAddress(void) const;
 
-    virtual void SetDirectoryPath(const std::wstring& thePath);
-    virtual void SetName(const std::wstring& theName);
-    virtual void SetDisplayName(const std::wstring& theName);
-    virtual void SetVersion(const std::wstring& theVersion);
-    virtual void SetProtoName(const std::wstring& theName);
-    virtual void SetProtoVersion(const std::wstring& theVersion);
-    virtual void SetNetAddress(const std::wstring& theAddr);
+	virtual void SetDirectoryPath(const std::wstring& thePath);
+	virtual void SetName(const std::wstring& theName);
+	virtual void SetDisplayName(const std::wstring& theName);
+	virtual void SetVersion(const std::wstring& theVersion);
+	virtual void SetProtoName(const std::wstring& theName);
+	virtual void SetProtoVersion(const std::wstring& theVersion);
+	virtual void SetNetAddress(const std::wstring& theAddr);
 
-    // Are any extended fields defined?
-    bool HasExtendedInfo() const;
+	// Are any extended fields defined?
+	bool HasExtendedInfo() const;
 
 protected:
-    std::wstring mDirectoryPath;
-    std::wstring mName;
-    std::wstring mDisplayName;
-    std::wstring mVersion;
-    std::wstring mProtoName;
-    std::wstring mProtoVersion;
-    std::wstring mNetAddress;
+	std::wstring mDirectoryPath;
+	std::wstring mName;
+	std::wstring mDisplayName;
+	std::wstring mVersion;
+	std::wstring mProtoName;
+	std::wstring mProtoVersion;
+	std::wstring mNetAddress;
 };
 
 

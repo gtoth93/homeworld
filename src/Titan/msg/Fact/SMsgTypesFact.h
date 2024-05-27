@@ -34,7 +34,13 @@ namespace WONMsg
 
 		FactStreamFile					= 21,
 		FactGetFileCRC					= 22,
-		FactGetFileCRCReply				= 23
+		FactGetFileCRCReply				= 23,
+
+		FactRemoveFile					= 24,
+		FactGetFile						= 25,
+
+		FactGetDir						= 26,
+		FactGetDirReply					= 27
 
 	};
 };

@@ -2,8 +2,9 @@
 #define DATAOBJECT_H
 
 #include "won.h"
-#include "LIST"
-#include "SET"
+#include "CriticalSection.h"
+#include <list>
+#include <set>
 
 namespace WONCommon {
 
@@ -45,6 +46,7 @@ public:
     const Data&     GetData() const;
     Data&           GetData(bool copy=true);
     unsigned long   GetLifespan() const;
+    void            Clear(void);
 
     // Has DataObject expired?
     bool IsExpired() const;
@@ -52,6 +54,7 @@ public:
     // Member update
     void SetDataType(const DataType& theDataTypeR);
     void SetData(const Data& theDataR, bool copy=true);
+    void AppendData(const Data& theDataR, bool copy=true);
     void SetLifespan(unsigned long theLifespan, time_t theStartTime=0, bool copy=true);
 
     // Compute raw size in bytes
@@ -75,6 +78,10 @@ typedef std::multiset<DataObject> DataObjectTypeMultiSet;
 struct DataObjectRep
 {
     long                 mRefCt;       // Reference count
+#ifndef WIN32
+    WONCommon::CriticalSection		 mRefCtCrit;
+#endif
+
     DataObject::DataType mDataType;    // Type portion (binary)
     DataObject::Data     mData;        // Data portion (binary)
     unsigned long        mLifespan;    // Lifespan in seconds
@@ -142,6 +149,10 @@ inline DataObject::Data&
 DataObject::GetData(bool copy)
 { if (copy) CopyOnWrite();  return mRepP->mData; }
 
+inline void
+DataObject::Clear(void)
+{ GetDataType().erase();  GetData(false).erase(); }
+
 inline unsigned long
 DataObject::GetLifespan() const
 { return mRepP->mLifespan; }
@@ -157,6 +168,10 @@ DataObject::SetDataType(const DataObject::DataType& theDataTypeR)
 inline void
 DataObject::SetData(const DataObject::Data& theDataR, bool copy)
 { if (copy) CopyOnWrite();  mRepP->mData = theDataR; }
+
+inline void
+DataObject::AppendData(const DataObject::Data& theDataR, bool copy)
+{ if (copy) CopyOnWrite();  mRepP->mData.append(theDataR); }
 
 inline unsigned long
 DataObject::ComputeSize() const

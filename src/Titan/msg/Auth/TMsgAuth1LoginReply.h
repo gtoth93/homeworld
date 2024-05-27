@@ -8,17 +8,20 @@
 // information.  It may optionally deliver other pieces of information as well which
 // are described below.
 
-// This message contains a status, followed by an option array of error strings,
-// followed by an optional array of data encrypted with the session key.  Once
-// decrypted, the array will be composed as follows:
-//  1) 0 or 1 Auth Certificate
-//  2) 0 or 1 Client PrivateKey
-//  3) 0 or 1 Auth PublicKey Block
-//  4) 0 or 1 Secret confirmation
-//  5) 0 or 1 Nickname info
+// This message contains a status,
+//  followed by a list of 0 or more informational strings,
+//  followed by a block of unencrypted data,
+//  followed by a block of data encrypted with the session key.
 
-// All items if present will be in the above order.  Item (3) may be present in all
-// cases.  The other items will only be present ofr successful statuses.
+//  The data blocks contain a list of elements, each element
+//  identified by a tag:
+
+//	1) -> Auth1 Certificate
+//	2) -> Client PrivateKey
+//	3) -> Auth PublicKey Block
+//	4) -> Secret confirmation
+//	5) -> Nickname info
+//	6) -> Auth2 Certificate
 
 // If present, the secret confirmation contains:
 //     2 byte random pad
@@ -33,10 +36,14 @@
 // If the 1 byte flag is true, The NicknameKey in the Auth1LoginRequest was not found,
 // and the Nickname is the default value.
 
+// Note:
+//   The Secret confirmation and the Client PrivateKey are only valid if they are
+//   found in the ecrypted block of data.
+//
 
 #include "common/won.h"
-#include "LIST"
-#include "MAP"
+#include <list>
+#include <map>
 #include "crypt/BFSymmetricKey.h"
 #include "msg/TMessage.h"
 #include "msg/TServiceTypes.h"
@@ -49,101 +56,102 @@ namespace WONMsg {
 class TMsgAuth1LoginReply : public TMessage
 {
 public:
-    // Types
-    enum EntryType {
-        ALCertificate      = 1,  // Certificate
-        ALClientPrivateKey = 2,  // Client's Private Key
-        ALPublicKeyBlock   = 3,  // AuthServer Public Key Block
-        ALSecretConfirm    = 4,  // Client secret confirmation
-        ALNicknameInfo     = 5,  // Nickname information
-    };
+	// Types
+	enum EntryType {
+		ALCertificate      = 1,  // Certificate
+		ALClientPrivateKey = 2,  // Client's Private Key
+		ALPublicKeyBlock   = 3,  // AuthServer Public Key Block
+		ALSecretConfirm    = 4,  // Client secret confirmation
+		ALNicknameInfo     = 5,  // Nickname information
+		AL2Certificate     = 6,  // Auth2 Certificate
+	};
 
-    typedef std::pair<const unsigned char*, unsigned short> RawBlock;
-    typedef std::list<std::string> ErrorList;
+	typedef std::pair<const unsigned char*, unsigned short> RawBlock;
+	typedef std::list<std::string> ErrorList;
 
-    // Default ctor
-    TMsgAuth1LoginReply(ServiceType theServType);
+	// Default ctor
+	TMsgAuth1LoginReply(ServiceType theServType);
 
-    // TMessage ctor - will throw if TMessage type is not of this type
-    // Must provide session key for Unpack.
-    TMsgAuth1LoginReply(const TMessage& theMsgR, WONCrypt::SymmetricKey* theKeyP,
-                        bool copyKey=false);
+	// TMessage ctor - will throw if TMessage type is not of this type
+	// Must provide session key for Unpack.
+	TMsgAuth1LoginReply(const TMessage& theMsgR, WONCrypt::SymmetricKey* theKeyP,
+	                    bool copyKey=false);
 
-    // Copy ctor
-    TMsgAuth1LoginReply(const TMsgAuth1LoginReply& theMsgR);
+	// Copy ctor
+	TMsgAuth1LoginReply(const TMsgAuth1LoginReply& theMsgR);
 
-    // Destructor
-    ~TMsgAuth1LoginReply();
+	// Destructor
+	~TMsgAuth1LoginReply();
 
-    // Assignment
-    TMsgAuth1LoginReply& operator=(const TMsgAuth1LoginReply& theMsgR);
+	// Assignment
+	TMsgAuth1LoginReply& operator=(const TMsgAuth1LoginReply& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    TRawMsg* Duplicate() const;
+	// Virtual Duplicate from TMessage
+	TRawMsg* Duplicate() const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    void* Pack();
-    void  Unpack();
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(); 
+	void  Unpack();
 
-    // Status access
-    ServerStatus GetStatus() const;
-    void         SetStatus(ServerStatus theStatus);
+	// Status access
+	ServerStatus GetStatus() const;
+	void         SetStatus(ServerStatus theStatus);
 
-    // Session key access - Must set session key befor packing.
-    const WONCrypt::SymmetricKey* GetSessKey() const;
-    void SetSessKey(WONCrypt::SymmetricKey* theKeyP, bool copyKey=false);
+	// Session key access - Must set session key befor packing.
+	const WONCrypt::SymmetricKey* GetSessKey() const;
+	void SetSessKey(WONCrypt::SymmetricKey* theKeyP, bool copyKey=false);
 
-    // Error List access
-    const ErrorList& ErrList() const;
-    ErrorList&       ErrList();
+	// Error List access
+	const ErrorList& ErrList() const;
+	ErrorList&       ErrList();
 
-    // Block access
-    const RawBlock& GetRawBlock(EntryType theType) const;// May be null
+	// Block access
+	const RawBlock& GetRawBlock(EntryType theType) const;// May be null
 
-    // Update a raw block.  Setting copyBlock to false will cause the specified raw
-    // pointer to be stored without copying its contents.  This will improve
-    // performance, but raw pointer MUST NOT BE DEALLOCATED while in use by this class.
-    void SetRawBlock(EntryType theType, const unsigned char* theBlockP,
-                     unsigned short theLen, bool copyBlock=false);
+	// Update a raw block.  Setting copyBlock to false will cause the specified raw
+	// pointer to be stored without copying its contents.  This will improve
+	// performance, but raw pointer MUST NOT BE DEALLOCATED while in use by this class.
+	void SetRawBlock(EntryType theType, const unsigned char* theBlockP,
+	                 unsigned short theLen, bool copyBlock=false);
 
-    // Force copy of raw blocks if needed.
-    void ForceOwn(EntryType theType);
-    void ForceOwnAll();  // Do all blocks
+	// Force copy of raw blocks if needed.
+	void ForceOwn(EntryType theType);
+	void ForceOwnAll();  // Do all blocks
 
 private:
-    // Types
-    typedef std::map<EntryType, RawBlock> RawBlockMap;
-    typedef std::map<EntryType, WONCommon::RawBuffer> BufferMap;
+	// Types
+	typedef std::map<EntryType, RawBlock> RawBlockMap;
+	typedef std::map<EntryType, WONCommon::RawBuffer> BufferMap;
 
-    // Members
-    ServerStatus mStatus;   // Status of the request
-    ErrorList    mErrList;  // List of extended error info (may be empty)
-    RawBlockMap  mRawMap;   // Map of raw blocks
-    BufferMap    mBufMap;   // Map of buffers for ownership of raw block data
+	// Members
+	ServerStatus mStatus;   // Status of the request
+	ErrorList    mErrList;  // List of extended error info (may be empty)
+	RawBlockMap  mRawMap;   // Map of raw blocks
+	BufferMap    mBufMap;   // Map of buffers for ownership of raw block data
 
-    // Key for encrypt/decrypt as it's ownership indicator
-    WONCrypt::SymmetricKey* mSessKeyP;
-    bool                    mOwnKey;
+	// Key for encrypt/decrypt as it's ownership indicator
+	WONCrypt::SymmetricKey* mSessKeyP;
+	bool                    mOwnKey;
 
-    // Save the decrypted block from unpack to save copies
-    WONCrypt::BFSymmetricKey::CryptReturn mDecrypt;
+	// Save the decrypted block from unpack to save copies
+	WONCrypt::BFSymmetricKey::CryptReturn mDecrypt;
 
-    // Get a ref to block of specified type.  Inits block to (NULL,0) if needed.
-    RawBlock& GetBlockRef(EntryType theType);
+	// Get a ref to block of specified type.  Inits block to (NULL,0) if needed.
+	RawBlock& GetBlockRef(EntryType theType);
 
-    // Copy blocks from another instance
-    void CopyBlocks(const TMsgAuth1LoginReply& theMsgR);
+	// Copy blocks from another instance
+	void CopyBlocks(const TMsgAuth1LoginReply& theMsgR);
 
-    // Pack/Unpack a block
-    void PackBlock(WONCommon::RawBuffer& theBufR, EntryType theType, RawBlock& theBlockR);
+	// Pack/Unpack a block
+	void PackBlock(WONCommon::RawBuffer& theBufR, EntryType theType, RawBlock& theBlockR);
     void PackClearBlock(EntryType theType, RawBlock& theBlockR);
-    void UnpackBlock(EntryType theType, unsigned char*& theBufP, unsigned long& theLen);
+	void UnpackBlock(EntryType theType, unsigned char*& theBufP, unsigned long& theLen);
     void UnpackClearBlock(EntryType theType);
-    void UnpackErrString(unsigned char*& theBufP, unsigned long& theLen);
+	void UnpackErrString(unsigned char*& theBufP, unsigned long& theLen);
 
-    void EncryptAndPack();
-    void DecryptAndUnpack();
+	void EncryptAndPack();
+	void DecryptAndUnpack();
 };
 
 
@@ -177,5 +185,7 @@ TMsgAuth1LoginReply::GetRawBlock(EntryType theType) const
 { return const_cast<TMsgAuth1LoginReply*>(this)->GetBlockRef(theType); }
 
 };  // Namespace WONMsg
+
+typedef class Auth1LoginReply AuthLoginReply;
 
 #endif

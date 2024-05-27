@@ -7,49 +7,49 @@
 
 
 #include "msg/TMessage.h"
-#include "SET"
+#include <set>
 
 
 namespace WONMsg {
 
-    typedef std::set<unsigned short> FACT_SERV_PORT_RANGE_SET;
+	typedef std::set<unsigned short> FACT_SERV_PORT_RANGE_SET;
 
 class SMsgFactStatusReply : public SmallMessage {
 
 public:
-    // Default ctor
-    SMsgFactStatusReply(void);
+	// Default ctor
+	SMsgFactStatusReply(void);
 
-    // TMessage ctor
-    explicit SMsgFactStatusReply(const SmallMessage& theMsgR);
+	// TMessage ctor
+	explicit SMsgFactStatusReply(const SmallMessage& theMsgR);
 
-    // Copy ctor
-    SMsgFactStatusReply(const SMsgFactStatusReply& theMsgR);
+	// Copy ctor
+	SMsgFactStatusReply(const SMsgFactStatusReply& theMsgR);
 
-    // Destructor
-    virtual ~SMsgFactStatusReply(void);
+	// Destructor
+	virtual ~SMsgFactStatusReply(void);
 
-    // Assignment
-    SMsgFactStatusReply& operator=(const SMsgFactStatusReply& theMsgR);
+	// Assignment
+	SMsgFactStatusReply& operator=(const SMsgFactStatusReply& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    virtual TRawMsg* Duplicate(void) const;
+	// Virtual Duplicate from TMessage
+	virtual TRawMsg* Duplicate(void) const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    virtual void* Pack(void);
-    virtual void  Unpack(void);
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	virtual void* Pack(void); 
+	virtual void  Unpack(void);
 
-    // Member access
-    short GetProcessStatus(void) const;
-    const FACT_SERV_PORT_RANGE_SET& GetProcessPortIDSet(void) const;
+	// Member access
+	short GetProcessStatus(void) const;
+	const FACT_SERV_PORT_RANGE_SET& GetProcessPortIDSet(void) const;
 
-    virtual void SetProcessStatus(short theProcessStatus);
-    virtual void SetProcessPortIDSet(const FACT_SERV_PORT_RANGE_SET& theProcessPortID);
+	virtual void SetProcessStatus(short theProcessStatus);
+	virtual void SetProcessPortIDSet(const FACT_SERV_PORT_RANGE_SET& theProcessPortID);
 
 protected:
-    short                    mProcessStatus;
-    FACT_SERV_PORT_RANGE_SET mProcessPortIDSet;
+	short                    mProcessStatus;
+	FACT_SERV_PORT_RANGE_SET mProcessPortIDSet;
 
 };
 

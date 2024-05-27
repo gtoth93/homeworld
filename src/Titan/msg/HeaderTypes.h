@@ -25,6 +25,12 @@ namespace WONMsg
 		HeaderService4Message4 = 7, // non-encrypted LargeMessages
 		LargeEncryptedService  = 8, // encrypted Service4Message4 (aka LargeMessage)
 
+
+		HeaderService0Message0		  = 11,
+		HeaderEncryptedService	      = 12,
+		HeaderWithTag 				  =	13,
+		HeaderWithTagAndExpiration	  = 14,
+
 		// Old-Style service type used as header types
 		FactoryServer          = 10,
 		AuthServer             = 20,
@@ -32,13 +38,12 @@ namespace WONMsg
 		ParamServer            = 40,
 		ChatServer             = 50,
 		SIGSAuthServer         = 60,
-		PingServer             = 70,
-		ObsServer	           = 80,
+		//ObsServer	           = 80,
 		OverlordServer         = 100,
 
 		// Reserved range for Auth Login protocols (200-229)
         AuthProtocolMin        = 200,
-        Auth0Login             = 200,  // Auth0 - Brain-dead
+        // Auth0Login            = 200,  // Dead Auth0
         Auth1Login             = 201,  // Auth1 - Standard Login
         Auth1LoginHL           = 202,  // Auth1 - Half-life Login
         Auth1PeerToPeer        = 203,  // Auth1 - Persistant connections

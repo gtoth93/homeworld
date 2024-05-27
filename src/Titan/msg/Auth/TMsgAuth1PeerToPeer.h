@@ -8,10 +8,10 @@
 // between clients/servers
 
 // This header/source implements messages:
-//  Auth1Request
-//  Auth1Challenge1
-//  Auth1Challenge2
-//  Auth1Complete
+//	Auth1Request
+//	Auth1Challenge1
+//	Auth1Challenge2
+//	Auth1Complete
 
 // Auth1Request begins authentication bwteen two clients/servers and is sent from
 // Client A to Client B.
@@ -24,7 +24,7 @@
 // completes the authentication.
 
 
-#include "LIST"
+#include <list>
 #include "auth/CryptFlags.h"
 #include "msg/TMessage.h"
 #include "msg/ServerStatus.h"
@@ -46,47 +46,47 @@ using WONAuth::EncryptionFlags;
 class TMsgAuth1Request : public TMsgAuthRawBufferBase
 {
 public:
-    // Default ctor
-    TMsgAuth1Request();
+	// Default ctor
+	TMsgAuth1Request();
 
-    // TMessage ctor - will throw if TMessage type is not of this type
-    explicit TMsgAuth1Request(const TMessage& theMsgR);
+	// TMessage ctor - will throw if TMessage type is not of this type
+	explicit TMsgAuth1Request(const TMessage& theMsgR);
 
-    // Copy ctor
-    TMsgAuth1Request(const TMsgAuth1Request& theMsgR);
+	// Copy ctor
+	TMsgAuth1Request(const TMsgAuth1Request& theMsgR);
 
-    // Destructor
-    ~TMsgAuth1Request();
+	// Destructor
+	~TMsgAuth1Request();
 
-    // Assignment
-    TMsgAuth1Request& operator=(const TMsgAuth1Request& theMsgR);
+	// Assignment
+	TMsgAuth1Request& operator=(const TMsgAuth1Request& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    TRawMsg* Duplicate() const;
+	// Virtual Duplicate from TMessage
+	TRawMsg* Duplicate() const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    void* Pack();
-    void  Unpack();
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(); 
+	void  Unpack();
 
-    // AuthMode access
-    AuthenticationMode GetAuthMode() const;
-    void               SetAuthMode(AuthenticationMode theMode);
+	// AuthMode access
+	AuthenticationMode GetAuthMode() const;
+	void               SetAuthMode(AuthenticationMode theMode);
 
-    // EncryptMode access
-    EncryptionMode GetEncryptMode() const;
-    void           SetEncryptMode(EncryptionMode theMode);
+	// EncryptMode access
+	EncryptionMode GetEncryptMode() const;
+	void           SetEncryptMode(EncryptionMode theMode);
 
-    // Encrypt flags access
-    unsigned short GetEncryptFlags  () const;
-    void           SetEncryptFlags  (unsigned short theFlags);
-    void           AddEncryptFlag   (unsigned short theFlag);
-    void           ClearEncryptFlags();
+	// Encrypt flags access
+	unsigned short GetEncryptFlags  () const;
+	void           SetEncryptFlags  (unsigned short theFlags);
+	void           AddEncryptFlag   (unsigned short theFlag);
+	void           ClearEncryptFlags();
 
 private:
-    AuthenticationMode mAuthMode;      // Authentication mode
-    EncryptionMode     mEncryptMode;   // Encryption mode
-    unsigned short     mEncryptFlags;  // Encryption flags (bit field)
+	AuthenticationMode mAuthMode;      // Authentication mode
+	EncryptionMode     mEncryptMode;   // Encryption mode
+	unsigned short     mEncryptFlags;  // Encryption flags (bit field)
 };
 
 
@@ -96,45 +96,45 @@ private:
 // Raw buffer from base class is used to store client B certificate.  SecretB buffer
 // must be encrypted with Client A's public key.  Structure SecretB block before
 // encrypt as:
-//      Length of Secret B (2 bytes)
-//      Secret B
+//		Length of Secret B (2 bytes)
+//		Secret B
 class TMsgAuth1Challenge1 : public TMsgAuthRawBufferBase
 {
 public:
-    // Default ctor
-    TMsgAuth1Challenge1();
+	// Default ctor
+	TMsgAuth1Challenge1();
 
-    // TMessage ctor - will throw if TMessage type is not of this type
-    explicit TMsgAuth1Challenge1(const TMessage& theMsgR);
+	// TMessage ctor - will throw if TMessage type is not of this type
+	explicit TMsgAuth1Challenge1(const TMessage& theMsgR);
 
-    // Copy ctor
-    TMsgAuth1Challenge1(const TMsgAuth1Challenge1& theMsgR);
+	// Copy ctor
+	TMsgAuth1Challenge1(const TMsgAuth1Challenge1& theMsgR);
 
-    // Destructor
-    ~TMsgAuth1Challenge1();
+	// Destructor
+	~TMsgAuth1Challenge1();
 
-    // Assignment
-    TMsgAuth1Challenge1& operator=(const TMsgAuth1Challenge1& theMsgR);
+	// Assignment
+	TMsgAuth1Challenge1& operator=(const TMsgAuth1Challenge1& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    TRawMsg* Duplicate() const;
+	// Virtual Duplicate from TMessage
+	TRawMsg* Duplicate() const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    void* Pack();
-    void  Unpack();
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(); 
+	void  Unpack();
 
-    // Secret B access
-    const unsigned char* GetSecretB() const;
-    unsigned short       GetSecretBLen() const;
-    void SetSecretB(const unsigned char* theDataP, unsigned short theLen, bool copyData=false);
-    void ForceSecretBOwn();
+	// Secret B access
+	const unsigned char* GetSecretB() const;
+	unsigned short       GetSecretBLen() const;
+	void SetSecretB(const unsigned char* theDataP, unsigned short theLen, bool copyData=false);
+	void ForceSecretBOwn();
 
 private:
-    // Client B Secret
-    const unsigned char* mSecretBP;    // Secret data
-    unsigned short       mSecretBLen;  // Length of secret data
-    WONCommon::RawBuffer mSecretBBuf;  // Buffer for secret data when owned
+	// Client B Secret
+	const unsigned char* mSecretBP;    // Secret data
+	unsigned short       mSecretBLen;  // Length of secret data
+	WONCommon::RawBuffer mSecretBBuf;  // Buffer for secret data when owned
 };
 
 
@@ -143,34 +143,34 @@ private:
 // Raw buffer from base class is used to store encrypted block of both secrets.  This
 // block must be encrypted with Client B's public key.  Structure block before encrypt
 // as:
-//      Length of secret B (2 bytes)
-//      Secret B
-//      Secret A
+//		Length of secret B (2 bytes)
+//		Secret B
+//		Secret A
 class TMsgAuth1Challenge2 : public TMsgAuthRawBufferBase
 {
 public:
-    // Default ctor
-    TMsgAuth1Challenge2();
+	// Default ctor
+	TMsgAuth1Challenge2();
 
-    // TMessage ctor - will throw if TMessage type is not of this type
-    explicit TMsgAuth1Challenge2(const TMessage& theMsgR);
+	// TMessage ctor - will throw if TMessage type is not of this type
+	explicit TMsgAuth1Challenge2(const TMessage& theMsgR);
 
-    // Copy ctor
-    TMsgAuth1Challenge2(const TMsgAuth1Challenge2& theMsgR);
+	// Copy ctor
+	TMsgAuth1Challenge2(const TMsgAuth1Challenge2& theMsgR);
 
-    // Destructor
-    ~TMsgAuth1Challenge2();
+	// Destructor
+	~TMsgAuth1Challenge2();
 
-    // Assignment
-    TMsgAuth1Challenge2& operator=(const TMsgAuth1Challenge2& theMsgR);
+	// Assignment
+	TMsgAuth1Challenge2& operator=(const TMsgAuth1Challenge2& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    TRawMsg* Duplicate() const;
+	// Virtual Duplicate from TMessage
+	TRawMsg* Duplicate() const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    void* Pack();
-    void  Unpack();
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(); 
+	void  Unpack();
 
 private:
 };
@@ -181,53 +181,53 @@ private:
 // Raw buffer from base class is used to store encrypted block of Client A's secret.
 // This block must be encrypted with Client A's public key.  Structure before encrypt
 // as:
-//      Len of secret (2 bytes)
-//      secretA
+//		Len of secret (2 bytes)
+//		secretA
 class TMsgAuth1Complete : public TMsgAuthRawBufferBase
 {
 public:
-    // Types
-    typedef std::list<std::string> ErrorList;
+	// Types
+	typedef std::list<std::string> ErrorList;
 
-    // Default ctor
-    TMsgAuth1Complete();
+	// Default ctor
+	TMsgAuth1Complete();
 
-    // TMessage ctor - will throw if TMessage type is not of this type
-    explicit TMsgAuth1Complete(const TMessage& theMsgR);
+	// TMessage ctor - will throw if TMessage type is not of this type
+	explicit TMsgAuth1Complete(const TMessage& theMsgR);
 
-    // Copy ctor
-    TMsgAuth1Complete(const TMsgAuth1Complete& theMsgR);
+	// Copy ctor
+	TMsgAuth1Complete(const TMsgAuth1Complete& theMsgR);
 
-    // Destructor
-    ~TMsgAuth1Complete();
+	// Destructor
+	~TMsgAuth1Complete();
 
-    // Assignment
-    TMsgAuth1Complete& operator=(const TMsgAuth1Complete& theMsgR);
+	// Assignment
+	TMsgAuth1Complete& operator=(const TMsgAuth1Complete& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    TRawMsg* Duplicate() const;
+	// Virtual Duplicate from TMessage
+	TRawMsg* Duplicate() const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    void* Pack();
-    void  Unpack();
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(); 
+	void  Unpack();
 
-    // Status access
-    ServerStatus GetStatus() const;
-    void         SetStatus(ServerStatus theStatus);
+	// Status access
+	ServerStatus GetStatus() const;
+	void         SetStatus(ServerStatus theStatus);
 
-    // Session Id access, 0 implies no session Id
-    unsigned short GetSessionId() const;
-    void           SetSessionId(unsigned short theId);
+	// Session Id access, 0 implies no session Id
+	unsigned short GetSessionId() const;
+	void           SetSessionId(unsigned short theId);
 
-    // Error List access, may be empty
-    const ErrorList& ErrList() const;
-    ErrorList&       ErrList();
+	// Error List access, may be empty
+	const ErrorList& ErrList() const;
+	ErrorList&       ErrList();
 
 private:
-    ServerStatus   mStatus;     // Status of the request
-    unsigned short mSessionId;  // Optional session ID
-    ErrorList      mErrList;    // List of extended error info (may be empty)
+	ServerStatus   mStatus;     // Status of the request
+	unsigned short mSessionId;  // Optional session ID
+	ErrorList      mErrList;    // List of extended error info (may be empty)
 };
 
 
@@ -283,8 +283,8 @@ TMsgAuth1Challenge1::GetSecretBLen() const
 inline void
 TMsgAuth1Challenge1::ForceSecretBOwn()
 {
-    if ((mSecretBP) && (mSecretBP != mSecretBBuf.data()))
-        {  mSecretBBuf.assign(mSecretBP, mSecretBLen);  mSecretBP = mSecretBBuf.data();  }
+	if ((mSecretBP) && (mSecretBP != mSecretBBuf.data()))
+		{  mSecretBBuf.assign(mSecretBP, mSecretBLen);  mSecretBP = mSecretBBuf.data();  } 
 }
 
 inline TRawMsg*

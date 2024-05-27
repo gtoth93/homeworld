@@ -37,7 +37,7 @@ namespace WONMsg
 		RoutingGetClientListReply       = 16,
 		RoutingGetGroupList             = 17,
 		RoutingGetGroupListReply        = 18,
-// REUSE:		RoutingGetUserList              = 19,
+		RoutingBecomeModerator          = 19,
 // REUSE:		RoutingGetUserListReply         = 20,
 		RoutingInviteClient             = 21,
 		RoutingKeepAlive                = 22,

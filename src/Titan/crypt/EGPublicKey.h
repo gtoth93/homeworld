@@ -1,14 +1,21 @@
 #ifndef _EGPUBLICKEY_H
 #define _EGPUBLICKEY_H
 
+#ifndef _MINI_CRYPT
+
 // EGPublicKey
 
 // Class that encapsulates an ElGamal Public key used for encryption and signatures.
 // ElGamal Public keys cannot be created by this class.  Use the ElGamal private key
 // class to generate the corresponding public key.
 
-
+#ifdef _LINUX
+#include <ostream.h>
+#else
 #include <ostream>
+#endif
+
+
 #include "PublicKey.h"
 
 // Avoid including crypto headers anywhere but in WONCrypt source
@@ -94,5 +101,49 @@ private:
 
 };  //namespace WONCrypt
 
+#else
 
+
+#include <ostream>
+#include "PublicKey.h"
+#include "MiniElGamal.h"
+
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+namespace WONCrypt
+{
+
+// Forwards
+class EGPrivateKey;
+
+
+class EGPublicKey : public PublicKey
+{
+public:
+	EGPublicKey();
+	EGPublicKey(unsigned short theLen, const unsigned char* theKey);
+	explicit EGPublicKey(const EGPrivateKey& theKey);
+	EGPublicKey(const EGPublicKey& theKey);
+
+	~EGPublicKey(void);
+
+	EGPublicKey& operator=(const EGPublicKey& theKey);
+	EGPublicKey& operator=(const EGPrivateKey& theKey);
+
+	void Create(unsigned short theLen, const unsigned char* theKeyP) throw(CryptException);
+	CryptReturn Encrypt(const void* theMsgP, unsigned long theLen) const;
+	bool Verify(const unsigned char* theSigP, unsigned long theSigLen,
+	            const void* theMsgP, unsigned long theMsgLen) const;
+
+	void Dump(std::ostream& os) const;
+
+private:
+	mutable WONCryptMini::ElGamal mElGamal;  // Crypt object
+};
+
+};  //namespace WONCrypt
+
+#endif
 #endif

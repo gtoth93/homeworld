@@ -24,12 +24,12 @@ namespace WONMsg
 
 		MiniCommonService   = 1,
 		MiniRoutingServer   = 2,
-
 		MiniCreamServer		= 3,
-
 		MiniContestServer	= 4,		
 
 		MiniObsServer		= 6,
+		MiniRoutingServerG2 = 7,
+		MiniDerivedRoutingServer = 8,
 
         MiniAuth1PeerToPeer = 203,
 

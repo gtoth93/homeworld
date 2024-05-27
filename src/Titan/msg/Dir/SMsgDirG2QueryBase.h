@@ -10,10 +10,10 @@
 // *NOTE* this class is implemented inline.
 
 
-#include "STRING"
+#include <string>
 #include "common/won.h"
 #include "msg/TMessage.h"
-#include "msg/dir/SMsgDirG2KeyedBase.h"
+#include "SMsgDirG2KeyedBase.h"
 
 
 namespace WONMsg {
@@ -21,24 +21,24 @@ namespace WONMsg {
 class SMsgDirG2QueryBase : public SmallMessage, public SMsgDirG2KeyedBase
 {
 public:
-    // Default ctor
-    explicit SMsgDirG2QueryBase(KeyType theType);
+	// Default ctor
+	explicit SMsgDirG2QueryBase(KeyType theType);
 
-    // SmallMessage ctor
-    explicit SMsgDirG2QueryBase(const SmallMessage& theMsgR);
+	// SmallMessage ctor
+	explicit SMsgDirG2QueryBase(const SmallMessage& theMsgR);
 
-    // Copy ctor
-    SMsgDirG2QueryBase(const SMsgDirG2QueryBase& theMsgR);
+	// Copy ctor
+	SMsgDirG2QueryBase(const SMsgDirG2QueryBase& theMsgR);
 
-    // Destructor
-    virtual ~SMsgDirG2QueryBase(void);
+	// Destructor
+	virtual ~SMsgDirG2QueryBase(void);
 
-    // Assignment
-    SMsgDirG2QueryBase& operator=(const SMsgDirG2QueryBase& theMsgR);
+	// Assignment
+	SMsgDirG2QueryBase& operator=(const SMsgDirG2QueryBase& theMsgR);
 
-    // Virtual Duplicate from SmallMessage
-    // Pure virtual - must be overridden!
-    virtual TRawMsg* Duplicate(void) const = 0;
+	// Virtual Duplicate from SmallMessage
+	// Pure virtual - must be overridden!
+	virtual TRawMsg* Duplicate(void) const = 0;
 
 protected:
 
@@ -50,21 +50,21 @@ private:
 
 inline
 SMsgDirG2QueryBase::SMsgDirG2QueryBase(KeyType theType) :
-    SmallMessage(),
-    SMsgDirG2KeyedBase(theType)
+	SmallMessage(),
+	SMsgDirG2KeyedBase(theType)
 {}
 
 
 inline
 SMsgDirG2QueryBase::SMsgDirG2QueryBase(const SmallMessage& theMsgR) :
-    SmallMessage(theMsgR),
-    SMsgDirG2KeyedBase(KT_DIRECTORY)
+	SmallMessage(theMsgR),
+	SMsgDirG2KeyedBase(KT_DIRECTORY)
 {}
 
 inline
 SMsgDirG2QueryBase::SMsgDirG2QueryBase(const SMsgDirG2QueryBase& theMsgR) :
-    SmallMessage(theMsgR),
-    SMsgDirG2KeyedBase(theMsgR)
+	SmallMessage(theMsgR),
+	SMsgDirG2KeyedBase(theMsgR)
 {}
 
 inline
@@ -75,9 +75,9 @@ inline
 SMsgDirG2QueryBase&
 SMsgDirG2QueryBase::operator=(const SMsgDirG2QueryBase& theMsgR)
 {
-    SmallMessage::operator=(theMsgR);
-    SMsgDirG2KeyedBase::operator=(theMsgR);
-    return *this;
+	SmallMessage::operator=(theMsgR);
+	SMsgDirG2KeyedBase::operator=(theMsgR);
+	return *this;
 }
 
 };  // Namespace WONMsg

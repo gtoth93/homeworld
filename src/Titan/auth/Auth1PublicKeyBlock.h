@@ -13,9 +13,9 @@
 // additional keys in the block.
 
 
-#include "LIST"
+#include <list>
 #include <time.h>
-#include "../crypt/EGPublicKey.h"
+#include "crypt/EGPublicKey.h"
 #include "AuthPublicKeyBlockBase.h"
 
 // In the WONAuth namespace

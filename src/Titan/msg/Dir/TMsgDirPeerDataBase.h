@@ -12,7 +12,7 @@
 // hooks that derived classes may call in their Pack/Unpack methods.
 
 
-#include "STRING"
+#include <string>
 #include "msg/TMessage.h"
 
 namespace WONMsg {
@@ -20,40 +20,40 @@ namespace WONMsg {
 class TMsgDirPeerDataBase : public TMessage
 {
 public:
-    // Default ctor
-    TMsgDirPeerDataBase(void);
+	// Default ctor
+	TMsgDirPeerDataBase(void);
 
-    // TMessage ctor
-    explicit TMsgDirPeerDataBase(const TMessage& theMsgR);
+	// TMessage ctor
+	explicit TMsgDirPeerDataBase(const TMessage& theMsgR);
 
-    // Copy ctor
-    TMsgDirPeerDataBase(const TMsgDirPeerDataBase& theMsgR);
+	// Copy ctor
+	TMsgDirPeerDataBase(const TMsgDirPeerDataBase& theMsgR);
 
-    // Destructor
-    virtual ~TMsgDirPeerDataBase(void);
+	// Destructor
+	virtual ~TMsgDirPeerDataBase(void);
 
-    // Assignment
-    TMsgDirPeerDataBase& operator=(const TMsgDirPeerDataBase& theMsgR);
+	// Assignment
+	TMsgDirPeerDataBase& operator=(const TMsgDirPeerDataBase& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    virtual TRawMsg* Duplicate(void) const;
+	// Virtual Duplicate from TMessage
+	virtual TRawMsg* Duplicate(void) const;
 
-    // Is Peer Data defined?
-    bool PeerDataDefined() const;
+	// Is Peer Data defined?
+	bool PeerDataDefined() const;
 
-    // Member access
-    const std::string& GetPeerKey  (void) const;
-    unsigned long      GetPeerIndex(void) const;
-    void               SetPeerKey  (const std::string& theKey);
-    void               SetPeerIndex(unsigned long theIndex);
+	// Member access
+	const std::string& GetPeerKey  (void) const;
+	unsigned long      GetPeerIndex(void) const;
+	void               SetPeerKey  (const std::string& theKey);
+	void               SetPeerIndex(unsigned long theIndex);
 
 protected:
-    std::string   mPeerKey;
-    unsigned long mPeerIndex;
+	std::string   mPeerKey;
+	unsigned long mPeerIndex;
 
-    // Peer Data pack/unpack methods
-    void PackPeerData();
-    void UnpackPeerData();
+	// Peer Data pack/unpack methods
+	void PackPeerData();
+	void UnpackPeerData();
 };
 
 

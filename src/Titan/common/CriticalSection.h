@@ -26,6 +26,8 @@
 #include "linuxGlue.h"
 #elif defined(WIN32)
 #include <windows.h>
+#elif defined(macintosh) && (macintosh == 1)
+#include "macGlue.h"
 #else
 #error unknown platform
 #endif
@@ -34,59 +36,105 @@
 namespace WONCommon
 {
 
+
+#if defined(macintosh) && (macintosh == 1)
+
+// Does nothing.  API doesn't support threading on the Mac
 class CriticalSection
 {
 public:
-	// Constructor / Destructor
-	CriticalSection();
-	~CriticalSection();
+    CriticalSection()  {};
+    ~CriticalSection() {};
 
-	// Enter the critical section
-	void Enter();
-
-	// Leave the critical section
-	void Leave();
-
-	// Try to enter critical section
-	// Returns true if entered, false if not.
-	// ** This does a blocking Enter() under Win95! **
-	bool TryEnter();
+    void Enter() {};
+    void Leave() {};
 
 private:
-	CRITICAL_SECTION mCrit;    // The Critical Section
-
-	// Disable Copy and Assignment
-	CriticalSection(const CriticalSection&);
-	CriticalSection& operator=(const CriticalSection&);
+    // Disable Copy and Assignment
+    CriticalSection(const CriticalSection&);
+    CriticalSection& operator=(const CriticalSection&);
 };
 
 
 class AutoCrit
 {
 public:
-	// Constructor / Destructor
-	explicit AutoCrit(CriticalSection& theCrit, bool enterNow=true);
-	~AutoCrit();
+    // Constructor / Destructor
+    explicit AutoCrit(CriticalSection& theCrit, bool enterNow=true) {};
+    ~AutoCrit() {};
 
-	// Enter the critical section
-	void Enter();
-
-	// Leave the critical section
-	void Leave();
-
-	// Try to enter critical section
-	// Returns true if entered, false if not.
-	// ** This does a blocking Enter() under Win95! **
-	bool TryEnter();
+    void Enter() {};
+    void Leave() {};
 
 private:
-	CriticalSection& mCritR;    // The CriticalSection
-	unsigned int     mEnterCt;  // How many times entered?
+    // Disable default ctor, copy, and assignment
+    AutoCrit();
+    AutoCrit(const AutoCrit&);
+    AutoCrit& operator=(const AutoCrit&);
+};
 
-	// Disable default ctor, copy, and assignment
-	AutoCrit();
-	AutoCrit(const AutoCrit&);
-	AutoCrit& operator=(const AutoCrit&);
+
+#else
+
+class CriticalSection
+{
+public:
+    // Constructor / Destructor
+    CriticalSection();
+    ~CriticalSection();
+
+    // Enter the critical section
+    void Enter();
+
+    // Leave the critical section
+    void Leave();
+
+#if (_WIN32_WINNT >= 0x0400) || defined(_LINUX)
+    // Try to enter critical section
+    // Returns true if entered, false if not.
+    // ** This does a blocking Enter() under Win95! **
+    bool TryEnter();
+#endif
+
+private:
+    CRITICAL_SECTION mCrit;    // The Critical Section
+
+    // Disable Copy and Assignment
+    CriticalSection(const CriticalSection&);
+    CriticalSection& operator=(const CriticalSection&);
+
+    friend class Event;
+};
+
+
+class AutoCrit
+{
+public:
+    // Constructor / Destructor
+    explicit AutoCrit(CriticalSection& theCrit, bool enterNow=true);
+    ~AutoCrit();
+
+    // Enter the critical section
+    void Enter();
+
+    // Leave the critical section
+    void Leave();
+
+#if (_WIN32_WINNT >= 0x0400) || defined(_LINUX)
+    // Try to enter critical section
+    // Returns true if entered, false if not.
+    // ** This does a blocking Enter() under Win95! **
+    bool TryEnter();
+#endif
+
+private:
+    CriticalSection& mCritR;    // The CriticalSection
+    unsigned int     mEnterCt;  // How many times entered?
+
+    // Disable default ctor, copy, and assignment
+    AutoCrit();
+    AutoCrit(const AutoCrit&);
+    AutoCrit& operator=(const AutoCrit&);
 };
 
 
@@ -107,20 +155,23 @@ inline void
 CriticalSection::Leave()
 { LeaveCriticalSection(&mCrit); }
 
+
+#if (_WIN32_WINNT >= 0x0400) || defined(_LINUX)
 inline bool
 CriticalSection::TryEnter()
 {
 #if (_WIN32_WINNT >= 0x0400)
-	return (TryEnterCriticalSection(&mCrit) != 0);
+    return (TryEnterCriticalSection(&mCrit) != 0);
 #else
-	Enter();  return true;
+    Enter();  return true;
 #endif
 }
+#endif
 
 inline
 AutoCrit::AutoCrit(CriticalSection& theCrit, bool enterNow) :
-	mCritR(theCrit),
-	mEnterCt(0)
+    mCritR(theCrit),
+    mEnterCt(0)
 { if (enterNow) Enter(); }
 
 inline
@@ -135,9 +186,14 @@ inline void
 AutoCrit::Leave()
 { if (mEnterCt > 0) { mCritR.Leave();  mEnterCt--; } }
 
+#if (_WIN32_WINNT >= 0x0400) || defined(_LINUX)
 inline bool
 AutoCrit::TryEnter()
 { bool aRet = mCritR.TryEnter();  if (aRet) mEnterCt++;  return aRet; }
+
+#endif
+
+#endif
 
 };  //namespace WONCommon
 

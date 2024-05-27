@@ -8,12 +8,13 @@
 // *NOTE*
 // Source taken from Dr. Brain CRC Source and then modified for integration into WON.
 // Dr. Brain CRC16 Source:
-//   ©1995 Bright Star Technology, Inc.  All Rights Reserved. 
+//   ©1995 Bright Star Technology, Inc.  All Rights Reserved.
 //   U.S. and foreign patents pending.
 //   Bright Star Technology, Inc. is A wholly-owned subsidiary of Sierra On-Line, Inc.
 
 
-#include "common/won.h"
+#include "won.h"
+#include "WONEndian.h"
 
 namespace WONCommon {
 
@@ -21,38 +22,38 @@ class CRC16
 {
 public:
 
-	explicit CRC16(unsigned short theInitValue=0, unsigned short theXOROutValue=0);
-	CRC16(const CRC16& theCRCR);
-	~CRC16();
+    explicit CRC16(unsigned short theInitValue=0, unsigned short theXOROutValue=0);
+    CRC16(const CRC16& theCRCR);
+    ~CRC16();
 
-	// Assignment operator
-	CRC16& operator=(const CRC16& theCRCR);
+    // Assignment operator
+    CRC16& operator=(const CRC16& theCRCR);
 
-	// Reset for new CRC calc
-	void Reset();
+    // Reset for new CRC calc
+    void Reset();
 
-	// Get current CRC
-	unsigned short GetCRC();
+    // Get current CRC
+    unsigned short GetCRC();
 
-	// Validate an existing CRC with this one
-	bool ValidateCRC(unsigned short theCRC);
+    // Validate an existing CRC with this one
+    bool ValidateCRC(unsigned short theCRC);
 
-	// Build a CRC from data.  Can call Put() reapeatably to build a CRC
-	void Put(const unsigned char* theDataP, unsigned int theLen);
-	void Put(unsigned char theData);
-	void Put(unsigned long theData);
-	void Put(unsigned short theData);
-	void Put(const char* theStrP);
-	void Put(const std::string& theStrR);
-	void Put(const std::wstring& theStrR);
-	void Put(const WONCommon::RawBuffer& theDataR);
+    // Build a CRC from data.  Can call Put() reapeatably to build a CRC
+    void Put(const unsigned char* theDataP, unsigned int theLen);
+    void Put(unsigned char theData);
+    void Put(unsigned long theData);
+    void Put(unsigned short theData);
+    void Put(const char* theStrP);
+    void Put(const std::string& theStrR);
+    void Put(const std::wstring& theStrR);
+    void Put(const WONCommon::RawBuffer& theDataR);
 
 private:
-	unsigned short mRegister;
-	unsigned short mInitValue;
-	unsigned short mXOROutValue;
+    unsigned short mRegister;
+    unsigned short mInitValue;
+    unsigned short mXOROutValue;
 
-	void ProcessBytes(const unsigned char* theBytesP, unsigned long theNumBytes);
+    void ProcessBytes(const unsigned char* theBytesP, unsigned long theNumBytes);
 };
 
 
@@ -72,11 +73,17 @@ CRC16::Put(unsigned char theData)
 
 inline void
 CRC16::Put(unsigned long theData)
-{ Put(reinterpret_cast<const unsigned char*>(&theData), sizeof(theData)); }
+{
+    unsigned long tmpData = getLittleEndian(theData);
+    Put(reinterpret_cast<const unsigned char*>(&tmpData), sizeof(tmpData));
+}
 
 inline void
 CRC16::Put(unsigned short theData)
-{ Put(reinterpret_cast<const unsigned char*>(&theData), sizeof(theData)); }
+{
+    unsigned short tmpData = getLittleEndian(theData);
+    Put(reinterpret_cast<const unsigned char*>(&tmpData), sizeof(tmpData));
+}
 
 inline void
 CRC16::Put(const char* theStrP)
@@ -88,7 +95,11 @@ CRC16::Put(const std::string& theStrR)
 
 inline void
 CRC16::Put(const std::wstring& theStrR)
-{ Put(reinterpret_cast<const unsigned char*>(theStrR.data()), (theStrR.size() * sizeof(unsigned short))); }
+{
+    std::wstring tmpS(theStrR);
+    makeLittleEndianWString(tmpS);
+    Put(reinterpret_cast<const unsigned char*>(tmpS.data()), (tmpS.size() * sizeof(unsigned short)));
+}
 
 inline void
 CRC16::Put(const WONCommon::RawBuffer& theDataR)

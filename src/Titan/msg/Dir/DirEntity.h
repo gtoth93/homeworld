@@ -15,11 +15,12 @@
 // DirEntity will have meaning.
 
 
-#include "../../common/won.h"
-#include "STRING"
-#include "LIST"
-#include "../../common/DataObject.h"
+#include "common/won.h"
+#include <string>
+#include <list>
+#include "common/DataObject.h"
 #include "DirG2Flags.h"
+#include "DirACLs.h"
 
 // In the WONMsg namespace
 namespace WONMsg {
@@ -30,73 +31,80 @@ class BaseMessage;
 
 struct DirEntity
 {
-    // Constants
-    enum {
-        DE_UNKNOWN   = '\0',
+	// Constants
+	enum {
+		DE_UNKNOWN   = '\0',
 
-        // Entity types
-        ET_DIRECTORY = 'D',
-        ET_SERVICE   = 'S',
+		// Entity types
+		ET_DIRECTORY = 'D',
+		ET_SERVICE   = 'S',
 
-        // Visibility types
-        VT_VISIBLE   = 'V',
-        VT_INVISIBLE = 'I'
-    };
+		// Visibility types
+		VT_VISIBLE   = 'V',
+		VT_INVISIBLE = 'I'
+	};
 
-    // Entity type
-    unsigned char mType;  // Directory or Service?
+	// Entity type
+	unsigned char mType;  // Directory or Service?
 
-    // These members apply to all entities
-    std::wstring  mPath;         // Path to parent dir
-    std::wstring  mName;         // Name
-    std::wstring  mDisplayName;  // Display name (may be null)
-    long          mCreated;      // Entity create time as time_t
-    long          mTouched;      // Last touched time as time_t
-    unsigned long mLifespan;     // Lifespan in seconds
-    unsigned long mCRC;          // Entity CRC
+	// These members apply to all entities
+	std::wstring  mPath;         // Path to parent dir
+	std::wstring  mName;         // Name
+	std::wstring  mDisplayName;  // Display name (may be null)
+	long          mCreated;      // Entity create time as time_t
+	long          mTouched;      // Last touched time as time_t
+	unsigned long mCreateId;     // Creator UserId
+	unsigned long mTouchId;      // Last touch UserId
+	unsigned long mLifespan;     // Lifespan in seconds
+	unsigned long mCRC;          // Entity CRC
 
-    // Data Objects are common to all entity types.  [0..n]
-    WONCommon::DataObjectTypeSet mDataObjects;
+	// Data Objects are common to all entity types.  [0..n]
+	WONCommon::DataObjectTypeSet mDataObjects;
 
-    // These members are only applicable to entity types ET_DIRECTORY
-    unsigned char mVisible;  // Visibility
+	// ACLs are common to all Entity types [0..4]
+	DirACLList mACLs;
 
-    // These members are only applicable to entity types ET_SERVICE
-    WONCommon::RawBuffer mNetAddress;  // Network address (binary)
+	// These members are only applicable to entity types ET_DIRECTORY
+	unsigned char mVisible;  // Visibility
 
-    // Constructors / Destructor
-    DirEntity();
-    DirEntity(const DirEntity& theEntity);
-    ~DirEntity();
+	// These members are only applicable to entity types ET_SERVICE
+	WONCommon::RawBuffer mNetAddress;  // Network address (binary)
 
-    // Operators
-    DirEntity& operator=(const DirEntity& theKey);
+	// Class Constants
+	static const WONCommon::DataObjectTypeSet gEmptyTypeSet;
 
-    // Fetch full path (path + name)
-    const std::wstring GetFullPath() const;
+	// Constructors / Destructor
+	DirEntity();
+	DirEntity(const DirEntity& theEntity);
+	~DirEntity();
 
-    // Pack entity into message
-    void Pack(BaseMessage& theMsgR, unsigned long theFlags,
-              const WONCommon::DataObjectTypeSet& theSetR=gEmptyTypeSet) const;
+	// Operators
+	DirEntity& operator=(const DirEntity& theKey);
 
-    // Unpack entity from message
-    void Unpack(BaseMessage& theMsgR, unsigned long theFlags);
+	// Fetch full path (path + name)
+	const std::wstring GetFullPath() const;
 
-    // Compute the size (in bytes) to add entry to a Message
-    unsigned long ComputeSize(unsigned long theGetFlags,
-                              const WONCommon::DataObjectTypeSet& theSetR=gEmptyTypeSet) const;
+	// Pack entity into message
+	void Pack(BaseMessage& theMsgR, unsigned long theFlags,
+	          const WONCommon::DataObjectTypeSet& theSetR=gEmptyTypeSet) const;
 
-    // Class Constants
-    static const WONCommon::DataObjectTypeSet gEmptyTypeSet;
+	// Unpack entity from message
+	void Unpack(BaseMessage& theMsgR, unsigned long theFlags);
+
+	// Compute the size (in bytes) to add entry to a Message
+	unsigned long ComputeSize(unsigned long theGetFlags,
+	                          const WONCommon::DataObjectTypeSet& theSetR=gEmptyTypeSet) const;
 
 private:
-    // Private Methods
-    static void PackDataObjects(BaseMessage& theMsgR, const WONCommon::DataObjectTypeSet& theSetR,
-                                unsigned long theFlags);
+	// Private Methods
+	void PackACLs(BaseMessage& theMsgR) const;
+	void UnpackACLs(BaseMessage& theMsgR);
 
-    static void UnpackDataObjects(BaseMessage& theMsgR, WONCommon::DataObjectTypeSet& theSetR,
-                                  unsigned long theFlags);
+	static void PackDataObjects(BaseMessage& theMsgR, const WONCommon::DataObjectTypeSet& theSetR,
+	                            unsigned long theFlags);
 
+	static void UnpackDataObjects(BaseMessage& theMsgR, WONCommon::DataObjectTypeSet& theSetR,
+	                              unsigned long theFlags);
 };
 
 // List of DirEntitys

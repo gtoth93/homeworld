@@ -12,7 +12,7 @@
 // hooks that derived classes may call in their Pack/Unpack methods.
 
 
-#include "STRING"
+#include <string>
 #include "msg/TMessage.h"
 
 namespace WONMsg {
@@ -20,42 +20,45 @@ namespace WONMsg {
 class SMsgDirG2PeerDataBase : public SmallMessage
 {
 public:
-    // Default ctor
-    SMsgDirG2PeerDataBase(void);
+	// Default ctor
+	SMsgDirG2PeerDataBase(void);
 
-    // SmallMessage ctor
-    explicit SMsgDirG2PeerDataBase(const SmallMessage& theMsgR);
+	// SmallMessage ctor
+	explicit SMsgDirG2PeerDataBase(const SmallMessage& theMsgR);
 
-    // Copy ctor
-    SMsgDirG2PeerDataBase(const SMsgDirG2PeerDataBase& theMsgR);
+	// Copy ctor
+	SMsgDirG2PeerDataBase(const SMsgDirG2PeerDataBase& theMsgR);
 
-    // Destructor
-    virtual ~SMsgDirG2PeerDataBase(void);
+	// Destructor
+	virtual ~SMsgDirG2PeerDataBase(void);
 
-    // Assignment
-    SMsgDirG2PeerDataBase& operator=(const SMsgDirG2PeerDataBase& theMsgR);
+	// Assignment
+	SMsgDirG2PeerDataBase& operator=(const SMsgDirG2PeerDataBase& theMsgR);
 
-    // Virtual Duplicate from SmallMessage
-    // Virtual Duplicate from SmallMessage
-    // Pure virtual - must be overridden!
-    virtual TRawMsg* Duplicate(void) const = 0;
+	// Virtual Duplicate from SmallMessage
+	// Virtual Duplicate from SmallMessage
+	// Pure virtual - must be overridden!
+	virtual TRawMsg* Duplicate(void) const = 0;
 
-    // Is Peer Data defined?
-    bool PeerDataDefined() const;
+	// Is Peer Data defined?
+	bool PeerDataDefined() const;
 
-    // Member access
-    const std::string& GetPeerKey  (void) const;
-    unsigned long      GetPeerIndex(void) const;
-    void               SetPeerKey  (const std::string& theKey);
-    void               SetPeerIndex(unsigned long theIndex);
+	// Member access
+	const std::string& GetPeerKey  (void) const;
+	unsigned long      GetPeerIndex(void) const;
+	unsigned long      GetPeerUser (void) const;
+	void               SetPeerKey  (const std::string& theKey);
+	void               SetPeerIndex(unsigned long theIndex);
+	void               SetPeerUser (unsigned long theUser);
 
 protected:
-    std::string   mPeerKey;
-    unsigned long mPeerIndex;
+	std::string   mPeerKey;
+	unsigned long mPeerIndex;
+	unsigned long mPeerUser;
 
-    // Peer Data pack/unpack methods
-    void PackPeerData();
-    void UnpackPeerData();
+	// Peer Data pack/unpack methods
+	void PackPeerData();
+	void UnpackPeerData();
 };
 
 
@@ -79,6 +82,14 @@ SMsgDirG2PeerDataBase::GetPeerIndex(void) const
 inline void
 SMsgDirG2PeerDataBase::SetPeerIndex(unsigned long theIndex)
 { mPeerIndex = theIndex; }
+
+inline unsigned long
+SMsgDirG2PeerDataBase::GetPeerUser(void) const
+{ return mPeerUser; }
+
+inline void
+SMsgDirG2PeerDataBase::SetPeerUser(unsigned long theUser)
+{ mPeerUser = theUser; }
 
 };  // Namespace WONMsg
 

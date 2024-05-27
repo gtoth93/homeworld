@@ -20,16 +20,8 @@ namespace WONMsg
 		// Factory Server Messages
 		FactStatusReply           = FactMsgMin+1,
 		FactStartProcess          = FactMsgMin+2,
-		FactStopProcess           = FactMsgMin+3,
-		FactGetProcessConfig      = FactMsgMin+4,
-		FactGetProcessList        = FactMsgMin+5,
-		FactProcessListReply      = FactMsgMin+6,
-		FactProcessConfigReply    = FactMsgMin+7,
 		FactStartProcessUnicode   = FactMsgMin+8,
-		FactGetProcessPorts       = FactMsgMin+9,
-		FactGetAllProcesses		  = FactMsgMin+10,
-		FactGetAllProcessesReply  = FactMsgMin+11,
-		FactKillProcess			  = FactMsgMin+12,
+
 
 		// Last Message type.  Don't use
 		FactMsgMax

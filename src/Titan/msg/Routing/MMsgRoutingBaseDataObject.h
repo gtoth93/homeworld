@@ -4,7 +4,7 @@
 // MMsgRoutingBaseDataObject.h
 
 #include "common/won.h"
-#include "LIST"
+#include <list>
 #include "RoutingServerMessage.h"
 
 namespace WONMsg {
@@ -29,19 +29,19 @@ public:
     // Virtual Duplicate from RoutingServerMessage
     virtual TRawMsg* Duplicate(void) const;
 
-    // Debug output
-    virtual void Dump(std::ostream& os) const;
+	// Debug output
+	virtual void Dump(std::ostream& os) const;
 
-    // Member access
-    ClientOrGroupId GetLinkId() const                                { return mLinkId; }
-    const WONCommon::RawBuffer& GetDataType() const                  { return mDataType; }
+	// Member access
+	ClientOrGroupId GetLinkId() const                                { return mLinkId; }
+	const WONCommon::RawBuffer& GetDataType() const                  { return mDataType; }
 
-    void SetLinkId(ClientOrGroupId theLinkId)                        { mLinkId = theLinkId; }
-    void SetDataType(const WONCommon::RawBuffer& theDataTypeR)       { mDataType = theDataTypeR; }
-    void AppendToDataType(const WONCommon::RawBuffer& theAppendandR) { mDataType += theAppendandR; }
+	void SetLinkId(ClientOrGroupId theLinkId)                        { mLinkId = theLinkId; }
+	void SetDataType(const WONCommon::RawBuffer& theDataTypeR)       { mDataType = theDataTypeR; }
+	void AppendToDataType(const WONCommon::RawBuffer& theAppendandR) { mDataType += theAppendandR; }
 protected:
-    ClientOrGroupId      mLinkId;
-    WONCommon::RawBuffer mDataType;
+	ClientOrGroupId      mLinkId;
+	WONCommon::RawBuffer mDataType;
 };
 
 

@@ -12,6 +12,7 @@
 #include "common/CriticalSection.h"
 #include "Auth1PublicKeyBlock.h"
 #include "Auth1Certificate.h"
+#include "Auth2Certificate.h"
 #include "crypt/EGPublicKey.h"
 #include "crypt/EGPrivateKey.h"
 
@@ -20,43 +21,44 @@
 namespace WONAuth {
 
 
-struct Auth1Container
-{
-	WONCrypt::EGPublicKey  mAuthVerifier;  // AuthServer Verifier Key
-	Auth1PublicKeyBlock    mPubKeyBlock;   // AuthServer PublicKey Block
-	Auth1Certificate       mCert;          // Server's Auth Certificate
-	WONCrypt::EGPrivateKey mPrivKey;       // Server's Private Key
-	long                   mAuthDelta;     // Delta (in seconds) from Auth Server time
+	struct Auth1Container
+	{
+		WONCrypt::EGPublicKey  mAuthVerifier;  // AuthServer Verifier Key
+		Auth1PublicKeyBlock    mPubKeyBlock;   // AuthServer PublicKey Block
+		Auth1Certificate       mCert;          // Server's Auth Certificate
+		Auth2Certificate       mCert2;         // Server's Auth2 Certificate
+		WONCrypt::EGPrivateKey mPrivKey;       // Server's Private Key
+		long                   mAuthDelta;     // Delta (in seconds) from Auth Server time
 
-	// Critical section for access control
-	mutable WONCommon::CriticalSection mCrit;
+		// Critical section for access control
+		mutable WONCommon::CriticalSection mCrit;
 
-	// Constructor
-	Auth1Container();
+		// Constructor
+		Auth1Container();
 
-	// Utility methods for common operations (thread safe)
-	bool IsValid() const;
-	bool IsExpired(long theDelta=0) const;
+		// Utility methods for common operations (thread safe)
+		bool IsValid() const;
+		bool IsExpired(long theDelta=0) const;
 
-private:
-	// Much too expensive to copy/assign this object
-	Auth1Container(const Auth1Container&);
-	Auth1Container& operator=(const Auth1Container&);
-};
+	private:
+		// Much too expensive to copy/assign this object
+		Auth1Container(const Auth1Container&);
+		Auth1Container& operator=(const Auth1Container&);
+	};
 
-// Inlines
-inline
-Auth1Container::Auth1Container() :
-	mAuthVerifier(), mPubKeyBlock(), mCert(), mPrivKey(), mAuthDelta(0), mCrit()
-{}
+	// Inlines
+	inline
+	Auth1Container::Auth1Container() :
+		mAuthVerifier(), mPubKeyBlock(), mCert(), mPrivKey(), mAuthDelta(0), mCrit()
+	{}
 
-inline bool
-Auth1Container::IsValid() const
-{ WONCommon::AutoCrit aCrit(mCrit);  return mCert.IsValid(); }
+	inline bool
+	Auth1Container::IsValid() const
+	{ WONCommon::AutoCrit aCrit(mCrit);  return mCert.IsValid(); }
 
-inline bool
-Auth1Container::IsExpired(long theDelta) const
-{ WONCommon::AutoCrit aCrit(mCrit);  return mCert.IsExpired(mAuthDelta + theDelta); }
+	inline bool
+	Auth1Container::IsExpired(long theDelta) const
+	{ WONCommon::AutoCrit aCrit(mCrit);  return mCert.IsExpired(mAuthDelta + theDelta); }
 
 };  // Namespace WONAuth
 

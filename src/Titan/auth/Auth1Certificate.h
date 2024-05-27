@@ -14,7 +14,7 @@
 
 
 #include <time.h>
-#include "../crypt/EGPublicKey.h"
+#include "crypt/EGPublicKey.h"
 #include "AuthCertificateBase.h"
 
 // In the WONAuth namespace
@@ -24,94 +24,74 @@ namespace WONAuth {
 class Auth1Certificate : public AuthCertificateBase
 {
 public:
-	// Default constructor - may provide user info
-	Auth1Certificate(unsigned long theUserId=0, unsigned long theCommunityId=0,
-	                 unsigned short theTrustLevel=0);
+    // Default constructor - may provide user info
+    Auth1Certificate(unsigned long theUserId=0, unsigned long theCommunityId=0,
+                     unsigned short theTrustLevel=0);
 
-	// Construct from raw representation (calls Unpack())
-	Auth1Certificate(const unsigned char* theRawP, unsigned short theLen);
+    // Construct from raw representation (calls Unpack())
+    Auth1Certificate(const unsigned char* theRawP, unsigned short theLen);
 
-	// Copy Constructor
-	Auth1Certificate(const Auth1Certificate& theCertR);
+    // Copy Constructor
+    Auth1Certificate(const Auth1Certificate& theCertR);
 
-	// Destructor
-	~Auth1Certificate();
+    // Destructor
+    ~Auth1Certificate();
 
-	// Operators
-	Auth1Certificate& operator=(const Auth1Certificate& theCertR);
+    // Operators
+    Auth1Certificate& operator=(const Auth1Certificate& theCertR);
 
-	// Compare (overridden from base class)
-	int Compare(const AuthFamilyBuffer& theBufR) const;
+    // Compare (overridden from base class)
+    int Compare(const AuthFamilyBuffer& theBufR) const;
+    int LenientCompare(const Auth1Certificate& theCertR) const; // only compares this class's data, not expire date, etc.
 
-	// Fetch certificate family
-	unsigned short GetFamily() const;
+    // Fetch certificate family
+    unsigned short GetFamily() const;
 
-	// User information access
-	const unsigned long  GetUserId() const;
-	const unsigned long  GetCommunityId() const;
-	const unsigned short GetTrustLevel() const;
+    // User information access
+    const unsigned long  GetCommunityId() const;
+    const unsigned short GetTrustLevel() const;
 
-	// Public Key access
-	const WONCrypt::EGPublicKey& GetPubKey() const;
+    // Public Key access
+    const WONCrypt::EGPublicKey& GetPubKey() const;
 
-	// Member update - will invalidate certificate until pack is called again
-	void SetUserId(unsigned long theId);
-	void SetCommunityId(unsigned long theId);
-	void SetTrustLevel(unsigned short theLevel);
-	void SetPublicKey(const WONCrypt::EGPublicKey& theKeyR);
+    // Member update
+    void SetCommunityId(unsigned long theId);
+    void SetTrustLevel(unsigned short theLevel);
 
-	// Dump to stream
-	void Dump(std::ostream& os) const;
+    // Dump to stream
+    void Dump(std::ostream& os) const;
 
 private:
-	unsigned long         mUserId;       // WON User ID (WONUserSeq)
-	unsigned long         mCommunityId;  // User's community ID
-	unsigned short        mTrustLevel;   // User's trust level
-	WONCrypt::EGPublicKey mPubKey;       // Public key
+    // Compute size of buffer needed form pack and unpack operations.
+    WONCommon::RawBuffer::size_type ComputeBufSize(SizeComputeMode theMode) const;
 
-	// Compute size of buffer needed form pack and unpack operations.
-	WONCommon::RawBuffer::size_type ComputeBufSize(SizeComputeMode theMode) const;
+    // Pack local members into base raw buffer
+    bool PackData();
 
-	// Pack local members into base raw buffer
-	bool PackData();
-
-	// Unpack local members from base raw buffer
-	bool UnpackData();
+    // Unpack local members from base raw buffer
+    bool UnpackData();
 };
 
 
-// Inlines
-inline const unsigned long
-Auth1Certificate::GetUserId() const
-{ return mUserId; }
-
 inline const unsigned long
 Auth1Certificate::GetCommunityId() const
-{ return mCommunityId; }
+{ return mAccessList.front().mCommunityId; }
 
 inline const unsigned short
 Auth1Certificate::GetTrustLevel() const
-{ return mTrustLevel; }
+{ return mAccessList.front().mTrustLevel; }
 
 inline const WONCrypt::EGPublicKey&
 Auth1Certificate::GetPubKey() const
 { return mPubKey; }
 
 inline void
-Auth1Certificate::SetUserId(unsigned long theId)
-{ Invalidate();  mUserId = theId; }
-
-inline void
 Auth1Certificate::SetCommunityId(unsigned long theId)
-{ Invalidate();  mCommunityId = theId; }
+{ mAccessList.front().mCommunityId = theId; }
 
 inline void
 Auth1Certificate::SetTrustLevel(unsigned short theLevel)
-{ Invalidate();  mTrustLevel = theLevel; }
-
-inline void
-Auth1Certificate::SetPublicKey(const WONCrypt::EGPublicKey& theKeyR)
-{ Invalidate();  mPubKey = theKeyR; }
+{ mAccessList.front().mTrustLevel = theLevel; }
 
 };  // Namespace WONAuth
 

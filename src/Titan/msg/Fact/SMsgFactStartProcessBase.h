@@ -7,39 +7,39 @@
 
 
 #include "msg/TMessage.h"
-#include "SET"
+#include <set>
 
 #include "AllMsgStartProcessBase.h"
 
 namespace WONMsg {
 
-class SMsgFactStartProcessBase : public SmallMessage, public AllMsgStartProcessBase
+class SMsgFactStartProcessBase : public SmallMessage, public AllMsgStartProcessBase 
 {
 
 public:
-    // Default ctor
-    SMsgFactStartProcessBase(void);
+	// Default ctor
+	SMsgFactStartProcessBase(void);
 
-    // TMessage ctor
-    explicit SMsgFactStartProcessBase(const SmallMessage& theMsgR);
+	// TMessage ctor
+	explicit SMsgFactStartProcessBase(const SmallMessage& theMsgR);
 
-    // Copy ctor
-    SMsgFactStartProcessBase(const SMsgFactStartProcessBase& theMsgR);
+	// Copy ctor
+	SMsgFactStartProcessBase(const SMsgFactStartProcessBase& theMsgR);
 
-    // Destructor
-    virtual ~SMsgFactStartProcessBase(void);
+	// Destructor
+	virtual ~SMsgFactStartProcessBase(void);
 
-    // Assignment
-    SMsgFactStartProcessBase& operator=(const SMsgFactStartProcessBase& theMsgR);
+	// Assignment
+	SMsgFactStartProcessBase& operator=(const SMsgFactStartProcessBase& theMsgR);
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    virtual void* Pack(void);
-    virtual void  Unpack(void);
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	virtual void* Pack(void); 
+	virtual void  Unpack(void);
 
 protected:
-    virtual void PackCommandLine() =0;
-    virtual void UnpackCommandLine() =0;
+	virtual void PackCommandLine() =0;
+	virtual void UnpackCommandLine() =0;
 };
 
 };  // Namespace WONMsg

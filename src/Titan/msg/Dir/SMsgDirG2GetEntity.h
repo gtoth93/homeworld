@@ -6,7 +6,7 @@
 // DirectoryServer get entity message.  Requests a directory/service and or its contents.
 // Fields in reply are configurable.
 
-#include "STRING"
+#include <string>
 #include "SMsgDirG2QueryGetBase.h"
 
 
@@ -15,28 +15,28 @@ namespace WONMsg {
 class SMsgDirG2GetEntity : public SMsgDirG2QueryGetBase
 {
 public:
-    // Default ctor
-    explicit SMsgDirG2GetEntity(KeyType theType=KT_SERVICE, bool isExtended=false);
+	// Default ctor
+	explicit SMsgDirG2GetEntity(KeyType theType=KT_SERVICE, bool isExtended=false);
 
-    // SmallMessage ctor
-    explicit SMsgDirG2GetEntity(const SmallMessage& theMsgR);
+	// SmallMessage ctor
+	explicit SMsgDirG2GetEntity(const SmallMessage& theMsgR);
 
-    // Copy ctor
-    SMsgDirG2GetEntity(const SMsgDirG2GetEntity& theMsgR);
+	// Copy ctor
+	SMsgDirG2GetEntity(const SMsgDirG2GetEntity& theMsgR);
 
-    // Destructor
-    ~SMsgDirG2GetEntity(void);
+	// Destructor
+	~SMsgDirG2GetEntity(void);
 
-    // Assignment
-    SMsgDirG2GetEntity& operator=(const SMsgDirG2GetEntity& theMsgR);
+	// Assignment
+	SMsgDirG2GetEntity& operator=(const SMsgDirG2GetEntity& theMsgR);
 
-    // Virtual Duplicate
-    TRawMsg* Duplicate(void) const;
+	// Virtual Duplicate
+	TRawMsg* Duplicate(void) const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    void* Pack(void);
-    void  Unpack(void);
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(void); 
+	void  Unpack(void);
 
 private:
 };

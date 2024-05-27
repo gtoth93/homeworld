@@ -24,10 +24,13 @@
 // **NOTE**
 
 
-#include <sstream>
-#include "STRING"
+#ifdef WIN32
 #include <windows.h>
+#endif
+
+#include <string>
 #include "CriticalSection.h"
+#include "WONString.h"
 
 // EventLog in WON namespace
 namespace WONCommon
@@ -74,15 +77,18 @@ public:
     std::ostream& GetStream(void);
 
 private:
-    EventType         mDefType;  // Default event log type
-    std::stringstream mStream;   // Logging buffer (stream)
+    EventType			 mDefType;  // Default event log type
+    wonstringstream      mStream;   // Logging buffer (stream)
 
     // Static Members
     static std::string   mAppName;    // App name
     static std::string   mAppId;      // App identifier (LogicalName and PID)
+    static std::ofstream mEventFile;  // Last chance file to log events
+
+#ifdef WIN32
     static HANDLE        mHandle;     // Event log handle
     static long          mInstCt;     // Instance count
-    static std::ofstream mEventFile;  // Last chance file to log events
+#endif
 
     // Critical section for logging
     static WONCommon::CriticalSection mLogCrit;
@@ -92,6 +98,13 @@ private:
 
     // Static methods
     static void LogEvent(EventType theType, const char* theP);
+    static bool OpenLastChanceFile(void);
+
+#ifdef WIN32
+    static BOOL DeregisterEventSource(HANDLE);
+    static HANDLE RegisterEventSource(LPCTSTR, LPCTSTR);
+    static BOOL ReportEvent(HANDLE, WORD, WORD, DWORD, PSID, WORD, DWORD, LPCTSTR*, LPVOID);
+#endif
 
     // Disable Copy and Assignment
     EventLog(const EventLog&);
@@ -109,7 +122,7 @@ EventLog::GetStream(void)
 
 inline void
 EventLog::Clear(void)
-{ mStream.str(std::string()); }
+{ mStream.clear(); }
 
 inline EventLog::EventType
 EventLog::GetDefaultType() const

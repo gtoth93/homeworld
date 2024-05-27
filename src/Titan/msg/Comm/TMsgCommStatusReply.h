@@ -6,7 +6,8 @@
 // Common Generic Reply class.  Returns a status (short) value.
 
 
-#include "STRING"
+#include "common/won.h"
+#include <string>
 #include "msg/TMessage.h"
 #include "msg/ServerStatus.h"
 
@@ -16,35 +17,39 @@ namespace WONMsg {
 class TMsgCommStatusReply : public TMessage
 {
 public:
-    // Default ctor
-    TMsgCommStatusReply(void);
+	// Default ctor
+	TMsgCommStatusReply(void);
 
-    // TMessage ctor - will throw if TMessage type is not of this type
-    explicit TMsgCommStatusReply(const TMessage& theMsgR);
+	// TMessage ctor - will throw if TMessage type is not of this type
+	explicit TMsgCommStatusReply(const TMessage& theMsgR);
 
-    // Copy ctor
-    TMsgCommStatusReply(const TMsgCommStatusReply& theMsgR);
+	// Copy ctor
+	TMsgCommStatusReply(const TMsgCommStatusReply& theMsgR);
 
-    // Destructor
-    ~TMsgCommStatusReply(void);
+	// Destructor
+	~TMsgCommStatusReply(void);
 
-    // Assignment
-    TMsgCommStatusReply& operator=(const TMsgCommStatusReply& theMsgR);
+	// Assignment
+	TMsgCommStatusReply& operator=(const TMsgCommStatusReply& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    TRawMsg* Duplicate(void) const;
+	// Virtual Duplicate from TMessage
+	TRawMsg* Duplicate(void) const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    void* Pack(void);
-    void  Unpack(void);
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(void); 
+	void  Unpack(void);
 
-    // Status access
-    ServerStatus GetStatus(void) const;
-    void         SetStatus(ServerStatus theStatus);
+	// Status access
+	ServerStatus GetStatus(void) const;
+	void         SetStatus(ServerStatus theStatus);
+
+	const WONCommon::RawBuffer& Data() const;
+	WONCommon::RawBuffer& Data();
 
 private:
-    ServerStatus mStatus;  // Request status
+	ServerStatus         mStatus;  // Request status
+	WONCommon::RawBuffer mData;    // Additional data (not packed/unpacked if empty)
 };
 
 
@@ -60,6 +65,14 @@ TMsgCommStatusReply::GetStatus(void) const
 inline void
 TMsgCommStatusReply::SetStatus(ServerStatus theStatus)
 { mStatus = theStatus; }
+
+inline const WONCommon::RawBuffer&
+TMsgCommStatusReply::Data(void) const
+{ return mData; }
+
+inline WONCommon::RawBuffer&
+TMsgCommStatusReply::Data(void)
+{ return mData; }
 
 
 };  // Namespace WONMsg

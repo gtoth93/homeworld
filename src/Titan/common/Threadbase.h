@@ -27,96 +27,96 @@
 #ifndef _THREADBASE_H_
 #define _THREADBASE_H_
 
-#include "STRING"
+#include <string>
 #include <windows.h>
 
 // WON Namespace
 namespace WONCommon {
+    class ThreadBase {
+    private:
+        HANDLE hThread; // Thread associated with the object
+        HANDLE hStop; // EventObject to signal a desire to stop the thread
+        HANDLE hRehup; // EventObject to signal a rehup of the threadprocess()
+        HANDLE hExceptionNotify; // Will be signalled when this thread catches an exception
 
-class ThreadBase
-{
-private:
-   HANDLE hThread;         // Thread associated with the object
-   HANDLE hStop;           // EventObject to signal a desire to stop the thread
-   HANDLE hRehup;          // EventObject to signal a rehup of the threadprocess()
-   HANDLE hExceptionNotify;        // Will be signalled when this thread catches an exception
+        int threadId; // needed by the _beginthreadex() function
+        int priority;
+        int mLastError;
 
-   int    threadId;        // needed by the _beginthreadex() function
-   int    priority;
-   int    mLastError;
+        std::string mName; // Name of thread (for debugging)
 
-   std::string mName;  // Name of thread (for debugging)
+        static unsigned int __stdcall ThreadRoutine(void* param);
 
-   static unsigned int __stdcall ThreadRoutine( void* param );
+        //Disable Copy and assignment
+        ThreadBase(const ThreadBase&);
 
-   //Disable Copy and assignment
-   ThreadBase(const ThreadBase&);
-   ThreadBase& operator=(const ThreadBase&);
+        ThreadBase& operator=(const ThreadBase&);
 
-protected:
-   //override this function: follow the example loop or risk deadlock!!!
-   virtual int threadProcess();
+    protected:
+        //override this function: follow the example loop or risk deadlock!!!
+        virtual int threadProcess();
 
-public:
-   explicit ThreadBase(const char* theName=NULL);
-   virtual ~ThreadBase();
+    public:
+        explicit ThreadBase(const char* theName = NULL);
 
-   virtual void startThread();
-   virtual void stopThread();
+        virtual ~ThreadBase();
 
-   bool IsRunning() const { return (hThread != 0); }
+        virtual void startThread();
 
-   HANDLE getHandle();
-   int  getId() const;
-   int  getPriority() const;
-   void setPriority(int priority);
-   HANDLE getStopEvent();
-   HANDLE getRehupEvent();
-   int  getLastError() const { return mLastError; }
-   const std::string& getName() const;
+        virtual void stopThread();
 
-   HANDLE   getExceptionNotifyEvent() { return(hExceptionNotify); }
-   void     setExceptionNotifyEvent(HANDLE theEvent) { hExceptionNotify = theEvent; }
-};
+        bool IsRunning() const { return (hThread != 0); }
+
+        HANDLE getHandle();
+
+        int getId() const;
+
+        int getPriority() const;
+
+        void setPriority(int priority);
+
+        HANDLE getStopEvent();
+
+        HANDLE getRehupEvent();
+
+        int getLastError() const { return mLastError; }
+
+        const std::string& getName() const;
+
+        HANDLE getExceptionNotifyEvent() { return (hExceptionNotify); }
+        void setExceptionNotifyEvent(HANDLE theEvent) { hExceptionNotify = theEvent; }
+    };
 
 
-inline HANDLE ThreadBase::getHandle()
-{
-   return ( hThread );
-}
+    inline HANDLE ThreadBase::getHandle() {
+        return (hThread);
+    }
 
-inline int ThreadBase::getId() const
-{
-    return threadId;
-}
+    inline int ThreadBase::getId() const {
+        return threadId;
+    }
 
-inline HANDLE ThreadBase::getStopEvent()
-{
-   return hStop;
-}
+    inline HANDLE ThreadBase::getStopEvent() {
+        return hStop;
+    }
 
-inline HANDLE ThreadBase::getRehupEvent()
-{
-    return hRehup;
-}
+    inline HANDLE ThreadBase::getRehupEvent() {
+        return hRehup;
+    }
 
-inline void ThreadBase::setPriority(int p)
-{
-   priority = p;
-   if (hThread)
-       SetThreadPriority(hThread, priority);
-}
+    inline void ThreadBase::setPriority(int p) {
+        priority = p;
+        if (hThread)
+            SetThreadPriority(hThread, priority);
+    }
 
-inline int ThreadBase::getPriority() const
-{
-   return (priority);
-}
+    inline int ThreadBase::getPriority() const {
+        return (priority);
+    }
 
-inline const std::string& ThreadBase::getName() const
-{
-   return (mName);
-}
-
-};  // Namespace WON
+    inline const std::string& ThreadBase::getName() const {
+        return (mName);
+    }
+}; // Namespace WON
 
 #endif //_THREADBASE_H_

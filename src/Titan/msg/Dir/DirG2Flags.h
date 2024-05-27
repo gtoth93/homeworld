@@ -31,8 +31,9 @@ enum DirG2GetFlags
 	GF_ADDDOTYPE       = 0x00000200,  // Add DataObject types
 	GF_ADDDODATA       = 0x00000400,  // Add DataObject data
 	GF_ADDDATAOBJECTS  = 0x00000800,  // Add all DataObjects
-	GF_ADDPERMISSIONS  = 0x00001000,  // Add permissions
+	GF_ADDACLS         = 0x00001000,  // Add ACLs
 	GF_ADDCRC          = 0x00002000,  // Add entity CRC
+	GF_ADDUIDS         = 0x00004000,  // Add create and touch user ids
 
 	// Bits 16-23 are for Directory only fields
 
@@ -61,7 +62,10 @@ enum DirG2EntityFlags
 	EF_DIRVISIBLE        = 0x02,  // Directory is visible
 	EF_DIRINVISIBLE      = 0x04,  // Directory is invisible
 	EF_OVERWRITE         = 0x08,  // Overwrite existing entities
+
+	// These 2 flags SHARE the 0x10 value (by design)
 	EF_SERVRETURNADDR    = 0x10,  // Return service net address in reply
+	EF_DIRNOACLINHERIT   = 0x10,  // Do notinherit parent ACLs for AddDirs
 
 	EF_ALLFLAGS = 0xff
 };
@@ -78,6 +82,32 @@ enum DirG2DataObjectSetMode
 	DOSM_RESETDELETE   = 5,  // Clear existing set first, then add all.
 
 	DOSM_MAX
+};
+
+
+// ACL Type (char) - specified type of ACL: owner, read, write, delete
+enum DirG2ACLType
+{
+	DAT_UNKNOWN = '\0',  // Unknown ACL type
+	DAT_OWNER   = 'o',   // Owner ACL
+	DAT_READ    = 'r',   // Read ACL
+	DAT_WRITE   = 'w',   // Write ACL
+	DAT_DELETE  = 'd'    // Delete ACL
+};
+
+
+// ACLSetMode (byte) - Mode for setting ACLs on a DirEntity
+enum DirG2ACLSetMode
+{
+	DASM_ADDREPLACE    = 0,  // Add on not exist, replace on exist
+	DASM_ADDIGNORE     = 1,  // Add on not exist, ignore on exist
+	DASM_ADDONLY       = 2,  // Add on not exist, error on exist
+	DASM_REPLACEIGNORE = 3,  // Replace on exist, ignore on not exist
+	DASM_REPLACEONLY   = 4,  // Replace on exist, error on not exist
+	DASM_CLEAR         = 5,  // Clear/remove permissions from ACL.
+	DASM_RESET         = 6,  // Clear existing set first, then add all.
+
+	DASM_MAX
 };
 
 

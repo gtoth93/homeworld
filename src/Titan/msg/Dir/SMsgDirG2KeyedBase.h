@@ -6,10 +6,10 @@
 // BAse class that handles packing and unpacking entity key fields.  Provides
 // KeyType and key fields.  KeyType controls which key fields are active as follows:
 
-//      KeyType         Appliable Key Fields
-//      --------------  ---------------------
-//      KT_DIRECTORY    Path
-//      KT_SERVICE      Path, Name, NetAddress
+//		KeyType			Appliable Key Fields
+//		--------------	---------------------
+//		KT_DIRECTORY	Path
+//		KT_SERVICE		Path, Name, NetAddress
 
 // Provides PackKey() and UnpackKey() methods to pack/unpack the key.  These methods
 // pack/unpack appropriate key fields based upon the KeyType.  These methods should
@@ -21,7 +21,7 @@
 // atributes to a message.
 
 
-#include "STRING"
+#include <string>
 #include "common/won.h"
 
 
@@ -34,50 +34,50 @@ class BaseMessage;
 class SMsgDirG2KeyedBase
 {
 public:
-    // Types
-    enum KeyType { KT_DIRECTORY, KT_SERVICE };
+	// Types
+	enum KeyType { KT_DIRECTORY, KT_SERVICE };
 
-    // Default ctor
-    explicit SMsgDirG2KeyedBase(KeyType theType);
+	// Default ctor
+	explicit SMsgDirG2KeyedBase(KeyType theType);
 
-    // Copy ctor
-    SMsgDirG2KeyedBase(const SMsgDirG2KeyedBase& theMsgR);
+	// Copy ctor
+	SMsgDirG2KeyedBase(const SMsgDirG2KeyedBase& theMsgR);
 
-    // Destructor
-    virtual ~SMsgDirG2KeyedBase();
+	// Destructor
+	virtual ~SMsgDirG2KeyedBase();
 
-    // Assignment
-    SMsgDirG2KeyedBase& operator=(const SMsgDirG2KeyedBase& theDataR);
+	// Assignment
+	SMsgDirG2KeyedBase& operator=(const SMsgDirG2KeyedBase& theDataR);
 
-    // KeyType access - Read Only
-    KeyType GetKeyType() const;
+	// KeyType access - Read Only
+	KeyType GetKeyType() const;
 
-    // Path access - appliable for all key types
-    const std::wstring& GetPath() const;
-    void SetPath(const std::wstring& thePath);
+	// Path access - appliable for all key types
+	const std::wstring& GetPath() const;
+	void SetPath(const std::wstring& thePath);
 
-    // Name access - appliable to KT_SERVICE only
-    const std::wstring& GetName() const;
-    void SetName(const std::wstring& theName);
+	// Name access - appliable to KT_SERVICE only
+	const std::wstring& GetName() const;
+	void SetName(const std::wstring& theName);
 
-    // NetAddress access - appliable to KT_SERVICE only
-    const WONCommon::RawBuffer& GetNetAddress() const;
-    void SetNetAddress(const WONCommon::RawBuffer& theAddr);
+	// NetAddress access - appliable to KT_SERVICE only
+	const WONCommon::RawBuffer& GetNetAddress() const;
+	void SetNetAddress(const WONCommon::RawBuffer& theAddr);
 
 protected:
-    KeyType              mKeyType;     // KeyType
-    std::wstring         mPath;        // Path to directory/service
-    std::wstring         mName;        // Service name
-    WONCommon::RawBuffer mNetAddress;  // Service net address
+	KeyType              mKeyType;     // KeyType
+	std::wstring         mPath;        // Path to directory/service
+	std::wstring         mName;        // Service name
+	WONCommon::RawBuffer mNetAddress;  // Service net address
 
-    // Pack key into raw buffer (call in Pack()).
-    virtual void PackKey(BaseMessage& theMsgR);
+	// Pack key into raw buffer (call in Pack()).
+	virtual void PackKey(BaseMessage& theMsgR);
 
-    // Unpack key from raw buffer (call in Unpack()).
-    virtual void UnpackKey(BaseMessage& theMsgR);
+	// Unpack key from raw buffer (call in Unpack()).
+	virtual void UnpackKey(BaseMessage& theMsgR);
 
-    // Set the KeyType - call in derived Unpack() based on the messsage type
-    void SetKeyType(KeyType theType);
+	// Set the KeyType - call in derived Unpack() based on the messsage type
+	void SetKeyType(KeyType theType);
 };
 
 

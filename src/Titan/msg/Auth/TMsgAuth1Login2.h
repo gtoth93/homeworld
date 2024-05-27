@@ -11,7 +11,7 @@
 // Auth1LoginReply is sent in response to both Auth1LoginRequest and
 
 
-#include "STRING"
+#include <string>
 #include "common/won.h"
 #include "auth/Auth1PublicKeyBlock.h"
 #include "crypt/BFSymmetricKey.h"
@@ -51,28 +51,28 @@ class TMsgAuth1LoginRequest2 : public TMsgAuth1LoginBase2
 {
 public:
 
-    // Default ctor
-    TMsgAuth1LoginRequest2();
+	// Default ctor
+	TMsgAuth1LoginRequest2();
 
-    // TMessage ctor - will throw if TMessage type is not of this type
-    explicit TMsgAuth1LoginRequest2(const TMessage& theMsgR);
+	// TMessage ctor - will throw if TMessage type is not of this type
+	explicit TMsgAuth1LoginRequest2(const TMessage& theMsgR);
 
-    // Copy ctor
-    TMsgAuth1LoginRequest2(const TMsgAuth1LoginRequest2& theMsgR);
+	// Copy ctor
+	TMsgAuth1LoginRequest2(const TMsgAuth1LoginRequest2& theMsgR);
 
-    // Destructor
-    ~TMsgAuth1LoginRequest2();
+	// Destructor
+	~TMsgAuth1LoginRequest2();
 
-    // Assignment
-    TMsgAuth1LoginRequest2& operator=(const TMsgAuth1LoginRequest2& theMsgR);
+	// Assignment
+	TMsgAuth1LoginRequest2& operator=(const TMsgAuth1LoginRequest2& theMsgR);
 
-    // Virtual Duplicate from TMessage
-    TRawMsg* Duplicate() const;
+	// Virtual Duplicate from TMessage
+	TRawMsg* Duplicate() const;
 
-    // Pack and Unpack the message
-    // Unpack will throw a BadMsgException is message is not of this type
-    void* Pack();
-    void  Unpack();
+	// Pack and Unpack the message
+	// Unpack will throw a BadMsgException is message is not of this type
+	void* Pack(); 
+	void  Unpack();
 
 private:
 

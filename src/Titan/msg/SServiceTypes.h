@@ -26,6 +26,9 @@ namespace WONMsg
 		SmallPingServer       = 6,
 		SmallProfileServer	  = 7,
 		SmallParamServer      = 8,
+		SmallRestartServer    = 9,
+		SmallUserSearchServer = 10,
+		SmallGenericServer	  = 11,
 
 		// Let's reserve some services for clients (game use)
 		MaxSmallServiceType  = USHRT_MAX-1000
