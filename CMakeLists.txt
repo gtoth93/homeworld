@@ -35,3 +35,5 @@ target_link_libraries(Homeworld
         PRIVATE ${BINK}
         PRIVATE ${DXGUID})
 target_link_options(Homeworld PRIVATE $<$<CONFIG:Release>:/LTCG> $<$<CONFIG:Release>:/OPT:REF> $<$<CONFIG:Release>:/OPT:ICF> /VERBOSE)
+
+add_subdirectory(tools/win32/KAS)

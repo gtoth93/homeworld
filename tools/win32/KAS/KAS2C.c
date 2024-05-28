@@ -18,6 +18,7 @@ extern int yynerrs;
 
 extern int lineNumGet();
 extern char *curFilenameGet();
+extern char* levelNameGet();
 char stateHelp[1024];
 
 extern int parseLevel;

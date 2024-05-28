@@ -111,5 +111,8 @@ void kasLStringDefineStart(char *name);
 void kasLStringDefineEnd(void);
 void kasLStringValue(char *value);
 void kasLStringReference(char *name);
+void kasFunctionParamVolumePtr(void);
+void kasFunctionParamSelectCommandPtr(void);
+char *stateHelpGet(void);
 
 #endif
